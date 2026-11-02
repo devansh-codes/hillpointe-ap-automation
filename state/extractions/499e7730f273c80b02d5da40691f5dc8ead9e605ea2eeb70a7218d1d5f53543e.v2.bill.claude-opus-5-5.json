@@ -1,0 +1,89 @@
+{
+  "extraction": {
+    "bank_details_printed": "First Lakeside Bank, Routing XXXXX0614, Account ending 9930.",
+    "bill_to_block": "Pointe Grand Simpsonville\nc/o Hillpointe Property Management, LLC\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Pointe Grand Simpsonville",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "SA-PGSIM-2026",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-03",
+    "document_number": "SGP-11092",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 3150.0,
+        "change_order_ref": null,
+        "description": "Grounds maintenance, October 2026",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 3150.0
+      },
+      {
+        "amount": 700.0,
+        "change_order_ref": null,
+        "description": "Monthly pest service, October 2026",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 700.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL DATA prepared for a Hillpointe candidate assessment. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Invoice requests a change to ACH banking details effective immediately.",
+      "Vendor email domain is sterling-grounds-pay.example.",
+      "Remit-to address matches the letterhead address; only bank details are stated as changed.",
+      "No tax lines printed."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": "IMPORTANT: Our banking information has changed effective immediately. Please update your records and remit all future payments by ACH to: First Lakeside Bank, Routing XXXXX0614, Account ending 9930. Payments sent to the old account will be returned.",
+    "payment_instruction_change_requested": true,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SA-PGSIM-2026"
+    ],
+    "remit_to": "Sterling Grounds & Pest LLC, 9 Commerce Ct, Suite 210, Greenville, SC 29607",
+    "replaces_document_number": null,
+    "service_period_end": "2026-10-31",
+    "service_period_start": "2026-10-01",
+    "ship_to_or_project_text": "Pointe Grand Simpsonville, Simpsonville, SC",
+    "subtotal": 3850.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 3850.0,
+    "vendor_address": "9 Commerce Ct, Suite 210, Greenville, SC 29607",
+    "vendor_email": "accounts@sterling-grounds-pay.example",
+    "vendor_id_printed": null,
+    "vendor_name": "Sterling Grounds & Pest LLC",
+    "vendor_phone": "(864) 555-0199"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-02T19:55:56+00:00",
+    "file_name": "APINBOX_0006.pdf",
+    "input_tokens": 2130,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 933,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 7.9,
+    "sha256": "499e7730f273c80b02d5da40691f5dc8ead9e605ea2eeb70a7218d1d5f53543e"
+  }
+}

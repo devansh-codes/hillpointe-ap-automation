@@ -1,0 +1,8 @@
+File Name,System,Vendor ID,Vendor,Invoice No,Doc Type,Amount,Required Approvers,Confidence
+APINBOX_0011.pdf,Sage Intacct,V1004,Pinecrest Building Supply Co,CM-PBS-604102,Adjustment,-2160.00,AP Manager review,High
+APINBOX_0003.pdf,Sage Intacct,V1001,Gulfline Concrete Partners LLC,GCP-0303,Bill,133650.00,"Project Manager, Pointe Grand Columbia; VP Construction (gross work 148,500.00 > 100,000)",High
+APINBOX_0002.pdf,Sage Intacct,V1008,LedgerLoop Software Inc,LL-2026-1184,Bill,4682.25,"Department head, Information Technology (IT)",High
+APINBOX_0005.pdf,Sage Intacct,V1003,Coastal Site Services LLC,CSS-88502,Bill,1240.00,"Project Manager, Pointe Grand Columbia",High
+APINBOX_0008.pdf,Entrata,V1012,Magnolia Pool Services LLC,MPS-4471,Invoice,1475.00,"Community Manager, Pointe Grand Athens",High
+APINBOX_0010.pdf,Sage Intacct,V1002,Ridgeway Equipment Rental Inc,RER-77310,Bill,7068.60,"Project Manager, Pointe Grand Columbia",High
+APINBOX_0014.pdf,Sage Intacct,V1007,Copperline Plumbing Supply Inc,55388,Bill,8081.71,"Project Manager, Pointe Grand Kingsland East",High

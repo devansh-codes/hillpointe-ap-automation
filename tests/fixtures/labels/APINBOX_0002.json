@@ -1,0 +1,66 @@
+{
+  "doc_kind": "invoice",
+  "markings": [],
+  "vendor_name": "LedgerLoop Software Inc",
+  "vendor_address": "88 Market St, Suite 400, Austin, TX 78701",
+  "vendor_phone": null,
+  "vendor_email": "billing@ledgerloop.example",
+  "vendor_id_printed": null,
+  "remit_to": "LedgerLoop Software Inc, 88 Market St, Suite 400, Austin, TX 78701",
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Corporate Management, LLC",
+  "bill_to_block": "Hillpointe Corporate Management, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": null,
+  "document_number": "LL-2026-1184",
+  "document_date": "2026-10-01",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": "Order Form OF-2024-0332",
+  "references": [
+    "OF-2024-0332"
+  ],
+  "service_period_start": "2026-10-01",
+  "service_period_end": "2026-10-31",
+  "line_items": [
+    {
+      "description": "LedgerLoop Platform subscription, October 2026 (per seat)",
+      "quantity": 87.0,
+      "unit": "SEAT",
+      "unit_price": 41.75,
+      "amount": 3632.25,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    },
+    {
+      "description": "Implementation support, report builder configuration",
+      "quantity": 6.0,
+      "unit": "HR",
+      "unit_price": 175.0,
+      "amount": 1050.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    }
+  ],
+  "subtotal": 4682.25,
+  "tax_lines": [],
+  "total": 4682.25,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [
+    "Seats reflect active users as of 09/30/2026."
+  ],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}

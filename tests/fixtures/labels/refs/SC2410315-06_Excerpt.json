@@ -1,0 +1,68 @@
+{
+  "doc_kind": "subcontract",
+  "markings": [],
+  "vendor_name": "Summit Framing Group LLC",
+  "vendor_address": null,
+  "vendor_phone": null,
+  "vendor_email": null,
+  "vendor_id_printed": "V1005",
+  "remit_to": null,
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": null,
+  "bill_to_block": null,
+  "ship_to_or_project_text": null,
+  "document_number": "SC2410315-06",
+  "document_date": "2026-05-20",
+  "printed_terms": null,
+  "customer_ref_raw": null,
+  "references": [],
+  "service_period_start": null,
+  "service_period_end": null,
+  "line_items": [],
+  "subtotal": null,
+  "tax_lines": [],
+  "total": null,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": "2410315 Pointe Grand Columbia",
+  "ref_status": null,
+  "ref_lines": [
+    {
+      "line_no": "1",
+      "description": "Rough carpentry and framing labor, Buildings 1 through 6",
+      "cost_code": "06100",
+      "cost_type": "S",
+      "pricing": null,
+      "unit_rate": null,
+      "amount": 884000.0
+    }
+  ],
+  "ref_total": 884000.0,
+  "original_contract_sum": 884000.0,
+  "change_orders": [
+    {
+      "co_id": "CO1",
+      "description": "Added corridor fire blocking",
+      "status_text": "Executed",
+      "executed": true,
+      "amount": 22500.0
+    },
+    {
+      "co_id": "CO2",
+      "description": "Cabinet and grab bar blocking",
+      "status_text": "Pending, not executed",
+      "executed": false,
+      "amount": 18400.0
+    }
+  ],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}

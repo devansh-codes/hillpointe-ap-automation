@@ -1,0 +1,81 @@
+{
+  "doc_kind": "invoice",
+  "markings": [],
+  "vendor_name": "Pinecrest Building Supply Co",
+  "vendor_address": "PO Box 9183, Columbia, SC 29290",
+  "vendor_phone": "(803) 555-0190",
+  "vendor_email": null,
+  "vendor_id_printed": null,
+  "remit_to": "Pinecrest Building Supply Co, PO Box 9183, Columbia, SC 29290",
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Construction, LLC",
+  "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": "Pointe Grand Columbia, Bldg 4",
+  "document_number": "PBS-604418",
+  "document_date": "2026-10-06",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": "PO2410315-008",
+  "references": [
+    "PO2410315-008"
+  ],
+  "service_period_start": null,
+  "service_period_end": null,
+  "line_items": [
+    {
+      "description": "2x6x10 SPF stud",
+      "quantity": 1800.0,
+      "unit": "EA",
+      "unit_price": 5.42,
+      "amount": 9756.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    },
+    {
+      "description": "2x6x16 #2 SYP plate",
+      "quantity": 220.0,
+      "unit": "EA",
+      "unit_price": 9.87,
+      "amount": 2171.4,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    },
+    {
+      "description": "7/16 in OSB sheathing 4x8",
+      "quantity": 160.0,
+      "unit": "SHT",
+      "unit_price": 12.85,
+      "amount": 2056.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    }
+  ],
+  "subtotal": 13983.4,
+  "tax_lines": [
+    {
+      "label": "SC sales tax 6% + Richland local 2%",
+      "rate_percent": 8.0,
+      "amount": 1118.67
+    }
+  ],
+  "total": 15102.07,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [
+    "Delivery 4 of framing package. Additional quantities per field request from site super."
+  ],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}

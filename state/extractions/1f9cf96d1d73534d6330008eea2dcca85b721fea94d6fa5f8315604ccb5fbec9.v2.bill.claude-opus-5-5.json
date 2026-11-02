@@ -1,0 +1,108 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "Subcontract SC2410315-03",
+    "doc_kind": "pay_application",
+    "document_date": "2026-09-30",
+    "document_number": "GCP-0303",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": {
+      "amount": 133650.0,
+      "claimant": "Gulfline Concrete Partners LLC",
+      "payment_kind": "progress",
+      "present_in_document": true,
+      "project": "Pointe Grand Columbia, Columbia, SC",
+      "stated_to_follow_separately": false,
+      "through_date": "2026-09-30",
+      "waiver_type": "conditional"
+    },
+    "line_items": [],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "Conditional waiver and release on progress payment attached.",
+      "Remit to address on file. Thank you for your business.",
+      "Exceptions: Retainage withheld to date $35,250.00"
+    ],
+    "observations": [
+      "Contractor signature line on page 1 is blank.",
+      "Lien waiver signature line on page 2 is blank (title shown as Controller).",
+      "Continuation sheet total this period printed as $148,500.00 work and $14,850.00 retainage."
+    ],
+    "original_contract_sum": null,
+    "pay_application": {
+      "application_no": "3",
+      "change_orders_mentioned": [],
+      "contract_sum_to_date": 612000.0,
+      "current_payment_due": 133650.0,
+      "lines_this_period": [
+        {
+          "change_order_ref": null,
+          "description": "Building 2 slab on grade",
+          "retainage_this_period": 7425.0,
+          "work_this_period": 74250.0
+        },
+        {
+          "change_order_ref": null,
+          "description": "Building 3 slab on grade",
+          "retainage_this_period": 7425.0,
+          "work_this_period": 74250.0
+        }
+      ],
+      "net_change_by_change_orders": 0.0,
+      "original_contract_sum": 612000.0,
+      "period_end": "2026-09-30",
+      "period_start": "2026-09-01",
+      "previous_certificates": 183600.0,
+      "retainage_percent": 10.0,
+      "retainage_to_date": 35250.0,
+      "total_completed_to_date": 352500.0,
+      "total_earned_less_retainage": 317250.0
+    },
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SC2410315-03"
+    ],
+    "remit_to": "Remit to address on file.",
+    "replaces_document_number": null,
+    "service_period_end": "2026-09-30",
+    "service_period_start": "2026-09-01",
+    "ship_to_or_project_text": "Pointe Grand Columbia, Columbia, SC",
+    "subtotal": null,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 133650.0,
+    "vendor_address": "PO Box 4410, West Columbia, SC 29171",
+    "vendor_email": "ar@gulflineconcrete.example",
+    "vendor_id_printed": null,
+    "vendor_name": "Gulfline Concrete Partners LLC",
+    "vendor_phone": "(803) 555-0141"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-02T19:55:59+00:00",
+    "file_name": "APINBOX_0003.pdf",
+    "input_tokens": 4105,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 1281,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 10.6,
+    "sha256": "1f9cf96d1d73534d6330008eea2dcca85b721fea94d6fa5f8315604ccb5fbec9"
+  }
+}

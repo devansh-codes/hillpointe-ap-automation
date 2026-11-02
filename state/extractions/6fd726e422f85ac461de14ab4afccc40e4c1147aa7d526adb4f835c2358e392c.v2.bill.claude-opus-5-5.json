@@ -1,0 +1,105 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "Subcontract SC2410315-09",
+    "doc_kind": "pay_application",
+    "document_date": "2026-09-29",
+    "document_number": "TCD-2410-02",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": {
+      "amount": null,
+      "claimant": null,
+      "payment_kind": null,
+      "present_in_document": false,
+      "project": null,
+      "stated_to_follow_separately": true,
+      "through_date": null,
+      "waiver_type": "conditional"
+    },
+    "line_items": [],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "Conditional lien waiver to follow under separate cover."
+    ],
+    "observations": [
+      "Contractor signature line is blank; only the date 09/29/2026 is filled in.",
+      "Continuation sheet total this period printed as 64000.00 with retainage 6400.00."
+    ],
+    "original_contract_sum": null,
+    "pay_application": {
+      "application_no": "2",
+      "change_orders_mentioned": [],
+      "contract_sum_to_date": 458000.0,
+      "current_payment_due": 57600.0,
+      "lines_this_period": [
+        {
+          "change_order_ref": null,
+          "description": "Building 1 hang",
+          "retainage_this_period": 3800.0,
+          "work_this_period": 38000.0
+        },
+        {
+          "change_order_ref": null,
+          "description": "Building 1 tape and finish, partial",
+          "retainage_this_period": 2600.0,
+          "work_this_period": 26000.0
+        }
+      ],
+      "net_change_by_change_orders": 0.0,
+      "original_contract_sum": 458000.0,
+      "period_end": "2026-09-30",
+      "period_start": "2026-09-01",
+      "previous_certificates": 36900.0,
+      "retainage_percent": 10.0,
+      "retainage_to_date": 10500.0,
+      "total_completed_to_date": 105000.0,
+      "total_earned_less_retainage": 94500.0
+    },
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SC2410315-09"
+    ],
+    "remit_to": null,
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": null,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 57600.0,
+    "vendor_address": "702 Sunset Blvd, West Columbia, SC 29169",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Tri County Drywall Inc",
+    "vendor_phone": "(803) 555-0126"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-02T19:56:05+00:00",
+    "file_name": "APINBOX_0013.pdf",
+    "input_tokens": 2192,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 1147,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 9.7,
+    "sha256": "6fd726e422f85ac461de14ab4afccc40e4c1147aa7d526adb4f835c2358e392c"
+  }
+}

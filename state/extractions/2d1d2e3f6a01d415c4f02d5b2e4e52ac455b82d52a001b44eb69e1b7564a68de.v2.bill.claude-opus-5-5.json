@@ -1,0 +1,102 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO2410315-008",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-06",
+    "document_number": "PBS-604418",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 9756.0,
+        "change_order_ref": null,
+        "description": "2x6x10 SPF stud",
+        "is_freight_or_delivery": false,
+        "quantity": 1800.0,
+        "unit": "EA",
+        "unit_price": 5.42
+      },
+      {
+        "amount": 2171.4,
+        "change_order_ref": null,
+        "description": "2x6x16 #2 SYP plate",
+        "is_freight_or_delivery": false,
+        "quantity": 220.0,
+        "unit": "EA",
+        "unit_price": 9.87
+      },
+      {
+        "amount": 2056.0,
+        "change_order_ref": null,
+        "description": "7/16 in OSB sheathing 4x8",
+        "is_freight_or_delivery": false,
+        "quantity": 160.0,
+        "unit": "SHT",
+        "unit_price": 12.85
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "Delivery 4 of framing package. Additional quantities per field request from site super."
+    ],
+    "observations": [
+      "Tax shown as one combined line for state 6% and Richland local 2%.",
+      "Note states additional quantities were supplied per field request from site super."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO2410315-008"
+    ],
+    "remit_to": "Pinecrest Building Supply Co, PO Box 9183, Columbia, SC 29290",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia, Bldg 4",
+    "subtotal": 13983.4,
+    "tax_lines": [
+      {
+        "amount": 1118.67,
+        "label": "SC sales tax 6% + Richland local 2%",
+        "rate_percent": null
+      }
+    ],
+    "term_end": null,
+    "term_start": null,
+    "total": 15102.07,
+    "vendor_address": "PO Box 9183, Columbia, SC 29290",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Pinecrest Building Supply Co",
+    "vendor_phone": "(803) 555-0190"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 5404,
+    "cache_read_input_tokens": 0,
+    "effort": "medium",
+    "extracted_at": "2026-11-02T19:55:48+00:00",
+    "file_name": "APINBOX_0001.pdf",
+    "input_tokens": 2078,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 1110,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 15.0,
+    "sha256": "2d1d2e3f6a01d415c4f02d5b2e4e52ac455b82d52a001b44eb69e1b7564a68de"
+  }
+}

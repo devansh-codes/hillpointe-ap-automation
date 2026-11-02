@@ -1,0 +1,66 @@
+{
+  "doc_kind": "invoice",
+  "markings": [],
+  "vendor_name": "Sterling Grounds & Pest LLC",
+  "vendor_address": "9 Commerce Ct, Suite 210, Greenville, SC 29607",
+  "vendor_phone": "(864) 555-0199",
+  "vendor_email": "accounts@sterling-grounds-pay.example",
+  "vendor_id_printed": null,
+  "remit_to": "Sterling Grounds & Pest LLC, 9 Commerce Ct, Suite 210, Greenville, SC 29607",
+  "bank_details_printed": "First Lakeside Bank, Routing XXXXX0614, Account ending 9930",
+  "payment_instruction_change_requested": true,
+  "payment_change_quote": "IMPORTANT: Our banking information has changed effective immediately. Please update your records and remit all future payments by ACH to: First Lakeside Bank, Routing XXXXX0614, Account ending 9930.",
+  "bill_to_name": "Pointe Grand Simpsonville",
+  "bill_to_block": "Pointe Grand Simpsonville\nc/o Hillpointe Property Management, LLC\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": "Pointe Grand Simpsonville, Simpsonville, SC",
+  "document_number": "SGP-11092",
+  "document_date": "2026-10-03",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": "SA-PGSIM-2026",
+  "references": [
+    "SA-PGSIM-2026"
+  ],
+  "service_period_start": "2026-10-01",
+  "service_period_end": "2026-10-31",
+  "line_items": [
+    {
+      "description": "Grounds maintenance, October 2026",
+      "quantity": 1.0,
+      "unit": "LS",
+      "unit_price": 3150.0,
+      "amount": 3150.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    },
+    {
+      "description": "Monthly pest service, October 2026",
+      "quantity": 1.0,
+      "unit": "LS",
+      "unit_price": 700.0,
+      "amount": 700.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    }
+  ],
+  "subtotal": 3850.0,
+  "tax_lines": [],
+  "total": 3850.0,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [
+    "Payments sent to the old account will be returned."
+  ],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}

@@ -1,0 +1,106 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "Subcontract SC2410315-06",
+    "doc_kind": "pay_application",
+    "document_date": "2026-09-30",
+    "document_number": "SFG-2410-05",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "Net change by change orders includes CO1 and CO2."
+    ],
+    "observations": [
+      "Contractor signature line is blank.",
+      "Continuation sheet total this period printed as 114600.00 with retainage 11460.00.",
+      "No lien waiver included or mentioned."
+    ],
+    "original_contract_sum": null,
+    "pay_application": {
+      "application_no": "5",
+      "change_orders_mentioned": [
+        "CO1",
+        "CO2"
+      ],
+      "contract_sum_to_date": 924900.0,
+      "current_payment_due": 103140.0,
+      "lines_this_period": [
+        {
+          "change_order_ref": null,
+          "description": "Building 5 wall framing",
+          "retainage_this_period": 5460.0,
+          "work_this_period": 54600.0
+        },
+        {
+          "change_order_ref": null,
+          "description": "Building 5 roof trusses set",
+          "retainage_this_period": 4160.0,
+          "work_this_period": 41600.0
+        },
+        {
+          "change_order_ref": "CO2",
+          "description": "Change Order 2: cabinet and grab bar blocking",
+          "retainage_this_period": 1840.0,
+          "work_this_period": 18400.0
+        }
+      ],
+      "net_change_by_change_orders": 40900.0,
+      "original_contract_sum": 884000.0,
+      "period_end": "2026-09-30",
+      "period_start": "2026-09-01",
+      "previous_certificates": 460800.0,
+      "retainage_percent": 10.0,
+      "retainage_to_date": 62660.0,
+      "total_completed_to_date": 626600.0,
+      "total_earned_less_retainage": 563940.0
+    },
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SC2410315-06"
+    ],
+    "remit_to": null,
+    "replaces_document_number": null,
+    "service_period_end": "2026-09-30",
+    "service_period_start": "2026-09-01",
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": null,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 103140.0,
+    "vendor_address": "415 Columbia Ave, Lexington, SC 29072",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Summit Framing Group LLC",
+    "vendor_phone": "(803) 555-0165"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-02T19:55:58+00:00",
+    "file_name": "APINBOX_0009.pdf",
+    "input_tokens": 2225,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 1153,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 9.8,
+    "sha256": "b97bf8d64b0b7f4375d03852c48e03e2712aae00043752e8c909f6d3afb1137b"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe, LLC\nAttn: Accounting\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO241088-031",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-07",
+    "document_number": "55388",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 1488.0,
+        "change_order_ref": null,
+        "description": "PEX A tubing 1/2 in, 300 ft coil",
+        "is_freight_or_delivery": false,
+        "quantity": 8.0,
+        "unit": "CL",
+        "unit_price": 186.0
+      },
+      {
+        "amount": 1470.0,
+        "change_order_ref": null,
+        "description": "PEX A tubing 3/4 in, 100 ft coil",
+        "is_freight_or_delivery": false,
+        "quantity": 15.0,
+        "unit": "CL",
+        "unit_price": 98.0
+      },
+      {
+        "amount": 1195.0,
+        "change_order_ref": null,
+        "description": "Pipe supports and clips",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 1195.0
+      },
+      {
+        "amount": 2350.0,
+        "change_order_ref": null,
+        "description": "Ball valve 3/4 in lead free",
+        "is_freight_or_delivery": false,
+        "quantity": 40.0,
+        "unit": "EA",
+        "unit_price": 58.75
+      },
+      {
+        "amount": 1050.0,
+        "change_order_ref": null,
+        "description": "Manifold, 8 port",
+        "is_freight_or_delivery": false,
+        "quantity": 6.0,
+        "unit": "EA",
+        "unit_price": 175.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "Delivered 10/06/2026.",
+      "FICTIONAL DATA prepared for a Hillpointe candidate assessment. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "State and local tax are shown as one combined line totaling 7%.",
+      "Customer Ref PO number has a 6-digit project segment (241088)."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO241088-031"
+    ],
+    "remit_to": "Copperline Plumbing Supply Inc, PO Box 2207, Jacksonville, FL 32203",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Kingsland East, Kingsland, GA",
+    "subtotal": 7553.0,
+    "tax_lines": [
+      {
+        "amount": 528.71,
+        "label": "GA sales tax 4% + Camden local 3%",
+        "rate_percent": 7.0
+      }
+    ],
+    "term_end": null,
+    "term_start": null,
+    "total": 8081.71,
+    "vendor_address": "PO Box 2207, Jacksonville, FL 32203",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Copperline Plumbing Supply Inc",
+    "vendor_phone": "(904) 555-0158"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-02T19:56:06+00:00",
+    "file_name": "APINBOX_0014.pdf",
+    "input_tokens": 2129,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 1306,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 10.5,
+    "sha256": "d988768e65fddb3d82aeb10ba9f2b31072ecb5e587628ff9552e4fe065fc3518"
+  }
+}

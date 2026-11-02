@@ -1,0 +1,21 @@
+# Paths are relative to the repo root.
+paths:
+  master_data: 02_Reference_Data/Hillpointe_Master_Data.xlsx
+  reference_docs: [03_Purchase_Orders_and_Subcontracts]
+  template: 05_ERP_Import_Template/AP_Bill_Import_Template.xlsx
+  history: 06_ERP_History/Previously_Entered_Bills.xlsx
+  state_dir: state
+  output_dir: output
+  prompt: prompts/extract_document.v2.md
+
+extraction:
+  model: claude-opus-5-5
+  fallback_model: claude-sonnet-5-5   # used if the primary refuses or keeps failing
+  effort: medium          # chosen by `make eval` (see governance/TECH_STACK.md); raise only if accuracy needs it
+  output_mode:            # grammar = API-enforced schema; validated_json = schema in prompt + strict validation + 1 repair
+    bill: validated_json  # the invoice schema exceeds the structured-output grammar size limit
+    reference: grammar
+  max_tokens: 16000
+  concurrency: 8
+  max_retries: 4
+  prompt_version: v2

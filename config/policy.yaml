@@ -1,0 +1,123 @@
+# =====================================================================================
+# Hillpointe AP policy, as configuration.
+# Every business-rule VALUE lives here. Reference data (vendors, projects, periods,
+# allocation %, GL lists) is read live from 02_Reference_Data/Hillpointe_Master_Data.xlsx.
+# After editing, run:  uv run ap policy validate
+# Section numbers (§) refer to 04_AP_Policy/AP_Coding_Rules_and_Approval_Matrix.docx
+# =====================================================================================
+
+# --- §2 Which system and which entity ------------------------------------------------
+routing:
+  "Active Construction":   {category: construction, system: Sage Intacct, entity: HPC, department: OPS}
+  "Stabilized Operations": {category: stabilized,   system: Entrata,      entity: OWNER}   # OWNER = Projects tab owner entity
+  corporate:               {category: corporate,    system: Sage Intacct, entity: HCM}
+
+corporate:
+  # Used only when neither the invoice nor the vendor master gives a department. null = hold (OTHER).
+  default_department: null
+  one_time_service_keywords: [implementation, consulting, training, setup, set-up, onboarding, configuration, professional services]
+  one_time_service_gl: "65010"
+
+# --- §3 Required dimensions ----------------------------------------------------------
+retainage_gl: "20500"
+forbidden_gl: ["20000", "25000-25120"]
+
+# --- §5 Pay applications -------------------------------------------------------------
+pay_app:
+  check_previous_certificates: true
+  tolerance: 0.01
+lien:
+  # A matching standalone conditional waiver already on file satisfies the requirement (assumption A-16)
+  accept_waiver_on_file: true
+  waiver_amount_tolerance: 0.01
+coi:
+  grace_days: 0          # COI expiration must be >= bill date - grace_days
+
+# --- §6 PO and contract matching -----------------------------------------------------
+overpo:
+  tolerance: 500.00      # hold when billed-to-date would exceed PO amount by MORE than this
+price_variance:
+  action: warn           # warn | hold   (two-way match on unit rate; assumption A-17)
+  tolerance_pct: 0.5
+service_agreement:
+  fee_tolerance: 0.01
+
+# --- §7 Dates and terms --------------------------------------------------------------
+periods:
+  open_period_override: null   # e.g. "2026-11" to force November open regardless of the Periods tab
+entrata_post_month_format: "%m/%Y"   # assumption A-7
+
+# Per-vendor overrides layered over the vendor master (e.g. {V1003: {terms: "Net 45"}})
+vendor_overrides: {}
+
+# --- §10 Duplicates -------------------------------------------------------------------
+dup:
+  strip_prefixes: ["INVOICE", "INV", "BILL", "NO"]   # quoted: bare NO is read by YAML as false
+  near_date_days: 7                    # L4 possible-duplicate window (shorter than a monthly cycle)
+  revision_after_entered_code: DUP     # DUP | OTHER  (assumption A-11)
+
+# --- Extraction quality gates ---------------------------------------------------------
+extraction:
+  arithmetic_tolerance: 0.01
+  require_grounding: [document_number, total]   # must be found in the PDF text layer
+
+# --- §12 Exception codes -------------------------------------------------------------
+exception_codes:
+  DUP:     {meaning: "Already entered in Intacct or Entrata, or in a prior run", route: "AP Manager"}
+  NOPO:    {meaning: "No PO or subcontract reference, or project cannot be confirmed", route: "Project Manager"}
+  OVERPO:  {meaning: "Exceeds remaining PO balance by more than tolerance", route: "Project Manager and Supply Chain"}
+  UNAPPCO: {meaning: "Bills a change order that is not executed", route: "Project Manager; return to subcontractor"}
+  LIEN:    {meaning: "Required lien waiver missing", route: "Construction Compliance (Projects & Compliance)"}
+  COI:     {meaning: "Vendor insurance certificate expired", route: "Construction Compliance (Projects & Compliance)"}
+  NEWVEND: {meaning: "Vendor not in the vendor master", route: "Vendor Master team"}
+  BANKCHG: {meaning: "Payment instructions or contact details differ from the vendor master", route: "Treasury"}
+  OTHER:   {meaning: "Anything else that needs a person", route: "AP Manager"}
+
+# Primary code when a document has several holds (ADR-0006). Fraud risk first.
+exception_precedence: [BANKCHG, DUP, NEWVEND, NOPO, UNAPPCO, OVERPO, LIEN, COI, OTHER]
+
+# --- §13 Approval matrix ---------------------------------------------------------------
+approvals:
+  construction:
+    approver: PROJECT_APPROVER          # Projects tab "Approver"
+    additional: {title: "VP Construction", when_gross_work_over: 100000}
+  stabilized:
+    approver: PROJECT_APPROVER
+    additional: {title: "Regional Property Manager", when_invoice_over: 5000}
+  corporate:
+    approver: "Department head, {department}"
+    additional: {title: "CFO", when_bill_over: 25000}
+  adjustment:
+    approver: "AP Manager review"
+
+# --- Rule registry: order matters for the trace; all rules run (no short-circuit) -------
+rules:
+  - not_a_bill
+  - extraction_quality
+  - vendor_master
+  - payment_details
+  - bill_to
+  - duplicates
+  - po_reference
+  - price_variance
+  - po_balance
+  - change_orders
+  - lien_waiver
+  - coi
+  - pay_app_math
+  - credit_original
+  - service_agreement_fee
+  - embedded_instructions
+
+# --- Entrata GL selection for stabilized invoices (keyword → GL_Entrata account) -------
+entrata_gl_keywords:
+  "6200-0055": [grounds maintenance, landscaping contract, landscape maintenance, lawn]
+  "6200-0075": [pest service, pest control, monthly pest]
+  "6200-0080": [termite, rodent, bed bug]
+  "6200-0085": [pool and spa maintenance, pool & spa maintenance, pool service, spa service]
+  "6300-0145": [pool repair, spa repair, pump repair, heater repair]
+  "6300-0155": [pool supplies, chemicals only]
+  "6300-0095": [irrigation]
+  "6200-0060": [mulch, annuals, pine straw, landscape supplies]
+  "6600-0090": [office supplies, paper, toner]
+  "6300-0160": [repair, maintenance, elevator, service call]

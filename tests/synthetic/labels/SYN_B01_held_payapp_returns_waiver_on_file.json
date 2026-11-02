@@ -1,0 +1,75 @@
+{
+  "doc_kind": "pay_application",
+  "markings": [],
+  "vendor_name": "Tri County Drywall Inc",
+  "vendor_address": "702 Sunset Blvd, West Columbia, SC 29169",
+  "vendor_phone": "(803) 555-0126",
+  "vendor_email": null,
+  "vendor_id_printed": null,
+  "remit_to": null,
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Construction, LLC",
+  "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": "Pointe Grand Columbia",
+  "document_number": "TCD-2410-02",
+  "document_date": "2026-09-29",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": "Subcontract SC2410315-09",
+  "references": [
+    "SC2410315-09"
+  ],
+  "service_period_start": null,
+  "service_period_end": null,
+  "line_items": [],
+  "subtotal": null,
+  "tax_lines": [],
+  "total": 57600.0,
+  "pay_application": {
+    "application_no": "2",
+    "period_start": null,
+    "period_end": null,
+    "original_contract_sum": 458000.0,
+    "net_change_by_change_orders": 0.0,
+    "contract_sum_to_date": 458000.0,
+    "total_completed_to_date": 105000.0,
+    "retainage_percent": 10.0,
+    "retainage_to_date": 10500.0,
+    "total_earned_less_retainage": 94500.0,
+    "previous_certificates": 36900.0,
+    "current_payment_due": 57600.0,
+    "change_orders_mentioned": [],
+    "lines_this_period": [
+      {
+        "description": "Building 1 hang",
+        "work_this_period": 38000.0,
+        "retainage_this_period": 3800.0,
+        "change_order_ref": null
+      },
+      {
+        "description": "Building 1 tape and finish, partial",
+        "work_this_period": 26000.0,
+        "retainage_this_period": 2600.0,
+        "change_order_ref": null
+      }
+    ]
+  },
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [
+    "Resubmitted. Conditional lien waiver sent separately on 10/20/2026."
+  ],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}

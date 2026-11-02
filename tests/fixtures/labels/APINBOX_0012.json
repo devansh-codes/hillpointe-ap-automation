@@ -1,0 +1,62 @@
+{
+  "doc_kind": "invoice",
+  "markings": [],
+  "vendor_name": "Harbor Point Aggregates LLC",
+  "vendor_address": "6020 Hwy 17, Richmond Hill, GA 31324",
+  "vendor_phone": "(912) 555-0148",
+  "vendor_email": null,
+  "vendor_id_printed": null,
+  "remit_to": "Harbor Point Aggregates LLC, 6020 Hwy 17, Richmond Hill, GA 31324",
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Construction, LLC",
+  "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": "Hillpointe jobsite",
+  "document_number": "HPA-31877",
+  "document_date": "2026-10-02",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": null,
+  "references": [],
+  "service_period_start": null,
+  "service_period_end": null,
+  "line_items": [
+    {
+      "description": "Crushed aggregate base, delivered. Tickets 77401 to 77429",
+      "quantity": 412.5,
+      "unit": "TON",
+      "unit_price": 38.4,
+      "amount": 15840.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    }
+  ],
+  "subtotal": 15840.0,
+  "tax_lines": [
+    {
+      "label": "Sales tax 7%",
+      "rate_percent": 7.0,
+      "amount": 1108.8
+    }
+  ],
+  "total": 16948.8,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [
+    "Customer PO: ______________",
+    "Delivered 09/22/2026 to 09/30/2026."
+  ],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}

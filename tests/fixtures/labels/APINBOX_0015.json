@@ -1,0 +1,72 @@
+{
+  "doc_kind": "invoice",
+  "markings": [],
+  "vendor_name": "Ridgeway Equipment Rental Inc",
+  "vendor_address": "2280 Augusta Rd, Lexington, SC 29072",
+  "vendor_phone": "(803) 555-0177",
+  "vendor_email": null,
+  "vendor_id_printed": null,
+  "remit_to": "Ridgeway Equipment Rental Inc, 2280 Augusta Rd, Lexington, SC 29072",
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Construction, LLC",
+  "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": "Pointe Grand Columbia jobsite, Columbia, SC",
+  "document_number": "INV-20417",
+  "document_date": "2026-09-12",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": "PO2410315-014",
+  "references": [
+    "PO2410315-014"
+  ],
+  "service_period_start": "2026-08-25",
+  "service_period_end": "2026-09-07",
+  "line_items": [
+    {
+      "description": "Telehandler 10K lb, 2 week rate (08/25/2026 to 09/07/2026), Unit TH-1142",
+      "quantity": 1.0,
+      "unit": "2WK",
+      "unit_price": 2650.0,
+      "amount": 2650.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    },
+    {
+      "description": "Delivery and pickup, telehandler",
+      "quantity": 1.0,
+      "unit": "EA",
+      "unit_price": 350.0,
+      "amount": 350.0,
+      "is_freight_or_delivery": true,
+      "change_order_ref": null
+    }
+  ],
+  "subtotal": 3000.0,
+  "tax_lines": [
+    {
+      "label": "SC sales tax 6% + Richland local 2%",
+      "rate_percent": 8.0,
+      "amount": 240.0
+    }
+  ],
+  "total": 3240.0,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [
+    "Rental agreement RA-55120 on file."
+  ],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}

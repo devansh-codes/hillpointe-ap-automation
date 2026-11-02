@@ -1,0 +1,63 @@
+{
+  "doc_kind": "credit_memo",
+  "markings": [],
+  "vendor_name": "Pinecrest Building Supply Co",
+  "vendor_address": "PO Box 9183, Columbia, SC 29290",
+  "vendor_phone": "(803) 555-0190",
+  "vendor_email": null,
+  "vendor_id_printed": null,
+  "remit_to": "Pinecrest Building Supply Co, PO Box 9183, Columbia, SC 29290",
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Construction, LLC",
+  "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": "Pointe Grand Columbia",
+  "document_number": "CM-PBS-604102",
+  "document_date": "2026-10-02",
+  "printed_terms": "N/A",
+  "customer_ref_raw": "PO2410315-008",
+  "references": [
+    "PO2410315-008"
+  ],
+  "service_period_start": null,
+  "service_period_end": null,
+  "line_items": [
+    {
+      "description": "Return: 2x10x16 #2 SYP joist (original invoice PBS-603977)",
+      "quantity": 100.0,
+      "unit": "EA",
+      "unit_price": -20.0,
+      "amount": -2000.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    }
+  ],
+  "subtotal": -2000.0,
+  "tax_lines": [
+    {
+      "label": "SC sales tax 6% + Richland local 2%",
+      "rate_percent": 8.0,
+      "amount": -160.0
+    }
+  ],
+  "total": -2160.0,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": "PBS-603977",
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [
+    "Credit applies to original invoice PBS-603977 dated 09/09/2026."
+  ],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}

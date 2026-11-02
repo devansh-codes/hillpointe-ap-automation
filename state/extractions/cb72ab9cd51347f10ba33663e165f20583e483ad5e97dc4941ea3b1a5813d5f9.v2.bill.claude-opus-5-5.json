@@ -1,0 +1,88 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Corporate Management, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Corporate Management, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "Order Form OF-2024-0332",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-01",
+    "document_number": "LL-2026-1184",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 3632.25,
+        "change_order_ref": null,
+        "description": "LedgerLoop Platform subscription, October 2026 (per seat)",
+        "is_freight_or_delivery": false,
+        "quantity": 87.0,
+        "unit": "SEAT",
+        "unit_price": 41.75
+      },
+      {
+        "amount": 1050.0,
+        "change_order_ref": null,
+        "description": "Implementation support, report builder configuration",
+        "is_freight_or_delivery": false,
+        "quantity": 6.0,
+        "unit": "HR",
+        "unit_price": 175.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "Seats reflect active users as of 09/30/2026.",
+      "FICTIONAL DATA prepared for a Hillpointe candidate assessment. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "No tax line is printed on the invoice.",
+      "Implementation support line has no service date or period stated."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "OF-2024-0332"
+    ],
+    "remit_to": "LedgerLoop Software Inc, 88 Market St, Suite 400, Austin, TX 78701",
+    "replaces_document_number": null,
+    "service_period_end": "2026-10-31",
+    "service_period_start": "2026-10-01",
+    "ship_to_or_project_text": null,
+    "subtotal": 4682.25,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 4682.25,
+    "vendor_address": "88 Market St, Suite 400, Austin, TX 78701",
+    "vendor_email": "billing@ledgerloop.example",
+    "vendor_id_printed": null,
+    "vendor_name": "LedgerLoop Software Inc",
+    "vendor_phone": null
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-02T19:55:55+00:00",
+    "file_name": "APINBOX_0002.pdf",
+    "input_tokens": 2010,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 751,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 7.4,
+    "sha256": "cb72ab9cd51347f10ba33663e165f20583e483ad5e97dc4941ea3b1a5813d5f9"
+  }
+}

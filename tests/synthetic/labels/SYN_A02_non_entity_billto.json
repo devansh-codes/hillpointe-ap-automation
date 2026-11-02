@@ -1,0 +1,61 @@
+{
+  "doc_kind": "invoice",
+  "markings": [],
+  "vendor_name": "Copperline Plumbing Supply Inc",
+  "vendor_address": "PO Box 2207, Jacksonville, FL 32203",
+  "vendor_phone": "(904) 555-0158",
+  "vendor_email": null,
+  "vendor_id_printed": null,
+  "remit_to": "Copperline Plumbing Supply Inc, PO Box 2207, Jacksonville, FL 32203",
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Holdings Group",
+  "bill_to_block": "Hillpointe Holdings Group\n100 Main St\nOrlando, FL 32801",
+  "ship_to_or_project_text": "Pointe Grand Kingsland East, Kingsland, GA",
+  "document_number": "55590",
+  "document_date": "2026-10-13",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": "PO241088-031",
+  "references": [
+    "PO241088-031"
+  ],
+  "service_period_start": null,
+  "service_period_end": null,
+  "line_items": [
+    {
+      "description": "Pipe supports and clips",
+      "quantity": 1.0,
+      "unit": "LS",
+      "unit_price": 500.0,
+      "amount": 500.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    }
+  ],
+  "subtotal": 500.0,
+  "tax_lines": [
+    {
+      "label": "GA sales tax 7%",
+      "rate_percent": 7.0,
+      "amount": 35.0
+    }
+  ],
+  "total": 535.0,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [],
+  "embedded_instructions": [],
+  "extraction_warnings": []
+}
