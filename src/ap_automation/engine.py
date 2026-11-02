@@ -269,7 +269,11 @@ def run(cfg: Config, inbox: Path, mode: str = "auto", what_if: bool = False, lab
     write_outputs(cfg, md, rr)
 
     if not what_if:
-        ledger.snapshot(f"pre-{inbox.name}")
+        # Keep the state from *before this folder was first processed*: a rerun of the same folder must not
+        # overwrite it, or "restore pre-<folder>" would bring back a ledger that already contains the batch.
+        seen = any(Path(r["inbox"]).name == inbox.name for r in ledger.runs())
+        if not seen or f"pre-{inbox.name}" not in ledger.list_snapshots():
+            ledger.snapshot(f"pre-{inbox.name}")
         ent = [r for r in results if r.decision == "ENTERED"]
         ntr = [r for r in results if r.decision == "ENTRATA_HANDOFF"]
         held = [r for r in results if r.decision in ("HELD", "NOT_A_BILL")]

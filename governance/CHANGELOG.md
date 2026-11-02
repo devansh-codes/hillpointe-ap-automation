@@ -2,6 +2,14 @@
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.1] - 2026-11-02
+### Fixed
+- Rerunning a folder no longer overwrites its automatic `pre-<folder>` snapshot, so `snapshot restore pre-01_Invoice_Batch_01`
+  returns to the state before Batch 01 was first processed (found while verifying a fresh clone). New test; evidence
+  regenerated from the cached extractions with outputs identical apart from run ids.
+### Added
+- Published to a private GitHub repo; manual end-to-end evaluation steps in `governance/EVALUATOR_GUIDE.md`.
+
 ## [0.2.0] - 2026-11-02
 ### Added
 - Real-model extraction verified: 32/32 package documents, 24/24 unseen synthetic documents.

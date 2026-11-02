@@ -42,6 +42,15 @@ def test_rule_change_flow_restore_rerun_diff(make_cfg, monkeypatch):
     assert "APINBOX_0001.pdf" in res.output and "OVERPO" in res.output and "1 document(s) changed" in res.output
 
 
+def test_rerun_keeps_pre_folder_snapshot(make_cfg):
+    cfg = make_cfg()
+    run_labels(cfg, B1)
+    run_labels(cfg, B1)  # rerun must not overwrite pre-<folder> with a ledger that already holds the batch
+    Ledger(cfg.state_dir).restore("pre-01_Invoice_Batch_01")
+    assert Ledger(cfg.state_dir).runs() == []
+    assert by_file(run_labels(cfg, B1))["APINBOX_0003.pdf"].decision == "ENTERED"
+
+
 def test_explain(make_cfg, monkeypatch):
     cfg = make_cfg()
     run_labels(cfg, B1)

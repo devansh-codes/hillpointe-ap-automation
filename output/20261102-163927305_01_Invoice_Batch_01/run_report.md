@@ -1,7 +1,7 @@
-# Run report: 20261102-145642005_01_Invoice_Batch_01
+# Run report: 20261102-163927305_01_Invoice_Batch_01
 
 - Inbox: `/Users/devanshchaudhary/Documents/Hillpointe_AP_Technical_Screen/01_Invoice_Batch_01`
-- Extraction: `auto` · model `claude-opus-5-5` · prompt `v2`
+- Extraction: `offline` · model `claude-opus-5-5` · prompt `v2`
 - Policy hash: `8fd4bb314b07` · Ledger: **recorded** (committed right after these outputs were written)
 - Processing order (credits first, then date, then name): APINBOX_0011.pdf, APINBOX_0015.pdf, APINBOX_0007.pdf, APINBOX_0013.pdf, APINBOX_0003.pdf, APINBOX_0009.pdf, APINBOX_0002.pdf, APINBOX_0005.pdf, APINBOX_0008.pdf, APINBOX_0012.pdf, APINBOX_0006.pdf, APINBOX_0004.pdf, APINBOX_0010.pdf, APINBOX_0001.pdf, APINBOX_0014.pdf
 
@@ -91,7 +91,7 @@ Intacct import: 0 line(s) across 0 bill(s), lines total 0.00. Entrata handoff: 0
 - Confidence: **High**: Same file (same SHA-256 and file name) was already processed in an earlier run.
 
 ### APINBOX_0001.pdf: HELD
-- **OVERPO** (hold): PO2410315-008 is 180,000.00; billed to date 166,290.00 (AP-260702 PBS-601220 62,300.00; AP-260809 PBS-602845 58,910.00; AP-260911 PBS-603977 47,240.00; ledger:20261102-145640597_01_Invoice_Batch_01 -2,160.00); remaining 13,710.00. This invoice (15,102.07) exceeds it by 1,392.07, more than the $500 tolerance. Needs a PO change order. _[§6]_
+- **OVERPO** (hold): PO2410315-008 is 180,000.00; billed to date 166,290.00 (AP-260702 PBS-601220 62,300.00; AP-260809 PBS-602845 58,910.00; AP-260911 PBS-603977 47,240.00; ledger:20261102-163926493_01_Invoice_Batch_01 -2,160.00); remaining 13,710.00. This invoice (15,102.07) exceeds it by 1,392.07, more than the $500 tolerance. Needs a PO change order. _[§6]_
 - Confidence: **High**: Rule outcome is deterministic: OVERPO — PO2410315-008 is 180,000.00; billed to date 166,290.00 (AP-260702 PBS-601220 62,300.00; AP-260809 PBS-602845 58,910.00; 
 
 ### APINBOX_0014.pdf: ALREADY_PROCESSED

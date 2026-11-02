@@ -14,6 +14,7 @@ Cursor, Copilot…) that checks out this branch should read it before changing a
 | 4 | `DECISIONS.md` | Architecture Decision Records (ADR-0001…) |
 | 5 | `ASSUMPTIONS_AND_QUESTIONS.md` | Every judgment call + questions emailed to Hillpointe |
 | 5b | `REQUIREMENTS_TRACEABILITY.md` | Every requirement → plan section → test (61 rows) |
+| 5d | `EVALUATOR_GUIDE.md` | Step-by-step manual end-to-end test in the terminal, with expected results |
 | 5c | `LIVE_SESSION_RUNBOOK.md` | Minute-by-minute script for the 45-min live session, with failure playbook |
 | 6 | `ai-usage-log/` | Session-by-session record of how AI was directed (prompts, outputs, corrections) |
 | 7 | `TECH_STACK.md` | Tools, versions, why |

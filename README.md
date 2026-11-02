@@ -104,9 +104,10 @@ same amount monthly. Revised invoices: only one version is ever entered. Details
 ## 8. For developers and reviewers
 
 ```bash
-make test          # 96 tests, no API key needed (hand-labelled fixtures + synthetic hold-out set)
+make test          # 97 tests, no API key needed (hand-labelled fixtures + synthetic hold-out set)
 make evidence      # reset ledger → Batch 01 → rerun Batch 01 → Batch 02 → snapshot 'submitted'
 make eval          # score Claude's extraction against hand labels (needs API key)
 ```
 Project context, plan, decisions and the AI usage log are in **`governance/`** (start with `governance/README.md`).
+To evaluate it by hand, step by step: **`governance/EVALUATOR_GUIDE.md`**.
 The one-page summary is `SUMMARY.md`.

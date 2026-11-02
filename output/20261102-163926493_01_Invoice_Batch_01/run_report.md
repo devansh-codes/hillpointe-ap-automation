@@ -1,7 +1,7 @@
-# Run report: 20261102-145640597_01_Invoice_Batch_01
+# Run report: 20261102-163926493_01_Invoice_Batch_01
 
 - Inbox: `/Users/devanshchaudhary/Documents/Hillpointe_AP_Technical_Screen/01_Invoice_Batch_01`
-- Extraction: `auto` · model `claude-opus-5-5` · prompt `v2`
+- Extraction: `offline` · model `claude-opus-5-5` · prompt `v2`
 - Policy hash: `8fd4bb314b07` · Ledger: **recorded** (committed right after these outputs were written)
 - Processing order (credits first, then date, then name): APINBOX_0011.pdf, APINBOX_0015.pdf, APINBOX_0007.pdf, APINBOX_0013.pdf, APINBOX_0003.pdf, APINBOX_0009.pdf, APINBOX_0002.pdf, APINBOX_0005.pdf, APINBOX_0008.pdf, APINBOX_0012.pdf, APINBOX_0006.pdf, APINBOX_0004.pdf, APINBOX_0010.pdf, APINBOX_0001.pdf, APINBOX_0014.pdf
 
