@@ -16,7 +16,25 @@ Hillpointe's AP policy, does the arithmetic, checks duplicates and decides. Anyt
 3. Put your Anthropic API key in a file named `.env` (copy `.env.example`): `ANTHROPIC_API_KEY=sk-ant-...`
 4. Check everything is ready: `uv run ap doctor`. Every line should show ✔.
 
-## 2. Process a batch of invoices
+## 2. The easiest way: the web app
+
+```bash
+uv run ap ui          # opens http://127.0.0.1:8765 in your browser (or: make ui)
+```
+
+- **Run batch** (top right) processes a folder. **Import** uploads new invoices first.
+- **Home** lists every run with a one-line summary. Click a run for the Intacct import, Entrata handoff, exceptions,
+  approvals and downloads.
+- Click any document to see it **beside its decision**: why it was held, the route, how it was coded, what the AI read, and
+  every step.
+- **Exceptions** is the work queue, grouped by who needs to act. **Ledger & reruns** shows what's been entered and the
+  restore points.
+- **Rules**: change a value (e.g. Over-PO tolerance), press **Preview impact** to see exactly which documents would change
+  (nothing is recorded), then **Save**. Earlier versions can be restored.
+
+Everything the web app does, the commands below do too; both use the same engine.
+
+## 2b. Process a batch from the terminal
 
 1. Put the PDFs (scans, images and Word files work too) in any folder, e.g. `inbox/2026-11-03/`.
 2. Run:
@@ -104,7 +122,7 @@ same amount monthly. Revised invoices: only one version is ever entered. Details
 ## 8. For developers and reviewers
 
 ```bash
-make test          # 97 tests, no API key needed (hand-labelled fixtures + synthetic hold-out set)
+make test          # 102 tests, no API key needed (hand-labelled fixtures + synthetic hold-out set)
 make evidence      # reset ledger → Batch 01 → rerun Batch 01 → Batch 02 → snapshot 'submitted'
 make eval          # score Claude's extraction against hand labels (needs API key)
 ```

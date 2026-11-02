@@ -27,3 +27,19 @@
 ## Human decisions
 - Keep the existing API key (owner's decision); it stays only in the gitignored `.env`.
 - Repository visibility: private (the source data belongs to the exercise).
+
+## Follow-up prompts (verbatim)
+
+> are we ready here? do we have a system in place to make calls in hard cases? to re-run and audit? [...] my question before we build the ui is, are we thoroughly using the provided documents when generating the outputs?
+
+- Audited every source folder, tab and column against the code. One real gap: the Entities tab's "AP System" column was
+  unused, so a bill addressed to OZF1 (Juniper Square) would have posted to HCM. Now held OTHER (A-22), with tests.
+
+> [screenshot of otter.ai] Go ahead and build the UI, get UI reference from the screenshot provided, and its this website otter.ai
+
+- Built `ap ui` (ADR-0012), borrowing Otter's layout patterns (sidebar with channels → routes, search bar, top-right primary
+  action, card feed with thumbnail, floating action rail, "Get started" checklist) with Hillpointe's own content and no Otter branding.
+- Verified with headless-Chrome screenshots and API tests: rule preview in 2 s with 0 tokens, exactly 1 document changes for
+  tolerance $1,500; save → apply → undo restored the policy byte for byte; uploads; path traversal refused. 102 tests.
+- While checking the UI against the answer key, found that the evaluator guide's Batch 01 table (and the assistant's
+  earlier chat answer) had mixed up 0009/0013/0015. The system was right; the guide was corrected.

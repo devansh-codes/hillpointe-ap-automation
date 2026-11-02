@@ -105,73 +105,33 @@ def _summary(cfg, rr) -> None:
 @app.command()
 def doctor(state_dir: Optional[Path] = typer.Option(None), ping: bool = typer.Option(True, help="Make a 1-token model call")):
     """Pre-flight checks before a live run."""
+    from .health import run_checks
+
     ok = True
-
-    def line(passed: bool, msg: str, fix: str = ""):
-        nonlocal ok
-        ok &= passed
-        con.print(("[green]✔[/green] " if passed else "[red]✘[/red] ") + msg + (f"  [dim]→ {fix}[/dim]" if fix and not passed else ""))
-
-    line(sys.version_info >= (3, 12), f"Python {sys.version.split()[0]}", "install Python 3.12+ (uv does this: uv sync)")
-    try:
-        cfg = load_config(state_dir=state_dir)
-        line(True, f"policy.yaml valid (hash {cfg.policy_hash})")
-    except PolicyError as e:
-        line(False, f"policy.yaml invalid: {e}", "fix the listed keys")
-        raise typer.Exit(1)
-    from .reference import load_master_data
-    try:
-        md = load_master_data(cfg.path("master_data"), cfg.path("history"))
-        line(True, f"Master data: {len(md.vendors)} vendors, {len(md.projects)} projects, open period(s) {md.open_periods((cfg.policy.get('periods') or {}).get('open_period_override'))}, {len(md.history)} history bills")
-        line(abs(sum(md.allocation.values()) - 1) < 1e-9, f"Allocation_Table sums to {sum(md.allocation.values()):.2f}")
-    except Exception as e:  # noqa: BLE001
-        line(False, f"Master data / history failed to load: {e}")
-    from .emit import _template_cols
-    try:
-        imp, ent = _template_cols(cfg)
-        line(len(imp) == 19 and len(ent) == 14, f"Import template: {len(imp)} Intacct columns, {len(ent)} Entrata columns")
-    except Exception as e:  # noqa: BLE001
-        line(False, f"Template failed to load: {e}")
-    refs = [p for d in cfg.reference_dirs for p in d.glob("*") if p.is_file()]
-    line(bool(refs), f"{len(refs)} reference documents (POs / subcontracts / agreements)")
-    from .extract import CacheStore, intake
-    cache = CacheStore(cfg)
-    missing = [p.name for p in refs if not cache.get(intake(p).sha256, "reference")]
-    line(True, f"Reference docs cached: {len(refs) - len(missing)}/{len(refs)}" + (f" (will be read on first run: {', '.join(missing)})" if missing else ""))
-    from .ledger import Ledger
-    led = Ledger(cfg.state_dir)
-    runs = led.runs()
-    view = led.load_view()
-    line(True, f"Ledger {led.path}: {len(runs)} runs, {len(view.entered)} entered bills, snapshots: {', '.join(led.list_snapshots()) or 'none'}")
-    key = os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")
-    line(bool(key), "Anthropic credentials found", "export ANTHROPIC_API_KEY=... (needed for documents not in the cache)")
-    if key and ping:
-        try:
-            import anthropic
-
-            r = anthropic.Anthropic(max_retries=1).messages.create(model=cfg.settings["extraction"]["model"], max_tokens=16,
-                                                                    messages=[{"role": "user", "content": "Reply OK"}])
-            line(True, f"Model {cfg.settings['extraction']['model']} reachable (stop_reason={r.stop_reason})")
-        except Exception as e:  # noqa: BLE001
-            line(False, f"Model call failed: {type(e).__name__}: {str(e)[:150]}", "check key / network / model name")
+    for c in run_checks(state_dir=state_dir, ping=ping):
+        ok &= c["ok"]
+        con.print(("[green]✔[/green] " if c["ok"] else "[red]✘[/red] ") + c["message"]
+                  + (f"  [dim]→ {c['fix']}[/dim]" if c["fix"] and not c["ok"] else ""))
     con.print("[bold green]Ready.[/bold green]" if ok else "[bold red]Not ready — fix the ✘ items.[/bold red]")
     raise typer.Exit(0 if ok else 1)
 
 
 def _load_run(cfg, run_id: Optional[str]) -> tuple[str, list[dict]]:
-    runs = sorted(p for p in cfg.output_dir.iterdir() if (p / "decisions.jsonl").exists()) if cfg.output_dir.exists() else []
-    if not runs:
-        con.print("[red]No runs found.[/red]")
+    from .runs import RunNotFound, load_run
+
+    try:
+        return load_run(cfg, run_id)
+    except RunNotFound as e:
+        con.print(f"[red]{e}[/red]")
         raise typer.Exit(1)
-    if run_id:
-        cand = [p for p in runs if p.name == run_id or p.name.startswith(run_id)]
-        if not cand:
-            con.print(f"[red]Run {run_id} not found.[/red] Available: {', '.join(p.name for p in runs[-8:])}")
-            raise typer.Exit(1)
-        p = cand[-1]
-    else:
-        p = max(runs, key=lambda q: q.stat().st_mtime)
-    return p.name, [json.loads(l) for l in (p / "decisions.jsonl").read_text().splitlines() if l.strip()]
+
+
+@app.command()
+def ui(port: int = typer.Option(8765, help="Port on 127.0.0.1"), open_browser: bool = typer.Option(True, "--open/--no-open")):
+    """Open the web app for the AP team (same engine, ledger and policy as the CLI)."""
+    from .ui.server import serve
+
+    serve(port, open_browser)
 
 
 @app.command()
@@ -217,41 +177,18 @@ def diff(run_a: str, run_b: str, out_dir: Optional[Path] = typer.Option(None, he
     cfg = _cfg(out_dir=out_dir)
     ra, a = _load_run(cfg, run_a)
     rb, b = _load_run(cfg, run_b)
-    A, B = {r["file_name"]: r for r in a}, {r["file_name"]: r for r in b}
+    from .runs import compare_runs
 
-    def sig(r):
-        codes = sorted({f["code"] for f in r["findings"] if f["hold"]})
-        return r["decision"], ",".join(codes), "; ".join(r["approvers"]), sum(float(l["amount"]) for l in r["bill_lines"]) if r["bill_lines"] else None
-
+    rows = compare_runs(a, b)
     t = Table(title=f"{ra}  →  {rb}")
     for c in ("File", "Before", "After", "What changed"):
         t.add_column(c, overflow="fold")
-    changed = 0
-    for f in sorted(set(A) | set(B)):
-        x, y = A.get(f), B.get(f)
-        if x is None or y is None:
-            t.add_row(f, x and x["decision"] or "—", y and y["decision"] or "—", "only in one run")
-            changed += 1
-            continue
-        sx, sy = sig(x), sig(y)
-        if sx != sy:
-            changed += 1
-            why = []
-            if sx[0] != sy[0]:
-                why.append(f"decision {sx[0]} → {sy[0]}")
-            if sx[1] != sy[1]:
-                why.append(f"codes [{sx[1]}] → [{sy[1]}]")
-            if sx[2] != sy[2]:
-                why.append(f"approvers '{sx[2]}' → '{sy[2]}'")
-            new = [fd["message"] for fd in y["findings"] if fd["hold"] and fd["code"] not in sx[1].split(",")]
-            gone = [fd["message"] for fd in x["findings"] if fd["hold"] and fd["code"] not in sy[1].split(",")]
-            if new:
-                why.append("new: " + new[0][:160])
-            if gone:
-                why.append("cleared: " + gone[0][:160])
-            t.add_row(f, f"{sx[0]} {sx[1]}", f"{sy[0]} {sy[1]}", "; ".join(why))
+    for r in rows:
+        t.add_row(r["file_name"], r["before"], r["after"], "; ".join(r["why"]))
+    changed = len(rows)
+    total = len({r["file_name"] for r in a} | {r["file_name"] for r in b})
     con.print(t)
-    con.print(f"{changed} document(s) changed; {len(set(A) | set(B)) - changed} unchanged.")
+    con.print(f"{changed} document(s) changed; {total - changed} unchanged.")
 
 
 @snap.command("save")

@@ -16,7 +16,7 @@ Entrata handoff, exception log and approvals. A ledger records every decision so
   the master (BANKCHG → Treasury call-back). Previous certificates are tied to history.
 - *On the output:* template validator (Intacct rejects the whole file on one bad row, so a failing bill is held instead);
   control totals in every run report; database-level uniqueness on vendor + normalised invoice number.
-- *Tested:* 97 automated tests: all 20 package documents, Batch 01 rerun, Batch 02, 24 unseen synthetic scenarios (new
+- *Tested:* 102 automated tests: all 20 package documents, Batch 01 rerun, Batch 02, 24 unseen synthetic scenarios (new
   layouts, scan, Word, revisions, returns, fraud signals, PO edges) and 11 rule-change drills.
 
 **Batch results.** Batch 01: 6 bills to Intacct (11 lines, $152,562.56), 1 Entrata row, 8 held (OVERPO, NEWVEND, BANKCHG,

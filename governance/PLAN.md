@@ -377,7 +377,7 @@ Development followed this plan. Where reality forced a change, it's recorded her
 
 ### Test results at end of build
 
-- **97 tests passing** (92 at first build) (`make test`, ~23 s, no API key): golden Batch 01/rerun/Batch 02, 24 synthetic hold-out scenarios
+- **102 tests passing** (92 at first build) (`make test`, ~23 s, no API key): golden Batch 01/rerun/Batch 02, 24 synthetic hold-out scenarios
   (2 layouts, PNG scan, DOCX, unsupported file, prompt injection, arithmetic failure, revisions, returns, waiver on file,
   inactive vendor, non-entity bill-to, no-agreement Entrata, price variance, $499/$501 PO edges, credit without original,
   contract not on file, corporate without department), 11 rule-change drills, CLI live tooling, mocked Claude request shape,

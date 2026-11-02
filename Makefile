@@ -22,6 +22,9 @@ evidence:           ## deliverable 3: reset ledger → Batch 01 → rerun Batch 
 	$(AP) run 07_Invoice_Batch_02_Rerun $(FLAGS)
 	$(AP) snapshot save submitted
 
+ui:                 ## open the web app for the AP team (http://127.0.0.1:8765)
+	$(AP) ui
+
 demo: install doctor evidence   ## fresh clone → all evidence
 
 synthetic:          ## regenerate the synthetic hold-out documents

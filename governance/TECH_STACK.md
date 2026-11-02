@@ -12,6 +12,7 @@
 | Ledger | SQLite (stdlib) | ACID commit, UNIQUE constraint as a duplicate control, snapshots via backup API |
 | Config | YAML (`config/policy.yaml`, `config/settings.yaml`) | Every rule value editable in one place; `ap policy validate` |
 | CLI | Typer + Rich | `ap run / doctor / explain / diff / snapshot / policy validate / eval-extraction` |
+| Web UI | FastAPI + uvicorn; one static HTML/CSS/JS page (no build step, no CDN) | `ap ui`: thin layer over the engine for the AP team (ADR-0012); works offline |
 | Tests | pytest; reportlab (synthetic PDFs); poppler `pdftoppm` (synthetic PNG) | 90+ tests, no API key needed |
 | Money | `decimal.Decimal`, ROUND_HALF_UP to cents | No float error in accounting |
 

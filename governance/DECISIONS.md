@@ -87,6 +87,18 @@ Format: lightweight [MADR](https://adr.github.io/madr/). New decisions are appen
 - **Consequences:** The decision engine is fully verified independently of the model. Model accuracy is measured separately
   and explicitly rather than assumed.
 
+## ADR-0012 — Web UI as a thin layer over the CLI engine
+- **Status:** Accepted · 2026-11-02
+- **Context:** The terminal is hard to follow for an AP audience and in a live demo. The brief scores how clearly the system
+  can be explained to an AP team.
+- **Decision:** `ap ui` serves a local web app (FastAPI + one static HTML/JS page, no build step, 127.0.0.1 only). It calls the
+  same `engine.run`, ledger, snapshots and policy validation as the CLI and reads run folders back from `output/`; it adds no
+  business logic. Shared helpers (`runs.py`, `health.py`) back both the CLI and the UI so `diff`/`doctor` give identical answers.
+  Rule changes are previewed in a throw-away copy of the ledger restored from `pre-<batch>`, so a preview never records anything.
+  Policy edits keep the file's comments and layout, are validated before saving, and the previous version is kept for undo.
+- **Consequences:** Everything the CLI does is visible and clickable (run, exceptions by route, document beside its decision,
+  ledger, snapshots, rule preview/apply/undo). The CLI stays the source of truth and keeps working unchanged.
+
 ## ADR-0011 — Output enforcement per document role; token-efficiency practices
 - **Status:** Accepted · 2026-11-02
 - **Context:** First real API calls: structured outputs rejected the invoice schema (optional-field limit, then union limit, then

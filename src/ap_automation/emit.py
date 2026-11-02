@@ -4,6 +4,7 @@ from __future__ import annotations
 import csv
 import html
 import json
+from datetime import datetime
 from decimal import Decimal
 from pathlib import Path
 
@@ -128,6 +129,11 @@ def write_outputs(cfg: Config, md: MasterData, rr: RunResult) -> None:
     with open(out / "decisions.jsonl", "w") as f:
         for r in rr.results:
             f.write(json.dumps(decision_record(r), sort_keys=True) + "\n")
+    (out / "run_meta.json").write_text(json.dumps({
+        "run_id": rr.run_id, "inbox": str(rr.inbox), "inbox_name": rr.inbox.name, "what_if": rr.what_if,
+        "extractor": rr.extractor, "policy_hash": cfg.policy_hash, "started_at": datetime.now().isoformat(timespec="seconds"),
+        "ref_warnings": rr.ref_warnings,
+    }, indent=2))
 
     # XLSX on the provided template
     wb = openpyxl.load_workbook(cfg.path("template"))

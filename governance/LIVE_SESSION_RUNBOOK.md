@@ -15,6 +15,10 @@ uv run ap snapshot restore submitted   # ledger in post-Batch-02 state
 ```
 - Close other apps, increase terminal font, open `config/policy.yaml` in the editor, and have a phone hotspot ready.
 - Open the last `output/*/run_report.html` in a browser tab as a fallback demo.
+- Start the web app in a second terminal: `uv run ap ui` (http://127.0.0.1:8765). It's the clearest way to *show* the
+  results to an AP audience: run their batch with **Run batch**, open documents beside their decision, and make the rule
+  change on **Rules** with **Preview impact**, then **Save and re-decide**. The CLI steps below do the same thing and stay the
+  fallback if the browser misbehaves.
 
 ## 0–5 min — framing (talk, no commands)
 "AI reads the documents; plain code applies your policy; anything uncertain is held and routed, never guessed. Every

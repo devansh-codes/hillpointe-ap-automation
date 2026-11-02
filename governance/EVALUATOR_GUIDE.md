@@ -30,7 +30,7 @@ uv run ap doctor
 ```bash
 uv run pytest -q
 ```
-**Expect:** `97 passed`. Covers Batch 01, the rerun, Batch 02, 24 unseen synthetic scenarios, 11 rule-change drills, and mocked API behaviour.
+**Expect:** `102 passed`. Covers Batch 01, the rerun, Batch 02, 24 unseen synthetic scenarios, 11 rule-change drills, and mocked API behaviour.
 
 ## 3. Batch 01: the main deliverable
 
@@ -49,12 +49,12 @@ uv run ap run 01_Invoice_Batch_01 --offline --open
 | 0004 | HELD **NEWVEND** | Vendor not in the master |
 | 0005, 0010, 0014 | ENTERED | Construction invoices on a PO |
 | 0006 | HELD **BANKCHG** | Payment-details change request → Treasury call-back |
-| 0007, 0009 | HELD **DUP** | Already in ERP history |
+| 0007, 0015 | HELD **DUP** | Already in ERP history (0015's `INV-20417` is history's `20417`) |
 | 0008 | ENTRATA_HANDOFF | Stabilized community → Property Accounting |
 | 0011 | ENTERED (Adjustment) | Credit memo |
 | 0012 | HELD **NOPO** | No PO on the invoice; a likely PO is suggested |
-| 0013 | HELD **LIEN** + UNAPPCO | Missing conditional waiver; unexecuted change order billed |
-| 0015 | HELD **LIEN + COI** | |
+| 0009 | HELD **UNAPPCO** + LIEN | Bills a change order that isn't executed; waiver missing |
+| 0013 | HELD **LIEN + COI** | Waiver missing; insurance certificate expired |
 
 Open the run folder printed at the end (`output/<run id>_01_Invoice_Batch_01/`) and check these files:
 - `intacct_bill_import.csv`: 11 lines, total **152,562.56**, columns as in the template's Field Guide.
@@ -161,6 +161,25 @@ uv run ap snapshot restore submitted
 git checkout config/policy.yaml
 git status       # new folders appear only under output/ and state/
 ```
+
+## 9. The same thing in the web app (optional, about 5 minutes)
+
+```bash
+uv run ap snapshot restore submitted
+uv run ap ui                # opens http://127.0.0.1:8765
+```
+1. **Home** shows the three submitted runs (Batch 01, its rerun, Batch 02) with a summary each. The rerun is tagged **Rerun**,
+   with 7 already processed and no new rows.
+2. Open **Invoice Batch 01**. The tiles show 6 entered ($152,562.56), 1 Entrata and 8 held; the **Intacct import** tab shows the
+   11 lines and the control total; the download buttons give the same files as `output/`.
+3. Click **APINBOX_0013**. The PDF sits on the left; on the right, LIEN + COI with the route and policy section, what the AI
+   read, and the step-by-step trail.
+4. **Exceptions** shows 10 open holds grouped by route (7 from Batch 01, because 0012 was replaced by its revision, plus 3 DUP
+   from Batch 02).
+5. **Rules**: set Over-PO tolerance to 1500, choose Invoice Batch 01, then **Preview impact**. **Expect:** "1 document would
+   change": APINBOX_0001, HELD OVERPO → ENTERED. Nothing is recorded. Press **Discard changes**.
+6. **Run batch → Unseen test set A** (needs the API key) processes the 20 unseen documents live, with a progress bar.
+7. Press ⌘K and type `OVERPO` or a vendor name to jump straight to a document.
 
 ## Where to look while evaluating
 

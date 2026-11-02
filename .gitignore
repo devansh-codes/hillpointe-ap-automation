@@ -7,3 +7,5 @@ output/_scratch*/
 .DS_Store
 *.db-journal
 ~$*
+inbox/
+state/policy_history/

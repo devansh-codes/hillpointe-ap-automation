@@ -2,6 +2,19 @@
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.3.0] - 2026-11-02
+### Added
+- Web UI (`uv run ap ui` / `make ui`, ADR-0012): run a batch or import files, run feed, per-run tabs (documents, Intacct
+  import, Entrata handoff, exceptions, approvals, downloads), document page with the source beside the decision, exceptions
+  queue by route, ledger and snapshots with restore, rule editor with sandboxed impact preview, save/apply and undo,
+  ⌘K search, system check, AI-usage card, guided "Get started" checklist.
+- `run_meta.json` in every run folder (inbox path, what-if, extractor, policy hash).
+- `tests/test_ui.py` (policy edits keep comments; API answers match the engine; preview never records; path traversal refused).
+### Changed
+- `ap doctor` and `ap diff`/`explain` now use shared modules (`health.py`, `runs.py`) that the UI also uses.
+### Fixed
+- `governance/EVALUATOR_GUIDE.md` Batch 01 table: 0007 and 0015 are DUP; 0009 is UNAPPCO + LIEN; 0013 is LIEN + COI.
+
 ## [0.2.1] - 2026-11-02
 ### Fixed
 - Rerunning a folder no longer overwrites its automatic `pre-<folder>` snapshot, so `snapshot restore pre-01_Invoice_Batch_01`

@@ -23,6 +23,7 @@ Before doing anything, read `governance/README.md`, then `governance/PLAN.md`. E
 - `make test` / `make evidence` / `make eval`
 - `uv run ap reset-state --yes` — clear the ledger (reproduce from scratch)
 - `uv run pytest` — unit + golden tests
+- `uv run ap ui` — web app for the AP team (thin layer over the same engine; ADR-0012). Never put business logic in `ui/`.
 - Live-session commands (`doctor`, `--what-if`, `snapshot`, `diff`, `explain`, `policy validate`) are in
   `governance/LIVE_SESSION_RUNBOOK.md`. The live session is the top priority: never break these commands.
 
