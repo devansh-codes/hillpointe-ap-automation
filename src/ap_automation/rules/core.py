@@ -119,6 +119,13 @@ def bill_to(ctx) -> list[Finding]:
         return [Finding("WARN", "No bill-to block found on the document.", "§2", hold=False, confidence="Medium")]
     if not ctx.bill_to_entity:
         return [Finding("OTHER", f"Addressed to '{ctx.ex.bill_to_name}', which is not a Hillpointe legal entity.", "§2")]
+    ent = ctx.md.entities.get(ctx.bill_to_entity, {})
+    ap_system = str(ent.get("AP System") or "")
+    if ap_system and ap_system not in ("Sage Intacct", "Entrata") and ctx.project is None:
+        # e.g. OZF1 (fund vehicle) pays through Juniper Square; the policy does not cover it, so a person decides.
+        return [Finding("OTHER", f"Addressed to {ctx.bill_to_entity} ({ent.get('Legal Name')}), whose AP system is {ap_system}, "
+                                 f"not Sage Intacct or Entrata, and no project ties it to another entity. Confirm where it belongs.",
+                        "§2 / Entities tab")]
     target = ""
     if ctx.category == "construction":
         target = ctx.policy["routing"]["Active Construction"]["entity"]

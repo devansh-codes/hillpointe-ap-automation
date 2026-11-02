@@ -49,3 +49,24 @@ def test_find_references():
     assert find_references("Subcontract SC2410315-03") == ["SC2410315-03"]
     assert find_references("Order Form OF-2024-0332", "PO 2410315-008") == ["OF-2024-0332", "PO2410315-008"]
     assert find_references("SA-PGSIM-2026") == ["SA-PGSIM-2026"]
+
+
+def test_bill_to_entity_outside_intacct_and_entrata(make_cfg, tmp_path):
+    """Entities tab: OZF1 pays through Juniper Square. Without a project tying the bill elsewhere, hold for a person."""
+    import json
+    import shutil
+
+    from conftest import B1, LABELS, by_file, codes
+    from ap_automation.engine import run
+
+    inbox, lab = tmp_path / "inbox", tmp_path / "labels"
+    inbox.mkdir(), lab.mkdir()
+    for stem in ("APINBOX_0002", "APINBOX_0014"):  # corporate (no project) and construction (PO identifies the project)
+        shutil.copy(B1 / f"{stem}.pdf", inbox)
+        d = json.loads((LABELS[0] / f"{stem}.json").read_text())
+        d["bill_to_name"], d["bill_to_block"] = "Hillpointe Opportunity Zone Fund I, LP", "Hillpointe Opportunity Zone Fund I, LP"
+        (lab / f"{stem}.json").write_text(json.dumps(d))
+    rr = by_file(run(make_cfg(), inbox, mode="labels", labels_dirs=[lab, *LABELS]))
+    corp, cons = rr["APINBOX_0002.pdf"], rr["APINBOX_0014.pdf"]
+    assert corp.decision == "HELD" and codes(corp) == ["OTHER"] and "Juniper Square" in corp.holds[0].message
+    assert cons.decision == "ENTERED" and any("Bill-to correction" in f.message for f in cons.infos)

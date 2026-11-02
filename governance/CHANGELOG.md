@@ -7,6 +7,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Rerunning a folder no longer overwrites its automatic `pre-<folder>` snapshot, so `snapshot restore pre-01_Invoice_Batch_01`
   returns to the state before Batch 01 was first processed (found while verifying a fresh clone). New test; evidence
   regenerated from the cached extractions with outputs identical apart from run ids.
+- Bills addressed to an entity outside Intacct/Entrata (OZF1, Juniper Square) with no project are held OTHER instead of silently posting to HCM (A-22; uses the Entities tab's AP System column).
 - `uv run ap ...` now reads the API key from `.env` (previously only `./run.sh` did).
 ### Added
 - Published to a private GitHub repo; manual end-to-end evaluation steps in `governance/EVALUATOR_GUIDE.md`.

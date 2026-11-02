@@ -27,6 +27,7 @@ Each assumption is applied in code via config where possible, so it can be flipp
 | A-19 | Processing order within a run | Credits first, then bill date, then file name, so PO balances are deterministic. | 0011 before 0001 | No |
 | A-20 | Credit memo with no original on file | Code from the referenced PO at Medium confidence. If there's no PO either, hold OTHER → AP Manager. | 0011's original PBS-603977 is in history | Optional |
 | A-21 | Original + revision in the same batch | Enter only the latest; log the earlier one as SUPERSEDED (info). | — | No |
+| A-22 | Bill addressed to an entity whose AP system is neither Intacct nor Entrata (Entities tab: OZF1 → Juniper Square) with no project tying it elsewhere | Hold OTHER → AP Manager. The policy does not cover it. If a PO/subcontract identifies the project, the §2 bill-to correction applies instead. | Entities tab "AP System" column | Optional |
 
 ## Draft email (send before building, answers within one business day)
 
