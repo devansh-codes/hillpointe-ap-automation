@@ -1,6 +1,7 @@
 """Live-session commands: what-if, snapshot/restore, diff, explain, doctor; extraction controls; fault isolation."""
 from __future__ import annotations
 
+import os
 import json
 import shutil
 from types import SimpleNamespace
@@ -222,3 +223,16 @@ def test_image_and_docx_content_blocks(make_cfg):
     docx = ce._content(intake(ROOT_ / "tests/synthetic/holdout_A/SYN_A13_word_docx_software.docx"))[0]
     assert png["type"] == "image" and png["source"]["media_type"] == "image/png"
     assert docx["type"] == "document" and docx["source"]["type"] == "text" and "LL-2026-1201" in docx["source"]["data"]
+
+
+def test_cli_loads_dotenv_without_overriding(tmp_path, monkeypatch):
+    from ap_automation import cli as cli_mod
+
+    (tmp_path / ".env").write_text("# comment\nAP_TEST_A='from-file'\nexport AP_TEST_B=file\n")
+    monkeypatch.setattr("ap_automation.config.ROOT", tmp_path)
+    monkeypatch.delenv("AP_NO_DOTENV")
+    monkeypatch.delenv("AP_TEST_A", raising=False)
+    monkeypatch.setenv("AP_TEST_B", "shell")
+    cli_mod._load_dotenv()
+    assert os.environ["AP_TEST_A"] == "from-file" and os.environ["AP_TEST_B"] == "shell"
+    monkeypatch.delenv("AP_TEST_A")

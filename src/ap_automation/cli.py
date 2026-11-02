@@ -23,6 +23,21 @@ app.add_typer(pol, name="policy")
 con = Console()
 
 
+@app.callback()
+def _load_dotenv() -> None:
+    """Read KEY=value lines from the repo's .env so `uv run ap ...` sees the API key (variables already set win)."""
+    from .config import ROOT
+
+    env = ROOT / ".env"
+    if os.environ.get("AP_NO_DOTENV") or not env.exists():
+        return
+    for line in env.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.removeprefix("export ").strip(), v.strip().strip("'\""))
+
+
 def _cfg(state_dir: Optional[Path] = None, policy: Optional[Path] = None, out_dir: Optional[Path] = None):
     try:
         return load_config(policy_path=policy, state_dir=state_dir, out_dir=out_dir)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import os
 from decimal import Decimal
 from pathlib import Path
 
@@ -8,6 +9,9 @@ import pytest
 
 from ap_automation.config import ROOT, load_config
 from ap_automation.engine import run
+
+# Tests never read the real .env (no accidental API calls or spend).
+os.environ["AP_NO_DOTENV"] = "1"
 
 LABELS = [ROOT / "tests/fixtures/labels", ROOT / "tests/fixtures/labels/refs", ROOT / "tests/synthetic/labels"]
 B1 = ROOT / "01_Invoice_Batch_01"
