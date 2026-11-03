@@ -35,6 +35,7 @@ SESSIONS = [
     ("S09", "2026-11-02 19:20", "UI iteration, delete/import, interview drill pack"),
     ("S10", "2026-11-02 23:35", "Public demo, independent audit, release"),
     ("S11", "2026-11-03 00:20", "Deliverables: AI usage log"),
+    ("S12", "2026-11-03 01:00", "Deliverables packaging"),
 ]
 
 REDACT = [
