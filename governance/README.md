@@ -16,7 +16,7 @@ Cursor, Copilot…) that checks out this branch should read it before changing a
 | 5b | `REQUIREMENTS_TRACEABILITY.md` | Every requirement → plan section → test (61 rows) |
 | 5d | `EVALUATOR_GUIDE.md` | Step-by-step manual end-to-end test in the terminal, with expected results |
 | 5c | `LIVE_SESSION_RUNBOOK.md` | Minute-by-minute script for the 45-min live session, with failure playbook |
-| 6 | `ai-usage-log/` | Session-by-session record of how AI was directed (prompts, outputs, corrections) |
+| 6 | *(separate)* | The AI usage log is submitted as its own folder, outside the repo (see conventions below) |
 | 7 | `TECH_STACK.md` | Tools, versions, why |
 | 8 | `RERUN_EVIDENCE.md` | Duplicate logic + ledger location + rerun outputs |
 | 9 | `CHANGELOG.md` | What changed, when, and why ([Keep a Changelog](https://keepachangelog.com) format) |
@@ -44,16 +44,18 @@ Cursor, Copilot…) that checks out this branch should read it before changing a
 
 ## AI usage log conventions
 
-- One markdown file per working session: `ai-usage-log/YYYY-MM-DD_NN_<topic>.md` with: goal, the user's prompts (verbatim),
-  what the AI did, what was accepted / corrected / rejected and why.
-- Raw transcripts (Claude Code `.jsonl` under `~/.claude/projects/…`) can be exported to `ai-usage-log/raw/` **after
-  redaction**. ⚠️ Raw transcripts on the author's machine also contain unrelated context from a global `~/CLAUDE.md`
-  (other projects' infrastructure details). Always scrub before committing; never commit raw transcripts unreviewed.
-- Prompts the *product* uses (e.g. the extraction prompt) are not logged here; they're versioned in `prompts/`.
+- The AI usage log is **kept outside this repository** and submitted as its own deliverable (folder
+  "AI logs Hillpointe assessment"): report, engineering record, direction log, per-session records, prompt ledger and
+  condensed transcript. Its links into the code point at the public GitHub repository.
+- The ledger and transcript are **generated** from the Claude Code session record:
+  `uv run python scripts/export_ai_log.py <session.jsonl> <log folder>`. Never edit them by hand. Redaction (keys, e-mail
+  addresses, local paths, an unrelated project loaded from a global agent file) is automatic, and the export refuses to
+  write if anything key-like survives. Raw transcripts are never committed.
+- Prompts the *product* uses (the extraction prompt) are versioned in `prompts/`.
 
 ## For AI agents: how to update this folder
 
 1. Made a design decision? Append an ADR to `DECISIONS.md`. Never rewrite an accepted one; supersede it.
 2. Made an assumption? Add a row to `ASSUMPTIONS_AND_QUESTIONS.md`.
-3. Finished a working session? Add an `ai-usage-log/` entry.
+3. Finished a working session? Add a session record to the AI usage log (outside the repo) and regenerate its ledger.
 4. Changed expected outcomes? Update `SOURCE_ANALYSIS.md` **and** the golden tests in the same change.

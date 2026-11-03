@@ -30,5 +30,6 @@ Before doing anything, read `governance/README.md`, then `governance/PLAN.md`. E
 ## When you change something
 - Changing behaviour → update tests and, if outcomes change, `governance/SOURCE_ANALYSIS.md`.
 - New decision → append an ADR. New assumption → add a row to `governance/ASSUMPTIONS_AND_QUESTIONS.md`.
-- End of session → add a `governance/ai-usage-log/` entry.
+- End of session → add a session record to the AI usage log, which is kept **outside** this repo (submitted separately as
+  deliverable 5); regenerate its prompt ledger with `scripts/export_ai_log.py <session.jsonl> <log folder>`.
 - Never commit API keys, `.env`, or unscrubbed transcripts.

@@ -37,12 +37,26 @@ whose original was held), 3 DUP (reprint, resend, past-due).
 
 Roughly 80–85% less AP time, and the remaining time is judgment, not keying.
 
-**What I'd build next**
-1. Inbox connector (email / AP mailbox) and direct Intacct/Entrata API posting instead of CSV, with approval-workflow hand-off.
-2. Live ERP reads for PO balances, vendor master and history instead of extracts; a nightly vendor-master change monitor for BANKCHG.
-3. An extraction quality dashboard (`ap eval-extraction` on a growing labelled set, per-field accuracy, drift alerts on new vendors).
-4. In the web app: let AP clear a hold, with the decision and the reviewer's name written back to the ledger.
-5. Receiving records for a three-way match, and contract-level billing-to-date for subcontracts.
+**What I would build next.** Hillpointe builds the same three designs (three-story walk-ups, townhomes and cottages) across
+more than ten states, and buys most materials in bulk (Multifamily Executive). So every invoice can be compared with the
+same building elsewhere, something most accounts payable teams can rarely do.
+1. *A "same building" check on every invoice.* Each line is compared with what the same design needed and cost on
+   Hillpointe's other projects. One Batch 01 lumber invoice bills extra studs for Building 4 "per field request." The check
+   would show whether that is normal for this design, and what other projects paid per stud. Accounts payable becomes an
+   early warning for overbilling, and a price record for the next bulk-buying negotiation.
+2. *A plain-language pre-check for subcontractors.* The hardest part of learning this work was understanding why a bill gets
+   held. Subcontractors face the same puzzle, and a held pay application can leave a small trade business waiting another
+   month to be paid. Before submitting, a subcontractor uploads the pay application and lien waiver and gets the same checks
+   back in plain words, such as "change order 4 is not signed yet." The result is fewer holds and faster payment. It also
+   gives new local trades in states like Kentucky a reason to want to work with Hillpointe.
+
+**Built to be extended: the governance context.** The repository carries its own context for whoever builds next, person
+or AI agent. `AGENTS.md` is read first and points to `governance/`: the plan, 13 decision records, the hand-worked answer
+key, 25 assumptions with open questions, a requirement-to-test matrix and the live-session runbook. It also sets the rules
+for changing the system: a new decision gets a decision record, a new assumption gets a row, a behaviour change updates the
+tests and expected outcomes in the same commit, and policy values change only in `config/policy.yaml`. A teammate's agent
+that opens the repository starts with the same context this one was built with, so both next steps above can be built on
+the existing engine without re-learning the domain.
 
 *Measured with the real model:* extraction 32/32 against hand labels; decisions 24/24 on unseen synthetic documents and 33/33
 on the mixed drill batch (statements, W-9s, photos, a damaged file, two invoices in one PDF); ≈ $0.03 and ≈ 1.5 s of wall
@@ -51,4 +65,4 @@ time per document (8 in parallel), with prompt caching saving ≈ 30%.
 **How to use it.** The AP team runs it from a local web app (`uv run ap ui`): run or import a batch (a folder or a .zip),
 open any document beside its decision and reasons, work the exceptions by route, and preview a rule change before saving.
 The same engine runs from the terminal (`./run.sh <folder>`). **AI tools used:** Claude Opus 5.5 for reading documents;
-Claude Code (Opus 5.5) to plan, build and test the system. Every session is logged in `governance/ai-usage-log/`.
+Claude Code (Opus 5.5) to plan, build and test the system. Every session is logged in the AI usage log, submitted as a separate folder.

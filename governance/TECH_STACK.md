@@ -29,7 +29,7 @@
 | Practice | Where | Effect |
 |---|---|---|
 | **Read each file once.** SHA-256-keyed extraction cache (key = hash + prompt version + role + model) | `extract.CachedExtractor` | Reruns, resends with identical bytes (0019 = 0003) and evidence regeneration cost **0 tokens** |
-| **Prompt caching** on the byte-stable system prompt + role schema (Opus 5.5 caches from 512 tokens; reads cost 0.05× input) | `ClaudeExtractor._system` | Package run $0.96 vs $1.37 uncached (−30%); synthetic run −45% |
+| **Prompt caching** on the byte-stable system prompt + role schema (Opus 5.5 caches from 512 tokens; reads cost 0.05× input) | `ClaudeExtractor._system` | Package run $1.00 vs $1.43 uncached (−30%); unseen synthetic runs −40% |
 | **Cache warm-up:** first request runs alone, the rest in parallel, so parallel calls read the cache instead of each writing it | `extract.extract_many` | Avoids 8 simultaneous cache writes at 1.25× |
 | **Role-specific schemas** (bill vs reference) | `extract.api_schema(role)` | Smaller prompts and outputs per call |
 | **Effort chosen by measurement**, not maxed | `settings.yaml` + `make eval` | medium = low = 32/32; low is −26% cost and −30% latency, kept as an option |

@@ -83,20 +83,20 @@ the real pytest ids as of 2026-11-02, checked against `uv run pytest --collect-o
 | R47 | Audit trail per document | B, W Task 4 | §7 | `tests/test_live_tooling.py::test_explain` (per-document trace; completeness of `decisions.jsonl` not asserted) |
 | R48 | Runs unchanged on unseen invoices | B ground rules | §6 phase 6 | `tests/test_synthetic_holdout.py::test_holdout_A`, `tests/test_synthetic_holdout.py::test_holdout_B`, `tests/test_interview_drill.py::test_drill_outcome` |
 | R49 | Live rule change (e.g. OVERPO $250, Net 45 for a vendor) | B, W | §8 | `tests/test_policy_changes.py::test_overpo_tolerance_250_keeps_0001_held`, `tests/test_policy_changes.py::test_net45_for_one_vendor`, `tests/test_live_tooling.py::test_rule_change_flow_restore_rerun_diff` |
-| R50 | Prompts + AI usage log | B Deliv. 5 | `ai-usage-log/`, `prompts/` | not automated: review of `prompts/` and `governance/ai-usage-log/` |
+| R50 | Prompts + AI usage log | B Deliv. 5 | AI usage log (separate deliverable), `prompts/` | not automated: review of `prompts/` and the AI usage log folder (report, sessions, generated prompt ledger and transcript; redaction enforced by `scripts/export_ai_log.py`) |
 | R51 | One-page summary: approach, checks, what needs a person, time vs manual, what's next | B Deliv. 6 | §10 | not automated: review of `SUMMARY.md` |
 
 ## Live session (carries most of the weight)
 
 | ID | Requirement | Source | Plan section | Test |
 |---|---|---|---|---|
-| R52 | Run on an arbitrary new folder with zero code/config edits | B ground rules + live session | §8.1 | `tests/test_live_tooling.py::test_cli_runs_a_zip_or_a_folder_of_folders`, `tests/test_live_tooling.py::test_damaged_files_are_held_and_the_batch_continues`; rehearsal not automated (`ai-usage-log/2026-11-02_04_build.md` step 8) |
+| R52 | Run on an arbitrary new folder with zero code/config edits | B ground rules + live session | §8.1 | `tests/test_live_tooling.py::test_cli_runs_a_zip_or_a_folder_of_folders`, `tests/test_live_tooling.py::test_damaged_files_are_held_and_the_batch_continues`; rehearsal not automated (AI usage log, session S05) |
 | R53 | Pre-flight verification before going live | derived | §8.1 `doctor` | `tests/test_live_tooling.py::test_doctor_without_key` |
 | R54 | New batch can duplicate Batch 01/02 → ledger shipped in post-Batch-02 state | B Task 3 + live | §8.1, ADR-0009 | `tests/test_interview_drill.py::test_drill_outcome[APINBOX_0116]`, `tests/test_interview_drill.py::test_drill_outcome[APINBOX_0117]` (fixture rebuilds the post-Batch-02 state; the shipped `state/` itself is not test-checked) |
 | R55 | Rule change applied and its effect shown on the same batch | B live session | §8.2 `--what-if`, snapshots, `diff` | `tests/test_live_tooling.py::test_what_if_does_not_commit`, `tests/test_live_tooling.py::test_rule_change_flow_restore_rerun_diff`, `tests/test_live_tooling.py::test_diff_reports_changes_beyond_the_decision` |
 | R56 | Explain how any decision was made | B live session | §8.1 `explain` | `tests/test_live_tooling.py::test_explain` |
 | R57 | API failure on one document doesn't fail the run | derived | §8.1, §9 | `tests/test_live_tooling.py::test_offline_mode_holds_uncached_docs_instead_of_crashing`, `tests/test_live_tooling.py::test_refusal_falls_back_then_gives_up`, `tests/test_live_tooling.py::test_damaged_files_are_held_and_the_batch_continues` |
-| R58 | Run is fast enough for a screen share (< 90 s for ~15 docs) | derived | §8.1 concurrency | not automated: no timed run with real model latency recorded yet (open item in `ai-usage-log/2026-11-02_04_build.md`) |
+| R58 | Run is fast enough for a screen share (< 90 s for ~15 docs) | derived | §8.1 concurrency | measured, not automated: 33 documents read live in 39 s, 20 in 29 s (AI usage log, session S09, session S07) |
 | R59 | Accepts unexpected inputs (images, odd file names, non-invoices) | B "invoices you have not seen" | §8.1 | `tests/test_synthetic_holdout.py::test_unsupported_file_is_held_not_crashed`, `tests/test_synthetic_holdout.py::test_scanned_png_is_medium_confidence_and_coded`, `tests/test_synthetic_holdout.py::test_docx_software_allocation` |
 | R60 | Non-parameter rule change in ≤ 10 lines from a template | B live session | §8.1, §8.4 | `tests/test_policy_changes.py::test_new_rule_from_template` |
-| R61 | Two timed dress rehearsals passed from the runbook | derived | §8.3 | not automated: one untimed CLI dress rehearsal is logged (`ai-usage-log/2026-11-02_04_build.md` step 8); the two timed rehearsals are not yet logged |
+| R61 | Two timed dress rehearsals passed from the runbook | derived | §8.3 | not automated: one untimed CLI dress rehearsal is logged (AI usage log, session S05); the two timed rehearsals are not yet done |

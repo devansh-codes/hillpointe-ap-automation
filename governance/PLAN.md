@@ -339,7 +339,7 @@ rule change + diff in ≤ 5 min, and every decision explainable with `ap explain
 | 2 Exception log + approvers | `output/<run>/exception_log.csv` + `approvals.csv` (also tabs in the xlsx) |
 | 3 Rerun evidence | `output/<run>/run_report.md` for each of the 3 runs + `governance/RERUN_EVIDENCE.md` explaining dup logic & ledger location |
 | 4 Workflow | `src/`, `config/`, `prompts/`, `README.md`, `Makefile`, `state/` |
-| 5 AI usage log | `governance/ai-usage-log/` (session notes + scrubbed raw transcripts) |
+| 5 AI usage log | Submitted as a separate folder (not in this repo): report, engineering record, direction log, per-session records, prompt ledger and condensed transcript (generated, redacted) |
 | 6 One-page summary | `SUMMARY.md` (+ PDF) |
 
 ## 11. Changes made during implementation (2026-11-02)
@@ -372,7 +372,7 @@ Development followed this plan. Where reality forced a change, it's recorded her
 | Extraction accuracy, 32 package documents vs hand labels | **32/32** on every decision-relevant field, 0 repairs, 0 false warnings |
 | Decisions, Batch 01 → rerun → Batch 02 | **Identical to `SOURCE_ANALYSIS.md`**, all 35 decisions High confidence |
 | Unseen synthetic hold-out (23 docs + 1 unsupported file) | **24/24** expected decisions |
-| Cost | ≈ $0.03 per document ($0.96 for the package; $1.37 without prompt caching) |
+| Cost | ≈ $0.03 per document ($1.00 for the package; $1.43 without prompt caching) |
 | Latency | 54 s for 32 documents (8 in parallel); ≈ 25 s for a 20-document batch |
 
 ### Test results at end of build

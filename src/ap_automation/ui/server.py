@@ -36,8 +36,9 @@ OUTPUT_FILES = {"intacct_bill_import.csv", "entrata_handoff.csv", "exception_log
                 "run_report.html", "run_report.md"}
 DOC_SUFFIXES = {".pdf": "application/pdf", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg"}
 
-# Prices per million tokens for the cost estimate shown in the sidebar (Opus 5.5).
-PRICE = {"input": 5.0, "output": 25.0, "cache_read": 0.5, "cache_write": 6.25}
+# Claude Opus 5.5 list prices per million tokens, for the cost estimate shown in the sidebar: cache reads are 0.05x input,
+# cache writes 1.25x input (5-minute TTL, the one the extractor uses).
+PRICE = {"input": 4.0, "output": 20.0, "cache_read": 0.2, "cache_write": 5.0}
 
 app = FastAPI(title="Hillpointe AP", docs_url=None, redoc_url=None)
 _lock = threading.Lock()  # one engine run at a time: the ledger is single-writer
