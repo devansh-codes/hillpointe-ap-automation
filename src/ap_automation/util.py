@@ -102,3 +102,11 @@ def compact(s: str | None) -> str:
 def truncate(s: str, n: int = 80) -> str:
     s = re.sub(r"\s+", " ", s).strip()
     return s if len(s) <= n else s[: n - 1].rstrip() + "…"
+
+
+def project_path(path) -> str:
+    """Paths inside the project are stored and shown relative to it, so outputs are the same on every machine."""
+    from .config import ROOT
+
+    p = Path(path).resolve()
+    return str(p.relative_to(ROOT.resolve())) if p.is_relative_to(ROOT.resolve()) else str(p)

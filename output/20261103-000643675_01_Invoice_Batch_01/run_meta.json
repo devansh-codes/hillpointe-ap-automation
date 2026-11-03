@@ -1,10 +1,10 @@
 {
-  "run_id": "20261102-235330411_01_Invoice_Batch_01",
+  "run_id": "20261103-000643675_01_Invoice_Batch_01",
   "inbox": "01_Invoice_Batch_01",
   "inbox_name": "01_Invoice_Batch_01",
   "what_if": false,
   "extractor": "offline",
   "policy_hash": "8fd4bb314b07",
-  "started_at": "2026-11-02T23:53:30",
+  "started_at": "2026-11-03T00:06:44",
   "ref_warnings": []
 }

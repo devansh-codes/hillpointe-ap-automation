@@ -11,11 +11,11 @@ from pathlib import Path
 import openpyxl
 from openpyxl.styles import Font
 
-from .config import ROOT, Config
+from .config import Config
 from .engine import RunResult
 from .models import DocResult
 from .reference import MasterData
-from .util import fmt_money, us_date
+from .util import fmt_money, project_path, us_date
 
 D0 = Decimal("0")
 EXC_COLS = ["File Name", "Decision", "Vendor ID", "Vendor", "Invoice No", "Amount", "Exception Code", "Secondary Codes",
@@ -99,12 +99,6 @@ def _write_csv(path: Path, cols: list[str], rows: list[dict]) -> None:
         w.writerows(rows)
 
 
-def _shown(path: Path) -> str:
-    """Paths inside the project are written relative to it, so reports don't carry a local home folder."""
-    p = Path(path).resolve()
-    return str(p.relative_to(ROOT.resolve())) if p.is_relative_to(ROOT.resolve()) else str(p)
-
-
 def decision_record(r: DocResult, cfg: Config | None = None) -> dict:
     b = r.bill
     holds = [f for f in r.findings if f.hold]
@@ -142,7 +136,7 @@ def write_outputs(cfg: Config, md: MasterData, rr: RunResult) -> None:
         for r in rr.results:
             f.write(json.dumps(decision_record(r, cfg), sort_keys=True) + "\n")
     (out / "run_meta.json").write_text(json.dumps({
-        "run_id": rr.run_id, "inbox": _shown(rr.inbox), "inbox_name": rr.inbox.name, "what_if": rr.what_if,
+        "run_id": rr.run_id, "inbox": project_path(rr.inbox), "inbox_name": rr.inbox.name, "what_if": rr.what_if,
         "extractor": rr.extractor, "policy_hash": cfg.policy_hash, "started_at": datetime.now().isoformat(timespec="seconds"),
         "ref_warnings": rr.ref_warnings,
     }, indent=2))
@@ -185,7 +179,7 @@ def _counts(rr: RunResult) -> dict:
 def render_markdown(cfg: Config, rr: RunResult, irows, erows, xrows, arows) -> str:
     c = _counts(rr)
     L = [f"# Run report: {rr.run_id}", "",
-         f"- Inbox: `{_shown(rr.inbox)}`",
+         f"- Inbox: `{project_path(rr.inbox)}`",
          f"- Extraction: `{rr.extractor}` · model `{cfg.settings['extraction']['model']}` · prompt `{cfg.settings['extraction']['prompt_version']}`",
          f"- Policy hash: `{cfg.policy_hash}` · Ledger: " + ("**NOT updated (what-if run)**" if rr.what_if else "**recorded** (committed right after these outputs were written)"),
          f"- Processing order (credits first, then date, then name): {', '.join(rr.order)}", "",
@@ -246,7 +240,7 @@ h1{{font-size:20px}} h2{{font-size:16px;margin-top:28px;border-bottom:1px solid 
 th{{background:var(--tile)}} details{{margin:6px 0;padding:6px 8px;background:var(--tile);border-radius:6px}}
 </style></head><body>
 <h1>AP run report: {html.escape(rr.run_id)}</h1>
-<div class="meta">Inbox {html.escape(_shown(rr.inbox))} · extraction {html.escape(rr.extractor)} · model {html.escape(cfg.settings['extraction']['model'])} ·
+<div class="meta">Inbox {html.escape(project_path(rr.inbox))} · extraction {html.escape(rr.extractor)} · model {html.escape(cfg.settings['extraction']['model'])} ·
 policy {cfg.policy_hash} · ledger: {'NOT updated (what-if run)' if rr.what_if else 'recorded'}</div>
 <h2>Control totals</h2><div class="tiles">{tiles}</div>
 <p class="meta">{c['_all'][0]} documents in, {fmt_money(c['_all'][1])} total.</p>

@@ -19,7 +19,7 @@ from .models import DocResult, ExtractedDocument, Finding
 from .reference import MasterData, load_master_data
 from .refdocs import RefIndex
 from .rules import RULES
-from .util import money
+from .util import money, project_path
 from .validate import validate_bill, validate_entrata
 
 D0 = Decimal("0")
@@ -279,7 +279,7 @@ def run(cfg: Config, inbox: Path, mode: str = "auto", what_if: bool = False, lab
         held = [r for r in results if r.decision in ("HELD", "NOT_A_BILL")]
         s = lambda rs: str(sum(((r.amount or D0) for r in rs), D0))  # noqa: E731
         ledger.commit(view, {
-            "run_id": run_id, "started_at": stamp, "inbox": str(inbox), "extractor": mode,
+            "run_id": run_id, "started_at": stamp, "inbox": project_path(inbox), "extractor": mode,
             "model": cfg.settings["extraction"]["model"], "prompt_version": cfg.settings["extraction"]["prompt_version"],
             "policy_hash": cfg.policy_hash, "git_commit": _git_commit(cfg.root), "docs": len(results), "entered": len(ent),
             "entrata": len(ntr), "held": len(held), "already_processed": sum(r.decision == "ALREADY_PROCESSED" for r in results),
