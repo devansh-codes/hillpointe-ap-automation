@@ -17,3 +17,4 @@ state/snapshots/*
 !state/snapshots/pre-01_Invoice_Batch_01.db
 !state/snapshots/pre-07_Invoice_Batch_02_Rerun.db
 state/audit_log.jsonl
+output/*_whatif/
