@@ -28,6 +28,9 @@ Each assumption is applied in code via config where possible, so it can be flipp
 | A-20 | Credit memo with no original on file | Code from the referenced PO at Medium confidence. If there's no PO either, hold OTHER → AP Manager. | 0011's original PBS-603977 is in history | Optional |
 | A-21 | Original + revision in the same batch | Enter only the latest; log the earlier one as SUPERSEDED (info). | — | No |
 | A-22 | Bill addressed to an entity whose AP system is neither Intacct nor Entrata (Entities tab: OZF1 → Juniper Square) with no project tying it elsewhere | Hold OTHER → AP Manager. The policy does not cover it. If a PO/subcontract identifies the project, the §2 bill-to correction applies instead. | Entities tab "AP System" column | Optional |
+| A-23 | Bill dated in a **future** period (e.g. 11/03/2026 while only October is open) | Follow §6 literally ("otherwise, the first day of the current open period") → posts 10/01, but show a WARN on the bill so a person confirms. Not held. | §6 wording was written for closed periods | **Yes**: hold until the period opens, or post to the open period? |
+| A-24 | One file holding more than one invoice | Hold OTHER: the text layer shows two different invoice numbers. Ask for the file to be split so each bill is checked on its own. | §11; no policy text | Optional |
+| A-25 | Damaged file that cannot be opened | Hold OTHER ("ask the vendor to resend"); never sent to the model; the rest of the batch continues. | §11 | No |
 
 ## Draft email (send before building, answers within one business day)
 
@@ -36,4 +39,5 @@ Each assumption is applied in code via config where possible, so it can be flipp
 > 2. Preferred format for Entrata "Post Month" — `10/2026`, `Oct 2026`, or `10/01/2026`?
 > 3. If a pay app references a subcontract not in the package, should we hold (we'd use OTHER → PM) or code from history?
 > 4. For corporate vendors with no Owner Dept (e.g. office supplies), which department and entity should we default to?
+> 6. A bill dated in a future period (November while October is open): hold until November opens, or post to 10/01 as §6 literally says?
 > 5. If a subcontractor sends the conditional lien waiver separately from the pay application, does a matching waiver on file satisfy the requirement (we assume yes)?

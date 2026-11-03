@@ -1,0 +1,112 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO2410315-014",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-20",
+    "document_number": "RER-77502",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 2650.0,
+        "change_order_ref": null,
+        "description": "Telehandler 10K lb, 2 week rate, Unit TH-1142",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "2WK",
+        "unit_price": 2650.0
+      },
+      {
+        "amount": 350.0,
+        "change_order_ref": null,
+        "description": "Delivery and pickup, telehandler",
+        "is_freight_or_delivery": true,
+        "quantity": 1.0,
+        "unit": "EA",
+        "unit_price": 350.0
+      },
+      {
+        "amount": 480.0,
+        "change_order_ref": null,
+        "description": "Scissor lift 19 ft electric, 1 week, Unit SL-0871",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "WK",
+        "unit_price": 480.0
+      },
+      {
+        "amount": 150.0,
+        "change_order_ref": null,
+        "description": "Delivery and pickup, scissor lift",
+        "is_freight_or_delivery": true,
+        "quantity": 1.0,
+        "unit": "EA",
+        "unit_price": 150.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "No rental period dates are stated; only 2-week and 1-week durations are given.",
+      "Sales tax is applied to the full subtotal, including delivery and pickup charges.",
+      "No vendor email is printed."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO2410315-014"
+    ],
+    "remit_to": "2280 Augusta Rd, Lexington, SC 29072",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia jobsite",
+    "subtotal": 3630.0,
+    "tax_lines": [
+      {
+        "amount": 290.4,
+        "label": "SC sales tax",
+        "rate_percent": 8.0
+      }
+    ],
+    "term_end": null,
+    "term_start": null,
+    "total": 3920.4,
+    "vendor_address": "2280 Augusta Rd, Lexington, SC 29072",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Ridgeway Equipment Rental Inc",
+    "vendor_phone": "(803) 555-0177"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:29:58+00:00",
+    "file_name": "APINBOX_0102.pdf",
+    "input_tokens": 2080,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 934,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 6.9,
+    "sha256": "6ff02bdc2cb3166952d2e0b91e57f5d991eb8c031f15a5d4d87373a9e1c5e9a6"
+  }
+}

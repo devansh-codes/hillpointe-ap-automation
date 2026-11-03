@@ -1,0 +1,110 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "Subcontract SC2410315-06",
+    "doc_kind": "pay_application",
+    "document_date": "2026-09-30",
+    "document_number": "SFG-2410-05",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": {
+      "amount": 86580.0,
+      "claimant": "Summit Framing Group LLC",
+      "payment_kind": "progress",
+      "present_in_document": true,
+      "project": "Pointe Grand Columbia",
+      "stated_to_follow_separately": false,
+      "through_date": "2026-09-30",
+      "waiver_type": "conditional"
+    },
+    "line_items": [],
+    "markings": [
+      "REVISED"
+    ],
+    "monthly_fee": null,
+    "notes": [
+      "Revised application: CO2 removed pending execution.",
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Diagonal REVISED watermark on page 1; the revised invoice does not state which prior invoice number it replaces.",
+      "Note says CO2 was removed, yet net change by change orders still shows 22,500.00; the change orders making up that amount are not identified.",
+      "Lien waiver on page 2 has no signature or date line.",
+      "No period start/end dates printed on the application."
+    ],
+    "original_contract_sum": null,
+    "pay_application": {
+      "application_no": "5",
+      "change_orders_mentioned": [],
+      "contract_sum_to_date": 906500.0,
+      "current_payment_due": 86580.0,
+      "lines_this_period": [
+        {
+          "change_order_ref": null,
+          "description": "Building 5 wall framing",
+          "retainage_this_period": 5460.0,
+          "work_this_period": 54600.0
+        },
+        {
+          "change_order_ref": null,
+          "description": "Building 5 roof trusses set",
+          "retainage_this_period": 4160.0,
+          "work_this_period": 41600.0
+        }
+      ],
+      "net_change_by_change_orders": 22500.0,
+      "original_contract_sum": 884000.0,
+      "period_end": null,
+      "period_start": null,
+      "previous_certificates": 460800.0,
+      "retainage_percent": 10.0,
+      "retainage_to_date": 60820.0,
+      "total_completed_to_date": 608200.0,
+      "total_earned_less_retainage": 547380.0
+    },
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SC2410315-06"
+    ],
+    "remit_to": null,
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": null,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 86580.0,
+    "vendor_address": "415 Columbia Ave, Lexington, SC 29072",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Summit Framing Group LLC",
+    "vendor_phone": "(803) 555-0165"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T03:41:39+00:00",
+    "file_name": "SYN_B02_revised_payapp_without_pending_co.pdf",
+    "input_tokens": 3760,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 1333,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 12.1,
+    "sha256": "e9e26e0fee334e0b9841df94e4d7def3f905971130446af6c248be5900b9ccb5"
+  }
+}

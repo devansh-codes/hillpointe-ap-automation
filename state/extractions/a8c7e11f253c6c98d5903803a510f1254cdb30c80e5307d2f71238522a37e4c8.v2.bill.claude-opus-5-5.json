@@ -1,0 +1,86 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Pointe Grand Simpsonville\nc/o Hillpointe Property Management, LLC\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Pointe Grand Simpsonville",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "SA-PGSIM-2026",
+    "doc_kind": "invoice",
+    "document_date": "2026-11-01",
+    "document_number": "SGP-11160",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 3150.0,
+        "change_order_ref": null,
+        "description": "Grounds maintenance, November 2026",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 3150.0
+      },
+      {
+        "amount": 700.0,
+        "change_order_ref": null,
+        "description": "Monthly pest service, November 2026",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 700.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "No tax line printed."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SA-PGSIM-2026"
+    ],
+    "remit_to": "Sterling Grounds and Pest LLC, 1450 Fairview Rd, Simpsonville, SC 29680",
+    "replaces_document_number": null,
+    "service_period_end": "2026-11-30",
+    "service_period_start": "2026-11-01",
+    "ship_to_or_project_text": "Pointe Grand Simpsonville, Simpsonville, SC",
+    "subtotal": 3850.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 3850.0,
+    "vendor_address": "1450 Fairview Rd, Simpsonville, SC 29680",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Sterling Grounds and Pest LLC",
+    "vendor_phone": "(864) 555-0171"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:29:57+00:00",
+    "file_name": "APINBOX_0106.pdf",
+    "input_tokens": 1619,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 725,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 6.2,
+    "sha256": "a8c7e11f253c6c98d5903803a510f1254cdb30c80e5307d2f71238522a37e4c8"
+  }
+}

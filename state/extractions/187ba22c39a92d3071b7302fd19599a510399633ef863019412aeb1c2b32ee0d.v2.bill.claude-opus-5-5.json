@@ -1,0 +1,81 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO241088-009",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-08",
+    "document_number": "CSS-88611-R1",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 2180.0,
+        "change_order_ref": null,
+        "description": "Temporary chain link fence rental, 1,450 LF, October 2026",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 2180.0
+      }
+    ],
+    "markings": [
+      "REVISED"
+    ],
+    "monthly_fee": null,
+    "notes": [
+      "Revised: replaces invoice CSS-88611.",
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Diagonal REVISED watermark across the page.",
+      "Customer Ref PO241088-009 has a 6-digit project prefix, unlike the usual 7-digit format (e.g. PO2410315-008)."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 15",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO241088-009"
+    ],
+    "remit_to": "Coastal Site Services LLC, 1190 Louisville Rd, Savannah, GA 31415",
+    "replaces_document_number": "CSS-88611",
+    "service_period_end": "2026-10-31",
+    "service_period_start": "2026-10-01",
+    "ship_to_or_project_text": "Pointe Grand Kingsland East",
+    "subtotal": 2180.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 2180.0,
+    "vendor_address": "1190 Louisville Rd, Savannah, GA 31415",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Coastal Site Services LLC",
+    "vendor_phone": "(912) 555-0122"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:06:19+00:00",
+    "file_name": "SYN_A06_revision_after_original_entered.pdf",
+    "input_tokens": 2002,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 718,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 5.3,
+    "sha256": "187ba22c39a92d3071b7302fd19599a510399633ef863019412aeb1c2b32ee0d"
+  }
+}

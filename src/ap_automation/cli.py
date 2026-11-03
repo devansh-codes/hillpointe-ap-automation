@@ -58,10 +58,22 @@ def run(
     out_dir: Optional[Path] = typer.Option(None, help="Write run outputs here instead of output/"),
     open_report: bool = typer.Option(False, "--open", help="Open the HTML report when done"),
 ):
-    """Process a folder of documents."""
+    """Process a folder of documents (sub-folders included) or a .zip of them."""
     from .engine import run as run_engine
+    from .extract import list_inbox, unpack_zip
 
     cfg = _cfg(state_dir, policy, out_dir)
+    if inbox.is_file() and inbox.suffix.lower() == ".zip":  # unzip next to the zip ("unzip here"), then run that folder
+        dest = inbox.with_suffix("")
+        if dest.exists():
+            con.print(f"Using {dest}/, unpacked from this zip earlier (delete that folder to unpack again).")
+        else:
+            dest.mkdir(parents=True)
+            con.print(f"Unpacked {len(unpack_zip(inbox.read_bytes(), dest))} files from {inbox.name} into {dest}/")
+        inbox = dest
+    if inbox.is_dir() and not list_inbox(inbox):
+        con.print(f"[red]No documents found in {inbox}.[/red]")
+        raise typer.Exit(1)
     mode = "labels" if labels else ("offline" if offline else "auto")
     if mode == "auto" and not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
         con.print("[yellow]No ANTHROPIC_API_KEY set: only documents already in the extraction cache can be read; others will be held.[/yellow]")
@@ -88,7 +100,7 @@ def _summary(cfg, rr) -> None:
         t.add_column(c, overflow="fold")
     colors = {"ENTERED": "green", "ENTRATA_HANDOFF": "cyan", "HELD": "red", "NOT_A_BILL": "magenta", "ALREADY_PROCESSED": "dim"}
     prec = cfg.policy["exception_precedence"]
-    for r in rr.results:
+    for r in sorted(rr.results, key=lambda r: r.file_name):  # inbox order on screen; processing order stays credits-first
         holds = sorted(r.holds, key=lambda f: prec.index(f.code) if f.code in prec else 99)
         codes = ", ".join(dict.fromkeys(f.code for f in holds))
         route = cfg.route(holds[0].code) if holds else "; ".join(r.approvers)
@@ -244,6 +256,34 @@ def reset_state(yes: bool = typer.Option(False, "--yes"), state_dir: Optional[Pa
     led.snapshot("before-reset")
     led.reset()
     con.print("Ledger cleared. Snapshot 'before-reset' saved.")
+
+
+@app.command("delete-run")
+def delete_run_cmd(run_id: str = typer.Argument(..., help="Run id (folder name in output/, a prefix is enough)"),
+                   yes: bool = typer.Option(False, "--yes"), state_dir: Optional[Path] = typer.Option(None)):
+    """Delete the latest recorded run (or any preview): undo its ledger records and archive its output folder."""
+    from .runs import RunDeleteRefused, RunNotFound, delete_impact, delete_run
+
+    cfg = _cfg(state_dir)
+    try:
+        imp = delete_impact(cfg, run_id)
+    except RunNotFound as e:
+        con.print(f"[red]{e}[/]")
+        raise typer.Exit(1)
+    if imp["blocked"]:
+        con.print(f"[red]Cannot delete {imp['run_id']}.[/] {imp['blocked']}")
+        raise typer.Exit(1)
+    effect = (f"removes {imp['documents']} document records and {imp['entered']} entered bills "
+              f"(${float(imp['entered_amount']):,.2f}) from the ledger" if imp["recorded"] else "nothing was recorded (preview)")
+    if not yes and not typer.confirm(f"Delete {imp['run_id']}? This {effect}. A snapshot is taken first."):
+        raise typer.Exit(1)
+    try:
+        e = delete_run(cfg, imp["run_id"], actor="cli")
+    except RunDeleteRefused as err:
+        con.print(f"[red]{err}[/]")
+        raise typer.Exit(1)
+    con.print(f"Deleted. Output archived to {e['archived_to']}"
+              + (f"; undo the ledger with `ap snapshot restore {e['ledger_snapshot']}`." if e["ledger_snapshot"] else "."))
 
 
 @app.command("eval-extraction")

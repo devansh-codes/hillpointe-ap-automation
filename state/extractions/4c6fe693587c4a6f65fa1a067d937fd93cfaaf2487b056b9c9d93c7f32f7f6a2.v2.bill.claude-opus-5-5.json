@@ -1,0 +1,78 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO241088-009",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-16",
+    "document_number": "CSS-88780",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 4139.0,
+        "change_order_ref": null,
+        "description": "Temporary fence extension 1,200 LF and gate panels",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 4139.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "No tax line printed.",
+      "Customer Ref PO241088-009 has a 6-digit project prefix, shorter than the 7-digit PO format shown in the reading rules."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 15",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO241088-009"
+    ],
+    "remit_to": "Coastal Site Services LLC, 1190 Louisville Rd, Savannah, GA 31415",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Kingsland East",
+    "subtotal": 4139.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 4139.0,
+    "vendor_address": "1190 Louisville Rd, Savannah, GA 31415",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Coastal Site Services LLC",
+    "vendor_phone": "(912) 555-0122"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:06:20+00:00",
+    "file_name": "SYN_A05_over_po_by_499_within_tolerance.pdf",
+    "input_tokens": 1978,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 657,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 6.0,
+    "sha256": "4c6fe693587c4a6f65fa1a067d937fd93cfaaf2487b056b9c9d93c7f32f7f6a2"
+  }
+}

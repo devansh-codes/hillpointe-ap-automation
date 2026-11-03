@@ -166,6 +166,26 @@ class Ledger:
             c.close()
         self.export_csv()
 
+    def delete_run(self, run_id: str) -> None:
+        """Undo everything one run recorded (one transaction). Callers must only remove the latest run, see runs.delete_run."""
+        c = self._conn()
+        try:
+            c.execute("BEGIN")
+            freed = [r[0] for r in c.execute("SELECT supersedes_sha FROM documents WHERE run_id = ? AND supersedes_sha IS NOT NULL "
+                                             "AND supersedes_sha != ''", (run_id,))]
+            for table in ("documents", "entered_bills", "po_consumption", "waivers_on_file", "runs"):
+                c.execute(f"DELETE FROM {table} WHERE run_id = ?", (run_id,))
+            for sha in freed:
+                if not c.execute("SELECT 1 FROM documents WHERE supersedes_sha = ?", (sha,)).fetchone():
+                    c.execute("UPDATE documents SET superseded = 0 WHERE sha256 = ?", (sha,))
+            c.commit()
+        except Exception:
+            c.rollback()
+            raise
+        finally:
+            c.close()
+        self.export_csv()
+
     def export_csv(self) -> Path:
         out = self.state_dir / "processed_register.csv"
         with self._conn() as c, open(out, "w", newline="") as f:

@@ -85,10 +85,13 @@ def intake(path: Path, role: str = "bill") -> IntakeDoc:
             with pdfplumber.open(path) as pdf:
                 pages = len(pdf.pages)
                 text = "\n".join((p.extract_text() or "") for p in pdf.pages)
-        except Exception:  # corrupt PDF: still hashable, extraction will decide
-            text = ""
+        except Exception:  # damaged PDF: still hashed and logged, but never sent to the model
+            kind, text = "corrupt", ""
     elif kind == "docx":
-        text, pages = _docx_text(path), 1
+        try:
+            text, pages = _docx_text(path), 1
+        except Exception:  # damaged Word file: same treatment as a damaged PDF
+            kind = "corrupt"
     elif kind == "text/plain":
         text, pages = path.read_text(errors="replace"), 1
     elif kind.startswith("image/"):
@@ -96,8 +99,36 @@ def intake(path: Path, role: str = "bill") -> IntakeDoc:
     return IntakeDoc(path=path, sha256=sha256_file(path), kind=kind, text=text, pages=pages, role=role)
 
 
+JUNK = {"thumbs.db", "desktop.ini"}
+
+
+def keep_name(rel: str) -> bool:
+    """False for hidden files, OS junk, macOS zip metadata and '..' entries."""
+    parts = Path(rel.replace("\\", "/")).parts
+    return bool(parts) and not any(p.startswith(".") or p == "__MACOSX" for p in parts) and parts[-1].lower() not in JUNK
+
+
+def save_flat(dest: Path, rel: str, data: bytes) -> str:
+    """Inboxes are flat: sub-folders are flattened and clashing names get a suffix, so nothing is overwritten."""
+    fn = Path(rel.replace("\\", "/")).name
+    out, n = dest / fn, 1
+    while out.exists():
+        out, n = dest / f"{Path(fn).stem}_{n}{Path(fn).suffix}", n + 1
+    out.write_bytes(data)
+    return out.name
+
+
+def unpack_zip(data: bytes, dest: Path) -> list[str]:
+    import io
+    import zipfile
+
+    with zipfile.ZipFile(io.BytesIO(data)) as z:
+        return [save_flat(dest, i.filename, z.read(i)) for i in z.infolist() if not i.is_dir() and keep_name(i.filename)]
+
+
 def list_inbox(inbox: Path) -> list[Path]:
-    return sorted(p for p in inbox.iterdir() if p.is_file() and not p.name.startswith(".") and p.name != "Thumbs.db")
+    """Every document in the folder, including sub-folders (a batch is often a folder of folders)."""
+    return sorted((p for p in inbox.rglob("*") if p.is_file() and keep_name(str(p.relative_to(inbox)))), key=lambda p: (p.name, str(p)))
 
 
 # --------------------------------------------------------------------------------------
@@ -451,6 +482,8 @@ def extract_many(extractor: Extractor, docs: list[IntakeDoc], concurrency: int =
         try:
             if d.kind == "unsupported":
                 raise ExtractionUnavailable(f"unsupported file type '{d.path.suffix}'")
+            if d.kind == "corrupt":
+                raise ExtractionUnavailable("the file is damaged and cannot be opened; ask the vendor to resend it")
             res = extractor.extract(d)
         except ExtractionUnavailable as e:
             res = (None, f"unavailable: {e}")

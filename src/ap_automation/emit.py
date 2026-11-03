@@ -11,7 +11,7 @@ from pathlib import Path
 import openpyxl
 from openpyxl.styles import Font
 
-from .config import Config
+from .config import ROOT, Config
 from .engine import RunResult
 from .models import DocResult
 from .reference import MasterData
@@ -99,8 +99,19 @@ def _write_csv(path: Path, cols: list[str], rows: list[dict]) -> None:
         w.writerows(rows)
 
 
-def decision_record(r: DocResult) -> dict:
+def _shown(path: Path) -> str:
+    """Paths inside the project are written relative to it, so reports don't carry a local home folder."""
+    p = Path(path).resolve()
+    return str(p.relative_to(ROOT.resolve())) if p.is_relative_to(ROOT.resolve()) else str(p)
+
+
+def decision_record(r: DocResult, cfg: Config | None = None) -> dict:
+    b = r.bill
+    holds = [f for f in r.findings if f.hold]
     return {
+        "bill_header": {"doc_type": b.doc_type, "bill_date": str(b.bill_date), "gl_posting_date": str(b.gl_posting_date),
+                        "due_date": str(b.due_date), "term_name": b.term_name} if b else None,
+        "route": " + ".join(dict.fromkeys(cfg.route(f.code) for f in holds)) if cfg and holds else "",
         "file_name": r.file_name, "sha256": r.sha256, "decision": r.decision, "category": r.category, "doc_kind": r.doc_kind,
         "vendor_id": r.vendor_id, "vendor_name": r.vendor_name, "bill_no": r.bill_no, "dup_key": f"{r.vendor_id}|{r.bill_no_norm}",
         "amount": str(r.amount) if r.amount is not None else None, "project_id": r.project_id, "reference_no": r.reference_no,
@@ -108,7 +119,8 @@ def decision_record(r: DocResult) -> dict:
         "findings": [f.as_dict() for f in r.findings], "approvers": r.approvers, "trace": r.trace,
         "bill_lines": [{"acct": l.acct_no, "loc": l.location_id, "dept": l.department_id, "project": l.project_id, "task": l.task_id,
                         "cost_type": l.cost_type_id, "memo": l.memo, "amount": str(l.amount)} for l in (r.bill.lines if r.bill else [])],
-        "entrata_rows": [{"gl": e.entrata_gl, "amount": str(e.amount), "description": e.description} for e in r.entrata_rows],
+        "entrata_rows": [{"gl": e.entrata_gl, "amount": str(e.amount), "description": e.description, "post_month": e.post_month,
+                          "due_date": str(e.due_date), "approver": e.approver} for e in r.entrata_rows],
         "extraction_source": r.extraction_source,
         "extraction": r.extraction.model_dump(mode="json") if r.extraction else None,
         "supersedes_sha": r.supersedes, "returns_sha": r.returns,
@@ -128,9 +140,9 @@ def write_outputs(cfg: Config, md: MasterData, rr: RunResult) -> None:
     _write_csv(out / "approvals.csv", APPR_COLS, arows)
     with open(out / "decisions.jsonl", "w") as f:
         for r in rr.results:
-            f.write(json.dumps(decision_record(r), sort_keys=True) + "\n")
+            f.write(json.dumps(decision_record(r, cfg), sort_keys=True) + "\n")
     (out / "run_meta.json").write_text(json.dumps({
-        "run_id": rr.run_id, "inbox": str(rr.inbox), "inbox_name": rr.inbox.name, "what_if": rr.what_if,
+        "run_id": rr.run_id, "inbox": _shown(rr.inbox), "inbox_name": rr.inbox.name, "what_if": rr.what_if,
         "extractor": rr.extractor, "policy_hash": cfg.policy_hash, "started_at": datetime.now().isoformat(timespec="seconds"),
         "ref_warnings": rr.ref_warnings,
     }, indent=2))
@@ -173,7 +185,7 @@ def _counts(rr: RunResult) -> dict:
 def render_markdown(cfg: Config, rr: RunResult, irows, erows, xrows, arows) -> str:
     c = _counts(rr)
     L = [f"# Run report: {rr.run_id}", "",
-         f"- Inbox: `{rr.inbox}`",
+         f"- Inbox: `{_shown(rr.inbox)}`",
          f"- Extraction: `{rr.extractor}` · model `{cfg.settings['extraction']['model']}` · prompt `{cfg.settings['extraction']['prompt_version']}`",
          f"- Policy hash: `{cfg.policy_hash}` · Ledger: " + ("**NOT updated (what-if run)**" if rr.what_if else "**recorded** (committed right after these outputs were written)"),
          f"- Processing order (credits first, then date, then name): {', '.join(rr.order)}", "",
@@ -234,7 +246,7 @@ h1{{font-size:20px}} h2{{font-size:16px;margin-top:28px;border-bottom:1px solid 
 th{{background:var(--tile)}} details{{margin:6px 0;padding:6px 8px;background:var(--tile);border-radius:6px}}
 </style></head><body>
 <h1>AP run report: {html.escape(rr.run_id)}</h1>
-<div class="meta">Inbox {html.escape(str(rr.inbox))} · extraction {html.escape(rr.extractor)} · model {html.escape(cfg.settings['extraction']['model'])} ·
+<div class="meta">Inbox {html.escape(_shown(rr.inbox))} · extraction {html.escape(rr.extractor)} · model {html.escape(cfg.settings['extraction']['model'])} ·
 policy {cfg.policy_hash} · ledger: {'NOT updated (what-if run)' if rr.what_if else 'recorded'}</div>
 <h2>Control totals</h2><div class="tiles">{tiles}</div>
 <p class="meta">{c['_all'][0]} documents in, {fmt_money(c['_all'][1])} total.</p>

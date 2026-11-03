@@ -1,0 +1,73 @@
+{
+  "doc_kind": "invoice",
+  "markings": [
+    "PAST DUE"
+  ],
+  "vendor_name": "Ridgeway Equipment Rental Inc",
+  "vendor_address": "2280 Augusta Rd, Lexington, SC 29072",
+  "vendor_phone": "(803) 555-0177",
+  "vendor_email": null,
+  "vendor_id_printed": null,
+  "remit_to": "2280 Augusta Rd, Lexington, SC 29072",
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Construction, LLC",
+  "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": "Pointe Grand Columbia jobsite",
+  "document_number": "RER77310",
+  "document_date": "2026-10-05",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": "PO2410315-014",
+  "references": [
+    "PO2410315-014"
+  ],
+  "service_period_start": null,
+  "service_period_end": null,
+  "line_items": [
+    {
+      "description": "Telehandler + delivery",
+      "quantity": 1.0,
+      "unit": "LS",
+      "unit_price": 5200.0,
+      "amount": 5200.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    },
+    {
+      "description": "Scissor lift + delivery",
+      "quantity": 1.0,
+      "unit": "LS",
+      "unit_price": 1345.0,
+      "amount": 1345.0,
+      "is_freight_or_delivery": false,
+      "change_order_ref": null
+    }
+  ],
+  "subtotal": 6545.0,
+  "tax_lines": [
+    {
+      "label": "SC sales tax 8%",
+      "rate_percent": 8.0,
+      "amount": 523.6
+    }
+  ],
+  "total": 7068.6,
+  "pay_application": null,
+  "lien_waiver": null,
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [],
+  "embedded_instructions": [],
+  "extraction_warnings": [],
+  "observations": []
+}

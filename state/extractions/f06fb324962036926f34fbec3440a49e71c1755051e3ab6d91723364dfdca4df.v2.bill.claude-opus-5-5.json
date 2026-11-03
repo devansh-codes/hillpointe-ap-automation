@@ -1,0 +1,84 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO241088-031",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-17",
+    "document_number": "55700",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 1000.0,
+        "change_order_ref": null,
+        "description": "Manifold, 8 port",
+        "is_freight_or_delivery": false,
+        "quantity": 4.0,
+        "unit": "EA",
+        "unit_price": 250.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Tax is labeled GA sales tax while vendor address is in Florida.",
+      "PO reference PO241088-031 has a shorter numeric segment than the typical PO format."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO241088-031"
+    ],
+    "remit_to": "Copperline Plumbing Supply Inc, PO Box 2207, Jacksonville, FL 32203",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Kingsland East",
+    "subtotal": 1000.0,
+    "tax_lines": [
+      {
+        "amount": 70.0,
+        "label": "GA sales tax",
+        "rate_percent": 7.0
+      }
+    ],
+    "term_end": null,
+    "term_start": null,
+    "total": 1070.0,
+    "vendor_address": "PO Box 2207, Jacksonville, FL 32203",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Copperline Plumbing Supply Inc",
+    "vendor_phone": "(904) 555-0158"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:06:20+00:00",
+    "file_name": "SYN_A07a_original_same_batch.pdf",
+    "input_tokens": 1974,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 675,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 5.7,
+    "sha256": "f06fb324962036926f34fbec3440a49e71c1755051e3ab6d91723364dfdca4df"
+  }
+}

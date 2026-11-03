@@ -4,7 +4,7 @@ LABELS = --labels tests/fixtures/labels --labels tests/fixtures/labels/refs
 FLAGS = $(if $(filter offline,$(MODE)),--offline,)$(if $(filter labels,$(MODE)),$(LABELS),)
 AP = uv run ap
 
-.PHONY: install test doctor evidence demo synthetic eval clean-outputs
+.PHONY: install test doctor evidence demo synthetic eval ui site
 
 install:            ## one-time setup
 	uv sync
@@ -24,6 +24,9 @@ evidence:           ## deliverable 3: reset ledger → Batch 01 → rerun Batch 
 
 ui:                 ## open the web app for the AP team (http://127.0.0.1:8765)
 	$(AP) ui
+
+site:               ## build the read-only public demo (GitHub Pages) into site/
+	uv run python scripts/build_site.py site
 
 demo: install doctor evidence   ## fresh clone → all evidence
 

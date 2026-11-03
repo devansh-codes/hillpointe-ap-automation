@@ -1,0 +1,111 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "Subcontract SC2410315-09",
+    "doc_kind": "pay_application",
+    "document_date": "2026-09-29",
+    "document_number": "TCD-2410-02",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": {
+      "amount": 57600.0,
+      "claimant": "Tri County Drywall Inc",
+      "payment_kind": "progress",
+      "present_in_document": true,
+      "project": "Pointe Grand Columbia",
+      "stated_to_follow_separately": false,
+      "through_date": "2026-09-30",
+      "waiver_type": "conditional"
+    },
+    "line_items": [],
+    "markings": [
+      "RESUBMITTED"
+    ],
+    "monthly_fee": null,
+    "notes": [
+      "Resubmitted with conditional waiver attached.",
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Diagonal RESUBMITTED watermark on page 1.",
+      "Document is marked resubmitted but does not cite a prior invoice number it replaces.",
+      "Waiver on page 2 has no signature, date-signed or notary block.",
+      "Waiver through date 2026-09-30 is one day after the application date 2026-09-29.",
+      "No billing period dates are printed on the application."
+    ],
+    "original_contract_sum": null,
+    "pay_application": {
+      "application_no": "2",
+      "change_orders_mentioned": [],
+      "contract_sum_to_date": 458000.0,
+      "current_payment_due": 57600.0,
+      "lines_this_period": [
+        {
+          "change_order_ref": null,
+          "description": "Building 1 hang",
+          "retainage_this_period": 3800.0,
+          "work_this_period": 38000.0
+        },
+        {
+          "change_order_ref": null,
+          "description": "Building 1 tape and finish, partial",
+          "retainage_this_period": 2600.0,
+          "work_this_period": 26000.0
+        }
+      ],
+      "net_change_by_change_orders": 0.0,
+      "original_contract_sum": 458000.0,
+      "period_end": null,
+      "period_start": null,
+      "previous_certificates": 36900.0,
+      "retainage_percent": 10.0,
+      "retainage_to_date": 10500.0,
+      "total_completed_to_date": 105000.0,
+      "total_earned_less_retainage": 94500.0
+    },
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SC2410315-09"
+    ],
+    "remit_to": null,
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": null,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 57600.0,
+    "vendor_address": "702 Sunset Blvd, West Columbia, SC 29169",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Tri County Drywall Inc",
+    "vendor_phone": "(803) 555-0126"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:30:13+00:00",
+    "file_name": "APINBOX_0120.pdf",
+    "input_tokens": 3752,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 1256,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 10.5,
+    "sha256": "3c42778d38da6df1dc98c2c8d818bd7f989af6f067a01d78380e79c698bc6c6c"
+  }
+}

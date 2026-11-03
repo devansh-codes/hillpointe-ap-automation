@@ -1,0 +1,75 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Pointe Grand Athens\nc/o Hillpointe Property Management, LLC\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Pointe Grand Athens",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "SA-PGATH-2026",
+    "doc_kind": "invoice",
+    "document_date": "2026-11-01",
+    "document_number": "MPS-4502",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 1475.0,
+        "change_order_ref": null,
+        "description": "Pool and spa maintenance, weekly service and chemicals, November 2026",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "MO",
+        "unit_price": 1475.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SA-PGATH-2026"
+    ],
+    "remit_to": "Magnolia Pool Services LLC, 210 Prince Ave, Athens, GA 30601",
+    "replaces_document_number": null,
+    "service_period_end": "2026-11-30",
+    "service_period_start": "2026-11-01",
+    "ship_to_or_project_text": "Pointe Grand Athens, Athens, GA",
+    "subtotal": 1475.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 1475.0,
+    "vendor_address": "210 Prince Ave, Athens, GA 30601",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Magnolia Pool Services LLC",
+    "vendor_phone": "(706) 555-0119"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:29:57+00:00",
+    "file_name": "APINBOX_0105.png",
+    "input_tokens": 1537,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 629,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 5.7,
+    "sha256": "96bf9d06abd53b3bf9ca38adecb0771ecde784aff3767f3dd0c5a161d8ffe825"
+  }
+}

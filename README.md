@@ -7,6 +7,9 @@ ever entered twice.
 **How it works, in one line:** Claude (AI) *reads* each document into fixed fields; plain, predictable code applies
 Hillpointe's AP policy, does the arithmetic, checks duplicates and decides. Anything unclear is held for a person, never guessed.
 
+**Live demo (read-only):** https://devansh-codes.github.io/hillpointe-ap-demo/ shows the submitted runs in the web app.
+Processing and rule changes need the local app (below). Rebuild it with `make site`.
+
 ---
 
 ## 1. One-time setup (about 5 minutes)
@@ -101,6 +104,14 @@ uv run ap run <folder>                          # re-decide under the new rule
 uv run ap diff <old run id> <new run id>        # exactly which documents changed, and why
 ```
 
+**Rehearse the live session:** `tests/synthetic/interview_drill.zip` is a 33-document blind batch of every kind of
+document (answer key: `tests/synthetic/INTERVIEW_DRILL_ANSWER_KEY.md`). Restore `submitted`, then import and run it.
+
+**Discard a test or mistaken run** (latest run only; snapshot + archive + audit log; same as **Delete** in the web app):
+```bash
+uv run ap delete-run <run id>
+```
+
 ## 6. "Why did it decide that?"
 
 ```bash
@@ -122,7 +133,7 @@ same amount monthly. Revised invoices: only one version is ever entered. Details
 ## 8. For developers and reviewers
 
 ```bash
-make test          # 102 tests, no API key needed (hand-labelled fixtures + synthetic hold-out set)
+make test          # 139 tests, no API key needed (hand-labelled fixtures + synthetic hold-out set)
 make evidence      # reset ledger → Batch 01 → rerun Batch 01 → Batch 02 → snapshot 'submitted'
 make eval          # score Claude's extraction against hand labels (needs API key)
 ```

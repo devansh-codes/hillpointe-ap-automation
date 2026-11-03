@@ -1,0 +1,78 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": null,
+    "doc_kind": "invoice",
+    "document_date": "2026-10-23",
+    "document_number": "PSL-2210",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 4250.0,
+        "change_order_ref": null,
+        "description": "Construction staking, Buildings 5-6 foundations",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 4250.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "New customer: please send your W-9 request to billing@palmettosurvey.example.",
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Customer Ref field is blank; no PO, subcontract or agreement number appears on the document.",
+      "Vendor identifies itself as a new customer relationship.",
+      "An email address (billing@palmettosurvey.example) appears only in the W-9 note, not in the letterhead."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Due on receipt",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [],
+    "remit_to": "Palmetto Survey and Layout LLC, 77 Gervais St, Columbia, SC 29201",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": 4250.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 4250.0,
+    "vendor_address": "77 Gervais St, Columbia, SC 29201",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Palmetto Survey and Layout LLC",
+    "vendor_phone": "(803) 555-0199"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:30:05+00:00",
+    "file_name": "APINBOX_0112.pdf",
+    "input_tokens": 1987,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 852,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 7.8,
+    "sha256": "71d6882b32701539a357dd1bc704e84ea50fbe288ad57fda718e00bff5d88835"
+  }
+}

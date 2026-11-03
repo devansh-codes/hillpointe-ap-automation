@@ -1,0 +1,91 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "Subcontract SC241088-04",
+    "doc_kind": "pay_application",
+    "document_date": "2026-10-31",
+    "document_number": "LOE-55620",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "No application period dates are printed.",
+      "No lien waiver is included or mentioned.",
+      "No signature or certification block is present on the application."
+    ],
+    "original_contract_sum": null,
+    "pay_application": {
+      "application_no": "4",
+      "change_orders_mentioned": [],
+      "contract_sum_to_date": 640000.0,
+      "current_payment_due": 72000.0,
+      "lines_this_period": [
+        {
+          "change_order_ref": null,
+          "description": "Buildings 5-6 rough electrical",
+          "retainage_this_period": 8000.0,
+          "work_this_period": 80000.0
+        }
+      ],
+      "net_change_by_change_orders": 0.0,
+      "original_contract_sum": 640000.0,
+      "period_end": null,
+      "period_start": null,
+      "previous_certificates": 117000.0,
+      "retainage_percent": 10.0,
+      "retainage_to_date": 21000.0,
+      "total_completed_to_date": 210000.0,
+      "total_earned_less_retainage": 189000.0
+    },
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 45",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "SC241088-04"
+    ],
+    "remit_to": null,
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Kingsland East",
+    "subtotal": null,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 72000.0,
+    "vendor_address": "3100 Glynn Ave, Brunswick, GA 31520",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Live Oak Electric LLC",
+    "vendor_phone": "(912) 555-0133"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:06:28+00:00",
+    "file_name": "SYN_A17_contract_not_on_file.pdf",
+    "input_tokens": 2066,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 945,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 8.2,
+    "sha256": "5ba5ea5d8ff56c17bae6bdec265bd13b57878317e163efe66bc0b3c5e3cccbea"
+  }
+}

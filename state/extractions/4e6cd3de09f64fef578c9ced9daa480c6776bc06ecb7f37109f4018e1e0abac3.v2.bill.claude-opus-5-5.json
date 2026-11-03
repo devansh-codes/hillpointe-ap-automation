@@ -1,0 +1,84 @@
+{
+  "extraction": {
+    "bank_details_printed": "First Coast Bank, account ending 4418",
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO2410315-008",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-24",
+    "document_number": "PBS-604590",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 1000.0,
+        "change_order_ref": null,
+        "description": "Hurricane ties and hangers",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 1000.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Remit-to street address (2100 Assembly St) differs from letterhead PO Box 9183.",
+      "Invoice requests payment to a new bank account at First Coast Bank."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": "Effective immediately please remit all payments to our new account at First Coast Bank, account ending 4418.",
+    "payment_instruction_change_requested": true,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO2410315-008"
+    ],
+    "remit_to": "Pinecrest Building Supply Co, 2100 Assembly St, Columbia, SC 29201",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": 1000.0,
+    "tax_lines": [
+      {
+        "amount": 80.0,
+        "label": "SC sales tax",
+        "rate_percent": 8.0
+      }
+    ],
+    "term_end": null,
+    "term_start": null,
+    "total": 1080.0,
+    "vendor_address": "PO Box 9183, Columbia, SC 29290",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Pinecrest Building Supply Co",
+    "vendor_phone": "(803) 555-0190"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:30:03+00:00",
+    "file_name": "APINBOX_0113.pdf",
+    "input_tokens": 2001,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 724,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 5.7,
+    "sha256": "4e6cd3de09f64fef578c9ced9daa480c6776bc06ecb7f37109f4018e1e0abac3"
+  }
+}

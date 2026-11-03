@@ -60,6 +60,12 @@ Format: lightweight [MADR](https://adr.github.io/madr/). New decisions are appen
 - **Why:** A teammate who checks out the branch gets the context automatically. Submodules need `--recurse-submodules`
   and can silently fall out of step with the code.
 
+## ADR-0008 — Python 3.12 + uv toolchain
+- **Status:** Accepted · 2026-11-02
+- **Decision:** Python 3.12, `uv` for env/lock, `pydantic` v2, `anthropic` SDK, `pdfplumber`, `pypdfium2`, `openpyxl`,
+  `pyyaml`, `typer`, `rich`, `rapidfuzz`, `pytest`, `reportlab` (synthetic test PDFs only). `Decimal` for all money.
+- **Why:** Best PDF/Excel ecosystem; `uv sync` gives a one-command, lock-file-reproducible setup.
+
 ## ADR-0009 — Live-session-first CLI: what-if runs, ledger snapshots, diff, explain, doctor, fault isolation
 - **Status:** Accepted · 2026-11-02
 - **Context:** The live session carries most of the weight. We must run unseen invoices unedited, then apply a rule change
@@ -71,12 +77,6 @@ Format: lightweight [MADR](https://adr.github.io/madr/). New decisions are appen
 - **Consequences:** About 1.25 h more build time, deliberately prioritised over polish. Idempotency is preserved because
   what-if runs never write the ledger and restores are explicit and logged.
 
-## ADR-0008 — Python 3.12 + uv toolchain
-- **Status:** Accepted · 2026-11-02
-- **Decision:** Python 3.12, `uv` for env/lock, `pydantic` v2, `anthropic` SDK, `pdfplumber`, `pypdfium2`, `openpyxl`,
-  `pyyaml`, `typer`, `rich`, `rapidfuzz`, `pytest`, `reportlab` (synthetic test PDFs only). `Decimal` for all money.
-- **Why:** Best PDF/Excel ecosystem; `uv sync` gives a one-command, lock-file-reproducible setup.
-
 ## ADR-0010 — Repeatability without temperature; label fixtures as the extraction answer key
 - **Status:** Accepted · 2026-11-02
 - **Context:** The planned control "temperature = 0" isn't available on Claude Opus 5.5 / API 2026-10-21. No API key was
@@ -86,6 +86,17 @@ Format: lightweight [MADR](https://adr.github.io/madr/). New decisions are appen
   fixtures (LabelExtractor) and as the scoring key for `ap eval-extraction`.
 - **Consequences:** The decision engine is fully verified independently of the model. Model accuracy is measured separately
   and explicitly rather than assumed.
+
+## ADR-0011 — Output enforcement per document role; token-efficiency practices
+- **Status:** Accepted · 2026-11-02
+- **Context:** First real API calls: structured outputs rejected the invoice schema (optional-field limit, then union limit, then
+  grammar size). Prompt v1 caused over-use of `extraction_warnings`, so confidence was miscalibrated.
+- **Decision:** (1) Bills use validated JSON (schema in the system prompt, strict Pydantic validation, one repair turn); references
+  use API-enforced JSON schema; automatic fallback when a schema is too large. (2) Union-free API schema encoding (`""`, digit
+  strings, single-item lists) converted back by `from_api`. (3) Prompt v2 separates uncertainty from observations. (4) Effort
+  medium, chosen by measurement. (5) Prompt caching on the role-specific system prompt, warmed by the first request.
+- **Consequences:** 32/32 extraction accuracy, 24/24 on unseen synthetic documents, ≈ $0.03/document. Any future prompt or
+  schema change bumps `prompt_version` and is re-scored with `make eval` before use.
 
 ## ADR-0012 — Web UI as a thin layer over the CLI engine
 - **Status:** Accepted · 2026-11-02
@@ -99,13 +110,15 @@ Format: lightweight [MADR](https://adr.github.io/madr/). New decisions are appen
 - **Consequences:** Everything the CLI does is visible and clickable (run, exceptions by route, document beside its decision,
   ledger, snapshots, rule preview/apply/undo). The CLI stays the source of truth and keeps working unchanged.
 
-## ADR-0011 — Output enforcement per document role; token-efficiency practices
+## ADR-0013 — Deleting a run: latest-only, reversible, audited
 - **Status:** Accepted · 2026-11-02
-- **Context:** First real API calls: structured outputs rejected the invoice schema (optional-field limit, then union limit, then
-  grammar size). Prompt v1 caused over-use of `extraction_warnings`, so confidence was miscalibrated.
-- **Decision:** (1) Bills use validated JSON (schema in the system prompt, strict Pydantic validation, one repair turn); references
-  use API-enforced JSON schema; automatic fallback when a schema is too large. (2) Union-free API schema encoding (`""`, digit
-  strings, single-item lists) converted back by `from_api`. (3) Prompt v2 separates uncertainty from observations. (4) Effort
-  medium, chosen by measurement. (5) Prompt caching on the role-specific system prompt, warmed by the first request.
-- **Consequences:** 32/32 extraction accuracy, 24/24 on unseen synthetic documents, ≈ $0.03/document. Any future prompt or
-  schema change bumps `prompt_version` and is re-scored with `make eval` before use.
+- **Context:** The AP team needs to discard a test or mistaken batch. A run is not just files: it writes entered bills,
+  PO consumption, waivers on file and supersede flags to the ledger, and every later run decided against that state
+  (duplicates, PO balances, returned documents).
+- **Decision:** Only the latest recorded run (or any preview) can be deleted. A run with later runs on top of it is
+  refused, with the alternative named (delete newest first, or restore a snapshot). Deleting undoes exactly the rows that run
+  recorded, in one transaction, after saving a `before-delete-<run>` snapshot. The output folder is moved to
+  `state/deleted_runs/`, not erased, and `state/audit_log.jsonl` records who, when and what. The UI shows the impact (records,
+  bills and amount removed, and that the ERP is not touched) and requires typing `DELETE`. The CLI equivalent is `ap delete-run`.
+- **Consequences:** Rerunning a deleted batch gives identical decisions (tested). No silent history rewrite: a mid-history
+  run cannot vanish while later decisions that depended on it remain.

@@ -18,6 +18,9 @@ from ..util import digits, money, norm_phone, norm_text
 from . import rule
 
 D0 = Decimal("0")
+# A line that starts "Invoice No. X" / "Invoice # X" / "Credit Memo No. X" is a document header. Two different header numbers
+# in one file = more than one document. (Mentions inside a sentence, e.g. "applies to Invoice No. X", are not headers.)
+_INVOICE_NO = re.compile(r"^\s*(?:invoice|credit\s+memo|bill)\s*(?:no\.?|number|num\.?|#)\s*[:#]?\s*([A-Z0-9-]*\d[A-Z0-9-]*)", re.I | re.M)
 
 
 def _d(x) -> Decimal:
@@ -30,13 +33,16 @@ def not_a_bill(ctx) -> list[Finding]:
     """§11: anything that is not a bill or credit is not entered (logged as OTHER)."""
     if ctx.is_bill:
         return []
-    kind = ctx.ex.doc_kind.replace("_", " ")
+    kind = "a " + ctx.ex.doc_kind.replace("_", " ")
     extra = ""
     if ctx.ex.doc_kind == "lien_waiver":
         extra = " Recorded as a waiver on file so a held pay application can be re-checked against it."
     elif ctx.ex.doc_kind in ("purchase_order", "subcontract", "service_agreement"):
         extra = " If it should be used for matching, add it to the purchase orders folder."
-    return [Finding("OTHER", f"Document is a {kind}, not a bill or credit; nothing to enter.{extra}", "§11")]
+    if ctx.ex.doc_kind == "other":
+        return [Finding("OTHER", "Document is not a bill or credit (for example a W-9, quote or insurance certificate); nothing to enter. "
+                                 "Pass it to whoever owns it (vendor master, compliance or the project manager).", "§11")]
+    return [Finding("OTHER", f"Document is {kind}, not a bill or credit; nothing to enter.{extra}", "§11")]
 
 
 @rule("extraction_quality")
@@ -49,6 +55,17 @@ def extraction_quality(ctx) -> list[Finding]:
     out += check_arithmetic(ctx.ex, _d(pol.get("arithmetic_tolerance", 0.01)))
     if ctx.bill_date is None:
         out.append(Finding("OTHER", "No readable document date.", "§7", confidence="Low"))
+    related = {norm_bill_no(n) for n in (ctx.ex.credit_applies_to_invoice, ctx.ex.replaces_document_number) if n}
+    numbers = sorted({norm_bill_no(m): m for m in _INVOICE_NO.findall(ctx.doc.text) if norm_bill_no(m) not in related}.values())
+    if len(numbers) > 1:
+        out.append(Finding("OTHER", f"The file appears to hold more than one invoice ({', '.join(numbers)}). Split it so each bill "
+                                    "is checked and entered on its own.", "§11", confidence="Low"))
+    if ctx.bill_date is not None:
+        opens = ctx.md.open_periods((ctx.policy.get("periods") or {}).get("open_period_override"))
+        if opens and f"{ctx.bill_date:%Y-%m}" > max(opens):
+            out.append(Finding("WARN", f"Bill dated {ctx.bill_date:%m/%d/%Y}, in a future period. Per §6 it posts on the first day of the current "
+                                       f"open period ({opens[0]}); confirm with the controller whether to hold it until that period opens.",
+                               "§6 / A-23", hold=False))
     for w in ctx.ex.extraction_warnings:
         out.append(Finding("WARN", f"Reader was unsure: {w}", hold=False, confidence="Medium"))
     for o in ctx.ex.observations:

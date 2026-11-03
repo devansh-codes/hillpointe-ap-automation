@@ -1,0 +1,87 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO2410315-011",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-30",
+    "document_number": "CSS-88745",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 960.0,
+        "change_order_ref": null,
+        "description": "Portable restroom, weekly service, November 2026",
+        "is_freight_or_delivery": false,
+        "quantity": 6.0,
+        "unit": "EA",
+        "unit_price": 160.0
+      },
+      {
+        "amount": 280.0,
+        "change_order_ref": null,
+        "description": "Handwash station, weekly service, November 2026",
+        "is_freight_or_delivery": false,
+        "quantity": 2.0,
+        "unit": "EA",
+        "unit_price": 140.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Invoice dated 2026-10-30 bills service for November 2026 in advance.",
+      "No tax lines printed."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Due upon receipt",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO2410315-011"
+    ],
+    "remit_to": "Coastal Site Services LLC, 1190 Louisville Rd, Savannah, GA 31415",
+    "replaces_document_number": null,
+    "service_period_end": "2026-11-30",
+    "service_period_start": "2026-11-01",
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": 1240.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 1240.0,
+    "vendor_address": "1190 Louisville Rd, Savannah, GA 31415",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Coastal Site Services LLC",
+    "vendor_phone": "(912) 555-0122"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:06:19+00:00",
+    "file_name": "SYN_A08_recurring_same_amount_new_month.pdf",
+    "input_tokens": 2000,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 723,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 5.4,
+    "sha256": "ac7b0d022cf7393189296a2ee76372bd63b87f5e55b1b72de195895427dd0d4f"
+  }
+}

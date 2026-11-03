@@ -12,6 +12,8 @@ from ap_automation.cli import app
 from ap_automation.extract import CachedExtractor, ClaudeExtractor, ExtractionUnavailable, intake
 from ap_automation.ledger import Ledger
 from ap_automation.models import ExtractedDocument
+import pytest
+
 from conftest import B1, LABELS, by_file, codes, run_labels
 from ap_automation.config import ROOT as ROOT_
 
@@ -236,3 +238,95 @@ def test_cli_loads_dotenv_without_overriding(tmp_path, monkeypatch):
     cli_mod._load_dotenv()
     assert os.environ["AP_TEST_A"] == "from-file" and os.environ["AP_TEST_B"] == "shell"
     monkeypatch.delenv("AP_TEST_A")
+
+
+def test_delete_latest_run_restores_ledger_and_is_reversible(make_cfg):
+    """Deleting a run undoes exactly what it recorded; only the latest recorded run may go; it is snapshotted,
+    archived and audit-logged."""
+    import json
+    import sqlite3
+
+    import pytest
+
+    from conftest import B2
+    from ap_automation.ledger import Ledger
+    from ap_automation.runs import RunDeleteRefused, delete_impact, delete_run, run_dirs
+
+    cfg = make_cfg()
+    db = cfg.state_dir / "ap_ledger.db"
+    dump = lambda: {t: sorted(map(tuple, sqlite3.connect(db).execute(f"SELECT * FROM {t}")))  # noqa: E731
+                    for t in ("entered_bills", "po_consumption", "waivers_on_file", "runs")} | {
+        "docs": sorted(sqlite3.connect(db).execute("SELECT run_id, file_name, decision, superseded FROM documents"))}
+    run_labels(cfg, B1)
+    before = dump()
+    first_b2 = run_labels(cfg, B2)
+    b1_id, b2_id = [p.name for p in run_dirs(cfg)]
+
+    imp = delete_impact(cfg, b1_id)
+    assert imp["blocked"] and imp["later_runs"] == [b2_id]
+    with pytest.raises(RunDeleteRefused):
+        delete_run(cfg, b1_id)
+
+    imp = delete_impact(cfg, b2_id)
+    assert (imp["recorded"], imp["documents"], imp["entered"], imp["entered_amount"]) == (True, 5, 2, "19128.80")
+    entry = delete_run(cfg, b2_id, actor="test")
+    assert dump() == before  # incl. APINBOX_0012 no longer superseded by 0018
+    assert [p.name for p in run_dirs(cfg)] == [b1_id] and (cfg.state_dir / "deleted_runs" / b2_id / "decisions.jsonl").exists()
+    assert json.loads((cfg.state_dir / "audit_log.jsonl").read_text().splitlines()[-1])["run_id"] == b2_id
+    assert entry["ledger_snapshot"] in Ledger(cfg.state_dir).list_snapshots()
+
+    again = run_labels(cfg, B2)
+    assert {f: (r.decision, codes(r)) for f, r in by_file(again).items()} == \
+           {f: (r.decision, codes(r)) for f, r in by_file(first_b2).items()}
+
+
+@pytest.mark.parametrize("override, file, expect", [
+    ({"vendor_overrides__V1003__terms": "Net 45"}, "APINBOX_0005.pdf", "term name Net 15 → Net 45"),
+    ({"periods__open_period_override": "2026-11"}, "APINBOX_0008.pdf", "Entrata post month 10/2026 → 11/2026"),
+    ({"exception_codes__OVERPO__route": "Supply Chain"}, "APINBOX_0001.pdf", "route 'Project Manager and Supply Chain' → 'Supply Chain'"),
+])
+def test_diff_reports_changes_beyond_the_decision(make_cfg, override, file, expect):
+    """A rule change that moves terms, dates, Entrata post month or a route (not the decision) must show in diff/preview."""
+    from ap_automation.runs import compare_runs, load_records
+
+    base = run_labels(make_cfg(), B1, what_if=True)
+    new = run_labels(make_cfg(**override), B1, what_if=True)
+    rows = {r["file_name"]: r for r in compare_runs(load_records(base.out_dir), load_records(new.out_dir))}
+    assert file in rows and any(expect in w for w in rows[file]["why"]), rows.get(file)
+
+
+def test_damaged_files_are_held_and_the_batch_continues(make_cfg, tmp_path):
+    import shutil
+
+    inbox = tmp_path / "inbox"
+    inbox.mkdir()
+    (inbox / "BAD.docx").write_text("not a zip")
+    (inbox / "BAD.pdf").write_bytes(b"%PDF-1.4 truncated")
+    shutil.copyfile(B1 / "APINBOX_0005.pdf", inbox / "APINBOX_0005.pdf")
+    res = by_file(run_labels(make_cfg(), inbox))
+    for f in ("BAD.docx", "BAD.pdf"):
+        assert res[f].decision == "HELD" and "damaged" in res[f].findings[0].message
+    assert res["APINBOX_0005.pdf"].decision == "ENTERED"
+
+
+def test_cli_runs_a_zip_or_a_folder_of_folders(tmp_path, monkeypatch):
+    import shutil
+    import zipfile
+
+    from typer.testing import CliRunner
+
+    from ap_automation import cli
+
+    nested = tmp_path / "batch" / "vendor_a"
+    nested.mkdir(parents=True)
+    shutil.copyfile(B1 / "APINBOX_0005.pdf", nested / "APINBOX_0005.pdf")
+    common = ["--labels", str(LABELS[0]), "--labels", str(LABELS[1]), "--state-dir", str(tmp_path / "s"), "--out-dir", str(tmp_path / "o")]
+    r = CliRunner().invoke(cli.app, ["run", str(tmp_path / "batch"), *common])
+    assert r.exit_code == 0 and "Entered 1" in r.output, r.output
+    with zipfile.ZipFile(tmp_path / "drop.zip", "w") as z:
+        z.write(B1 / "APINBOX_0010.pdf", "Invoices/APINBOX_0010.pdf")
+        z.writestr("__MACOSX/Invoices/._APINBOX_0010.pdf", b"junk")
+    r = CliRunner().invoke(cli.app, ["run", str(tmp_path / "drop.zip"), *common])
+    assert r.exit_code == 0 and "Unpacked 1 files" in r.output and "Entered 1" in r.output, r.output
+    (tmp_path / "empty").mkdir()
+    assert CliRunner().invoke(cli.app, ["run", str(tmp_path / "empty"), *common]).exit_code == 1

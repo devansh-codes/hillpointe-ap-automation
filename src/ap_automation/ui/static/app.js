@@ -9,7 +9,31 @@ const money = (v) => (v === null || v === undefined || v === "" ? "—" : Number
 const enc = encodeURIComponent;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// Read-only static build (GitHub Pages, scripts/build_site.py): every GET is a pre-exported file; nothing can be changed.
+const STATIC = !!window.AP_STATIC;
+const DEMO_MSG = "Read-only demo: processing, imports, deletes and rule changes run in the local app (uv run ap ui).";
+const A = (p) => (STATIC ? p.slice(1) : p); // links to files: relative on the static site
+
+function staticUrl(path) {
+  const [p, q] = path.replace(/^\//, "").split("?");
+  const qs = new URLSearchParams(q || "");
+  if (p === "api/diff") return `api/diff/${enc(qs.get("a"))}__${enc(qs.get("b"))}.json`;
+  if (p.startsWith("api/source/")) return p + ".json"; // only non-PDF/image sources are fetched as text
+  return p + ".json";
+}
+
 async function api(path, opts = {}) {
+  if (STATIC) {
+    if (opts.method && opts.method !== "GET") throw new Error(DEMO_MSG);
+    if (path.startsWith("/api/search")) {
+      const q = new URLSearchParams(path.split("?")[1]).get("q").toLowerCase().trim();
+      S.searchIndex ||= await (await fetch("api/search_index.json")).json();
+      return q ? S.searchIndex.filter((h) => h.hay.includes(q)).slice(0, 25) : [];
+    }
+    const r = await fetch(staticUrl(path));
+    if (!r.ok) throw new Error(r.status === 404 ? "Not available in the read-only demo." : r.statusText);
+    return r.json();
+  }
   const r = await fetch(path, { headers: opts.body instanceof FormData ? {} : { "Content-Type": "application/json" }, ...opts });
   if (!r.ok) {
     let msg = r.statusText;
@@ -57,6 +81,7 @@ const ICONS = {
   refresh: '<path d="M20 12a8 8 0 1 1-2.4-5.7L20 8.5"/><path d="M20 3.5v5h-5"/>',
   file: '<path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3v5h5"/>',
   x: '<path d="M18 6 6 18M6 6l12 12"/>',
+  trash: '<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>',
   external: '<path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>',
   receipt: '<path d="M5 3h14v18l-2.5-1.7L14 21l-2-1.7L10 21l-2.5-1.7L5 21z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
   steps: '<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/>',
@@ -71,7 +96,8 @@ const DECISION = {
 };
 const pill = (d) => `<span class="pill ${esc(d)}">${esc(DECISION[d] || d)}</span>`;
 const codeChips = (codes) => (codes || []).map((c) => `<span class="code">${esc(c)}</span>`).join("");
-const conf = (c) => `<span class="conf ${esc(c)}"><span class="dot"></span>${esc(c)}</span>`;
+// Confidence is only shown when it is not High: a single "Check reading" flag where the AI was unsure.
+const conf = (c, why = "") => (!c || c === "High" ? "" : `<span class="check-flag" title="${esc(why || "The AI was not fully sure of this reading. Spot-check it against the document.")}">${icon("alert", "sm")}Check reading</span>`);
 
 function prettyBatch(name) {
   return String(name || "")
@@ -121,7 +147,8 @@ function runSentence(sum) {
     s = `${n("ALREADY_PROCESSED")} document${n("ALREADY_PROCESSED") > 1 ? "s were" : " was"} already processed, so nothing was entered twice. ` + s;
   }
   const c = sum.confidence || {};
-  s += ` Confidence: ${c.High || 0} High, ${c.Medium || 0} Medium, ${c.Low || 0} Low.`;
+  const unsure = (c.Medium || 0) + (c.Low || 0);
+  if (unsure) s += ` ${unsure} reading${unsure > 1 ? "s" : ""} to spot-check.`;
   return s.trim();
 }
 
@@ -149,7 +176,6 @@ function renderSidebar() {
   const routes = {};
   for (const c of Object.values(S.policy?.codes || {})) routes[c.route] = 0;
   for (const e of S.exc) routes[e.route || "AP Manager"] = (routes[e.route || "AP Manager"] || 0) + 1;
-  const st = S.status;
   const u = S.usage;
   const cachedShare = u && u.input + u.cache_read ? Math.round((100 * u.cache_read) / (u.input + u.cache_read + u.cache_write)) : 0;
   const latestRun = (name) => S.runs.find((r) => r.inbox_name === name && !r.what_if);
@@ -163,10 +189,6 @@ function renderSidebar() {
       <div class="team-row">
         <div class="avatar">AP</div>
         <div style="min-width:0"><div class="team-name">AP Team</div><div class="team-sub">Hillpointe · Accounts Payable</div></div>
-      </div>
-      <div class="team-row action" onclick="openStatus()">
-        <span class="dot ${st ? (st.ok ? "ok" : "bad") : "warn"}"></span>
-        ${st ? (st.ok ? "System ready" : "System needs attention") : "Checking system…"}
       </div>
     </div>
     <nav class="nav">
@@ -204,6 +226,9 @@ function renderSidebar() {
 function toggleSide(k) { S.sideOpen[k] = !S.sideOpen[k]; store.set("side", S.sideOpen); renderSidebar(); }
 
 function renderTopbar() {
+  if (STATIC && !$("#demoBar")) {
+    $(".main").insertAdjacentHTML("afterbegin", `<div id="demoBar" class="demo-bar">${icon("sparkle", "sm")}<span><b>Read-only demo</b> of the Hillpointe AP system, showing the submitted runs (Batch 01, its rerun, Batch 02). Processing new invoices and changing rules happen in the local app.</span></div>`);
+  }
   $("#topbar").innerHTML = `
     <div class="search" onclick="openPalette()">${icon("search")}<span>Search invoices, vendors, codes</span><kbd>⌘K</kbd></div>
     <div class="grow"></div>
@@ -274,6 +299,7 @@ function viewHome(filter) {
             <span class="chip" title="Entered or handed to Entrata">${icon("checkbox", "sm")}${done}</span>
             <span class="chip" title="Held for a person">${icon("alert", "sm")}${held}</span>
             ${again ? `<span class="chip" title="Already processed, skipped">${icon("refresh", "sm")}${again}</span>` : ""}
+            ${STATIC ? "" : `<button class="chip chip-btn" title="Delete this run" onclick="event.stopPropagation(); openDeleteRun('${esc(r.run_id)}')">${icon("trash", "sm")}</button>`}
           </div>
         </div>
       </div>`;
@@ -311,7 +337,7 @@ async function viewRun(id, tab) {
   const held = recs.filter((x) => x.decision === "HELD" || x.decision === "NOT_A_BILL");
   const appr = recs.filter((x) => x.approvers?.length);
   const xlsx = r.files.find((f) => f.startsWith("AP_Bill_Import_"));
-  const dl = (f, label) => (r.files.includes(f) ? `<a class="btn outline sm" href="/api/runs/${enc(id)}/file/${enc(f)}">${icon("download", "sm")}${label}</a>` : "");
+  const dl = (f, label) => (r.files.includes(f) ? `<a class="btn outline sm" href="${A(`/api/runs/${enc(id)}/file/${enc(f)}`)}">${icon("download", "sm")}${label}</a>` : "");
   const intacctLines = entered.flatMap((x) => x.bill_lines.map((l, i) => ({ ...l, rec: x, line: i + 1 })));
   const intacctTotal = intacctLines.reduce((a, l) => a + Number(l.amount), 0);
   const tabs = [["docs", "Documents", recs.length], ["intacct", "Intacct import", intacctLines.length], ["entrata", "Entrata handoff", entrata.length],
@@ -324,13 +350,12 @@ async function viewRun(id, tab) {
       <td>${esc(x.vendor_name || "—")}<div class="sub">${esc(x.vendor_id || "")}</div></td>
       <td class="mono">${esc(x.bill_no || "—")}</td>
       <td class="num">${money(x.amount)}</td>
-      <td>${pill(x.decision)}</td>
+      <td>${pill(x.decision)} ${conf(x.confidence, x.confidence_reason)}</td>
       <td>${codeChips(x.hold_codes)}</td>
-      <td>${conf(x.confidence)}</td>
     </tr>`;
   let body = "";
   if (tab === "docs") {
-    body = `<div class="table-wrap"><table><thead><tr><th>#</th><th>Document</th><th>Vendor</th><th>Invoice</th><th class="num">Amount</th><th>Decision</th><th>Codes</th><th>Confidence</th></tr></thead>
+    body = `<div class="table-wrap"><table><thead><tr><th>#</th><th>Document</th><th>Vendor</th><th>Invoice</th><th class="num">Amount</th><th>Decision</th><th>Codes</th></tr></thead>
       <tbody>${recs.map(docRow).join("")}</tbody></table></div>
       <p class="muted small">Processing order: credits first, then by bill date, so a credit is applied before a later invoice is checked against the PO.</p>`;
   } else if (tab === "intacct") {
@@ -369,6 +394,7 @@ async function viewRun(id, tab) {
         <div class="row" style="justify-content:flex-end">
           ${others.length ? `<button class="btn outline sm" onclick="openCompare('${esc(id)}')">${icon("compare", "sm")}Compare</button>` : ""}
           ${r.inbox ? `<button class="btn outline sm" onclick="openRunModal('${esc(r.inbox_name)}')">${icon("refresh", "sm")}Run again</button>` : ""}
+          ${STATIC ? "" : `<button class="btn danger sm" onclick="openDeleteRun('${esc(id)}')">${icon("trash", "sm")}Delete</button>`}
         </div>
       </div>
       ${r.what_if ? `<div class="banner">${icon("sparkle")}<div><b>Preview — nothing was recorded.</b> ${esc(r.note || "This what-if run wrote its files but didn't touch the ledger.")}</div></div>` : ""}
@@ -382,7 +408,7 @@ async function viewRun(id, tab) {
       <div class="row" style="margin-bottom:18px">
         ${xlsx ? dl(xlsx, "Excel (Intacct template)") : ""}${dl("intacct_bill_import.csv", "Intacct CSV")}${dl("entrata_handoff.csv", "Entrata handoff")}
         ${dl("exception_log.csv", "Exception log")}${dl("approvals.csv", "Approvals")}
-        ${r.files.includes("run_report.html") ? `<a class="btn outline sm" target="_blank" href="/api/runs/${enc(id)}/file/run_report.html">${icon("external", "sm")}Run report</a>` : ""}
+        ${r.files.includes("run_report.html") ? `<a class="btn outline sm" target="_blank" href="${A(`/api/runs/${enc(id)}/file/run_report.html`)}">${icon("external", "sm")}Run report</a>` : ""}
       </div>
       <div class="tabs">${tabs.map(tabBtn).join("")}</div>
       ${body}
@@ -404,7 +430,7 @@ async function viewDoc(id, file) {
   const holds = x.findings.filter((f) => f.hold);
   const notes = x.findings.filter((f) => !f.hold);
   const ext = file.split(".").pop().toLowerCase();
-  const src = `/api/source/${enc(id)}/${enc(file)}`;
+  const src = A(`/api/source/${enc(id)}/${enc(file)}`);
   const viewer = ["pdf"].includes(ext) ? `<iframe src="${src}#view=FitH" title="${esc(file)}"></iframe>`
     : ["png", "jpg", "jpeg"].includes(ext) ? `<img src="${src}" alt="${esc(file)}">` : `<pre id="srcText">Loading…</pre>`;
   const lines = x.bill_lines || [];
@@ -424,13 +450,13 @@ async function viewDoc(id, file) {
             ${x.project_id ? `<span class="sep"></span><span>Project ${esc(x.project_id)}</span>` : ""}
             ${x.reference_no ? `<span class="sep"></span><span>${esc(x.reference_no)}</span>` : ""}</div>
           <div class="amount-big">${money(x.amount)}</div>
-          <div class="row" style="margin-bottom:16px;flex-wrap:nowrap;align-items:flex-start">${conf(x.confidence)}<span class="muted small clamp2" title="${esc(x.confidence_reason)}">${esc(x.confidence_reason)}</span></div>
+          ${x.confidence && x.confidence !== "High" ? `<div class="row" style="margin-bottom:16px;flex-wrap:nowrap;align-items:flex-start">${conf(x.confidence, x.confidence_reason)}<span class="muted small clamp2" title="${esc(x.confidence_reason)}">${esc(x.confidence_reason)}</span></div>` : ""}
 
           <div class="section" id="why">
             <h3>${icon("checkbox")}${holds.length ? "Why it's held" : "Decision"}<span class="hint">every rule runs on every document</span></h3>
             ${holds.length ? holds.map((f) => `
               <div class="finding"><span class="code">${esc(f.code)}</span><div class="msg">${esc(f.message)}</div>
-                <div class="route"><span>Route: <b>${esc(routeOf(f.code))}</b></span>${f.policy_ref ? `<span>Policy ${esc(f.policy_ref)}</span>` : ""}<span>${esc(f.confidence)} confidence</span></div></div>`).join("")
+                <div class="route"><span>Route: <b>${esc(routeOf(f.code))}</b></span>${f.policy_ref ? `<span>Policy ${esc(f.policy_ref)}</span>` : ""}</div></div>`).join("")
               : `<p style="margin:0">${x.decision === "ENTERED" ? "Every check passed. The bill is in the Intacct import file." : x.decision === "ENTRATA_HANDOFF" ? "Every check passed. Stabilized community, so it goes to Property Accounting for Entrata." : x.decision === "ALREADY_PROCESSED" ? "This exact file was entered in an earlier run, so it is skipped. Nothing is entered twice." : "No holds."}</p>`}
             ${notes.length ? `<div style="margin-top:12px">${notes.map((f) => `<div class="finding"><span class="code ${f.code === "WARN" ? "warn" : "info"}">${esc(f.code)}</span><div class="msg">${esc(f.message)}</div>${f.policy_ref ? `<div class="route"><span>Policy ${esc(f.policy_ref)}</span></div>` : ""}</div>`).join("")}</div>` : ""}
           </div>
@@ -480,7 +506,7 @@ async function viewDoc(id, file) {
       <button data-tip="Step by step" onclick="$('#trace').scrollIntoView({behavior:'smooth'})">${icon("steps")}</button>
     </div>`;
   if (!["pdf", "png", "jpg", "jpeg"].includes(ext)) {
-    api(src).then((d) => { const el = $("#srcText"); if (el) el.textContent = d.text; }).catch((e) => { const el = $("#srcText"); if (el) el.textContent = e.message; });
+    api(STATIC ? "/" + src : src).then((d) => { const el = $("#srcText"); if (el) el.textContent = d.text; }).catch((e) => { const el = $("#srcText"); if (el) el.textContent = e.message; });
   }
 }
 
@@ -489,7 +515,7 @@ function excCard(e) {
   const f = e.findings || [];
   return `
     <div class="exc" onclick="location.hash='#/doc/${enc(e.run_id)}/${enc(e.file_name)}'">
-      <div class="top">${pill(e.decision)}${codeChips(e.codes)}${conf(e.confidence)}</div>
+      <div class="top">${pill(e.decision)}${codeChips(e.codes)}${conf(e.confidence, e.confidence_reason)}</div>
       <div class="amt">${money(e.total ?? e.amount)}</div>
       <div class="who">${esc(e.vendor_name || "Unknown vendor")} <span class="muted" style="font-weight:400">· <span class="mono">${esc(e.bill_no_raw || "")}</span> · ${esc(e.file_name)}</span></div>
       <div></div>
@@ -537,11 +563,11 @@ async function viewLedger(tab) {
         <td class="mono">${esc(e.vendor_id)}|${esc(e.bill_no_norm)}</td><td>${esc(e.system)}</td><td>${esc(e.doc_type)}</td><td>${esc(e.bill_date)}</td><td class="num">${money(e.amount)}</td><td>${esc(e.file_name)}</td></tr>`).join("")}
       </tbody></table></div>` : `<div class="empty"><h3>Nothing entered yet</h3></div>`;
   } else if (tab === "register") {
-    body = `<div class="row" style="margin-bottom:12px"><a class="btn outline sm" href="/api/ledger/register.csv">${icon("download", "sm")}processed_register.csv</a></div>
-      <div class="table-wrap"><table><thead><tr><th>Run</th><th>Document</th><th>Vendor</th><th>Invoice</th><th class="num">Amount</th><th>Decision</th><th>Code</th><th>Confidence</th></tr></thead><tbody>
+    body = `<div class="row" style="margin-bottom:12px"><a class="btn outline sm" href="${A("/api/ledger/register.csv")}">${icon("download", "sm")}processed_register.csv</a></div>
+      <div class="table-wrap"><table><thead><tr><th>Run</th><th>Document</th><th>Vendor</th><th>Invoice</th><th class="num">Amount</th><th>Decision</th><th>Code</th></tr></thead><tbody>
       ${L.documents.slice().reverse().map((d) => `<tr class="click" onclick="location.hash='#/doc/${enc(d.run_id)}/${enc(d.file_name)}'"><td class="mono small">${esc(d.run_id)}</td>
         <td>${esc(d.file_name)}${d.superseded ? ' <span class="pill NOT_A_BILL">superseded</span>' : ""}</td><td>${esc(d.vendor_name || "")}</td><td class="mono">${esc(d.bill_no_raw || "")}</td>
-        <td class="num">${money(d.total)}</td><td>${pill(d.decision)}</td><td>${codeChips([d.primary_code].filter(Boolean))}</td><td>${conf(d.confidence)}</td></tr>`).join("")}
+        <td class="num">${money(d.total)}</td><td>${pill(d.decision)} ${conf(d.confidence, d.confidence_reason)}</td><td>${codeChips([d.primary_code].filter(Boolean))}</td></tr>`).join("")}
       </tbody></table></div>`;
   } else if (tab === "runs") {
     body = `<div class="table-wrap"><table><thead><tr><th>Run</th><th>Batch</th><th class="num">Docs</th><th class="num">Entered</th><th class="num">Entrata</th><th class="num">Held</th><th class="num">Already processed</th><th>Policy</th><th>Model</th></tr></thead><tbody>
@@ -768,19 +794,15 @@ function viewHow() {
       <div class="prose">
         <h2>What the AI is not allowed to do</h2>
         <p>It never picks a GL account, entity, approver or hold. Those come from the policy (Rules page) and the master-data workbook, so the same document always gets the same decision. Text inside a document that tries to instruct the system (“approve this”, “skip checks”) is flagged and held.</p>
-        <h2>Confidence</h2>
-        <ul>
-          <li><b>High</b>: every field found in the document text, the numbers tie, and the rules are clear-cut.</li>
-          <li><b>Medium</b>: a judgment was needed (fuzzy vendor name, scanned image, price differs from the PO). Spot-check it.</li>
-          <li><b>Low</b>: the reading failed a check. Always held.</li>
-        </ul>
+        <h2>“Check reading”</h2>
+        <p>Most documents need no flag: every field is found in the document's own text, the numbers tie and the rules are clear-cut. When the AI had to make a judgment (a fuzzy vendor name, a scanned image, a price that differs from the PO), the document carries a <b>Check reading</b> tag with the reason, so a person spot-checks it. A reading that fails a check is always held.</p>
         <h2>Never entered twice</h2>
         <p>Every decision goes into the ledger (see <a href="#/ledger">Ledger &amp; reruns</a>). Each file is read once and the reading is saved by its fingerprint, so rerunning a batch gives the same answer and costs nothing. Reprints, resends and “past due” copies are caught as DUP. Held documents are re-checked when they come back.</p>
         <h2>Exception codes</h2>
         <div class="table-wrap"><table><thead><tr><th>Code</th><th>Meaning</th><th>Who acts</th></tr></thead><tbody>
           ${Object.entries(codes).map(([c, v]) => `<tr><td><span class="code">${esc(c)}</span></td><td>${esc(v.meaning)}</td><td>${esc(v.route)}</td></tr>`).join("")}</tbody></table></div>
         <h2>What still needs a person</h2>
-        <ul><li>Every held document, routed by code.</li><li>Medium-confidence entries.</li><li>Approvals, listed for every bill.</li><li>Treasury's call-back on any bank or contact change, using the number on file.</li></ul>
+        <ul><li>Every held document, routed by code.</li><li>Entries tagged <b>Check reading</b>.</li><li>Approvals, listed for every bill.</li><li>Treasury's call-back on any bank or contact change, using the number on file.</li></ul>
       </div>
     </div>`;
 }
@@ -797,6 +819,54 @@ function confirmBox(title, text, okLabel) {
     $("#cbNo").onclick = () => { closeModal(); resolve(false); };
     $("#cbYes").onclick = () => { closeModal(); resolve(true); };
   });
+}
+
+async function openDeleteRun(id) {
+  let m;
+  try { m = await api(`/api/runs/${enc(id)}/delete-impact`); } catch (e) { return toast(e.message, true); }
+  const run = S.runs.find((r) => r.run_id === m.run_id);
+  const when = run ? `${dayLabel(run.started_at)}, ${timeLabel(run.started_at)}` : "";
+  const what = `<b>${esc(prettyBatch(m.inbox_name))}</b>${when ? ` (processed ${esc(when)})` : ""}<div class="small mono muted" style="margin-top:4px">Run ID: ${esc(m.run_id)}</div>`;
+  if (m.blocked) {
+    return modal(`
+      <div class="modal-head"><h2>This run cannot be deleted</h2><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div>
+      <div class="modal-body"><p style="margin-top:0">${what}</p>
+        <div class="banner warn">${icon("alert")}<div>${esc(m.blocked)}</div></div>
+        <div class="group-label">Recorded after this run</div>
+        <div class="small mono">${m.later_runs.map(esc).join("<br>")}</div></div>
+      <div class="modal-foot"><button class="btn" onclick="closeModal()">Close</button></div>`);
+  }
+  const effects = m.recorded ? [
+    `<b>${m.documents}</b> document record${m.documents === 1 ? "" : "s"} will be removed from the processed-invoice ledger.`,
+    m.entered ? `<b>${m.entered}</b> bill${m.entered === 1 ? "" : "s"} recorded as entered or handed off (<b>${esc(money(+m.entered_amount))}</b>) will be removed. The duplicate check will no longer recognise ${m.entered === 1 ? "it" : "them"}, and ${m.entered === 1 ? "it" : "they"} can be processed again.` : "",
+    "PO balances, lien waivers on file and superseded originals recorded by this run will be reverted.",
+    "This action does <b>not</b> change Sage Intacct or Entrata. If the import file from this run was already loaded, reverse those entries in the ERP separately.",
+  ] : ["This was a preview. Nothing was recorded in the ledger, so only the output files are affected."];
+  modal(`
+    <div class="modal-head"><h2>Delete run?</h2><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div>
+    <div class="modal-body">
+      <p style="margin-top:0">You are about to delete the results of ${what}</p>
+      <div class="banner warn" style="margin-bottom:12px">${icon("alert")}<div><b>Review the impact before continuing.</b></div></div>
+      <ul class="impact">${effects.filter(Boolean).map((e) => `<li>${e}</li>`).join("")}</ul>
+      <p class="small muted">${m.recorded ? "A ledger snapshot is saved before deletion, the output files are archived rather than erased, and the action is recorded in the audit log." : "The output files are archived rather than erased, and the action is recorded in the audit log."}</p>
+      <div class="group-label">To confirm, type <span class="mono">DELETE</span></div>
+      <input class="field" id="delConfirm" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="modal-foot"><button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn destructive" id="delGo" disabled>${icon("trash", "sm")}Delete run</button></div>`);
+  const inp = $("#delConfirm"), go = $("#delGo");
+  inp.focus();
+  inp.oninput = () => (go.disabled = inp.value.trim() !== "DELETE");
+  go.onclick = async () => {
+    go.disabled = true;
+    try {
+      const res = await api(`/api/runs/${enc(m.run_id)}`, { method: "DELETE", body: JSON.stringify({ confirm: "DELETE" }) });
+      closeModal();
+      await loadAll();
+      if (location.hash.startsWith("#/run/")) location.hash = "#/"; else route();
+      toast(res.ledger_snapshot ? `Run deleted. Ledger snapshot saved as ${res.ledger_snapshot}.` : "Preview deleted.");
+    } catch (e) { toast(e.message, true); go.disabled = false; }
+  };
 }
 
 async function watchJob(job, title, sub) {
@@ -848,36 +918,79 @@ function openRunModal(preselect) {
   draw();
 }
 
+const READABLE = /\.(pdf|png|jpe?g|docx|zip)$/i;
+const isJunk = (rel) => rel.split("/").some((p) => p.startsWith(".") || p === "__MACOSX") || /(^|\/)(thumbs\.db|desktop\.ini)$/i.test(rel);
+
+// A dropped folder arrives as directory entries: walk them so every document inside is picked up.
+async function walkEntry(entry, prefix = "") {
+  if (entry.isFile) return [{ file: await new Promise((ok, no) => entry.file(ok, no)), rel: prefix + entry.name }];
+  const reader = entry.createReader(), out = [];
+  for (;;) {
+    const batch = await new Promise((ok, no) => reader.readEntries(ok, no));
+    if (!batch.length) break;
+    for (const e of batch) out.push(...(await walkEntry(e, `${prefix}${entry.name}/`)));
+  }
+  return out;
+}
+
 function openImport() {
-  let files = [];
+  let items = [], name = "";
+  const add = (list) => {
+    const seen = new Set(items.map((i) => i.rel));
+    for (const i of list) if (!isJunk(i.rel) && !seen.has(i.rel)) { items.push(i); seen.add(i.rel); }
+    const top = list.find((i) => i.rel.includes("/"))?.rel.split("/")[0];
+    if (!name && top) name = top;
+    draw();
+  };
   const draw = () => {
+    name = $("#batchName")?.value ?? name;
+    const odd = items.filter((i) => !READABLE.test(i.rel)).length;
+    const zips = items.filter((i) => /\.zip$/i.test(i.rel)).length;
+    const shown = items.slice(0, 12);
     modal(`
       <div class="modal-head"><h2>Import documents</h2><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div>
       <div class="modal-body">
-        <div class="drop" id="drop">${icon("upload")}<div style="margin-top:8px"><b>Drop invoices here</b> or click to choose</div><div class="small">PDF, scanned images (PNG/JPG) and Word files</div></div>
+        <div class="drop" id="drop">${icon("upload")}<div style="margin-top:8px"><b>Drop a folder, files or a .zip here</b></div>
+          <div class="small">PDF, scanned images (PNG/JPG) and Word files. Sub-folders are included.</div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+            <button class="btn" id="pickFiles">${icon("upload", "sm")}Choose files</button>
+            <button class="btn" id="pickFolder">${icon("folder", "sm")}Choose folder</button></div></div>
         <input type="file" id="fileIn" multiple hidden>
-        ${files.length ? `<div class="group-label">${files.length} file${files.length > 1 ? "s" : ""}</div><div class="small">${files.map((f) => esc(f.name)).join("<br>")}</div>` : ""}
-        <div class="group-label">Batch name</div><input class="field" id="batchName" placeholder="e.g. november-week-1" value="${esc($("#batchName")?.value || "")}">
+        <input type="file" id="dirIn" webkitdirectory multiple hidden>
+        ${items.length ? `<div class="group-label" style="display:flex;justify-content:space-between">${items.length} file${items.length > 1 ? "s" : ""}${zips ? ` (${zips} .zip, unpacked on upload)` : ""}<a href="#" id="clearAll" class="small">Clear</a></div>
+          <div class="small mono" style="max-height:160px;overflow:auto">${shown.map((i) => esc(i.rel)).join("<br>")}${items.length > shown.length ? `<br><span class="muted">…and ${items.length - shown.length} more</span>` : ""}</div>
+          ${odd ? `<div class="banner warn" style="margin:10px 0 0">${icon("alert")}<div>${odd} file${odd > 1 ? "s are" : " is"} not PDF, image or Word. ${odd > 1 ? "They" : "It"} will be uploaded and held for a person as <b>can't read</b>, never guessed.</div></div>` : ""}` : ""}
+        <div class="group-label">Batch name</div><input class="field" id="batchName" placeholder="e.g. november-week-1" value="${esc(name)}">
         <p class="muted small">Saved to <span class="mono">inbox/&lt;date&gt;_&lt;name&gt;/</span>. Nothing is processed until you run it.</p>
       </div>
-      <div class="modal-foot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" id="goUp" ${files.length ? "" : "disabled"}>${icon("upload", "sm")}Upload</button></div>`);
-    const drop = $("#drop"), inp = $("#fileIn");
+      <div class="modal-foot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" id="goUp" ${items.length ? "" : "disabled"}>${icon("upload", "sm")}Upload ${items.length || ""}</button></div>`);
+    const drop = $("#drop"), inp = $("#fileIn"), dir = $("#dirIn");
     drop.onclick = () => inp.click();
-    inp.onchange = () => { files = [...files, ...inp.files]; draw(); };
+    $("#pickFiles").onclick = (e) => { e.stopPropagation(); inp.click(); };
+    $("#pickFolder").onclick = (e) => { e.stopPropagation(); dir.click(); };
+    inp.onchange = () => add([...inp.files].map((f) => ({ file: f, rel: f.name })));
+    dir.onchange = () => add([...dir.files].map((f) => ({ file: f, rel: f.webkitRelativePath || f.name })));
+    if ($("#clearAll")) $("#clearAll").onclick = (e) => { e.preventDefault(); items = []; name = ""; $("#batchName").value = ""; draw(); };
     drop.ondragover = (e) => { e.preventDefault(); drop.classList.add("over"); };
     drop.ondragleave = () => drop.classList.remove("over");
-    drop.ondrop = (e) => { e.preventDefault(); files = [...files, ...e.dataTransfer.files]; draw(); };
+    drop.ondrop = async (e) => {
+      e.preventDefault();
+      const entries = [...e.dataTransfer.items].map((i) => i.webkitGetAsEntry?.()).filter(Boolean);
+      add(entries.length ? (await Promise.all(entries.map((en) => walkEntry(en)))).flat() : [...e.dataTransfer.files].map((f) => ({ file: f, rel: f.name })));
+    };
     $("#goUp").onclick = async () => {
       const fd = new FormData();
-      files.forEach((f) => fd.append("files", f));
+      items.forEach((i) => fd.append("files", i.file, i.rel));
       fd.append("name", $("#batchName").value);
+      $("#goUp").disabled = true;
+      $("#goUp").textContent = `Uploading ${items.length}…`;
       try {
         const res = await api("/api/upload", { method: "POST", body: fd });
         S.inboxes = await api("/api/inboxes");
         renderSidebar();
-        toast(`Uploaded ${res.files.length} file${res.files.length > 1 ? "s" : ""}`);
+        toast(`Uploaded ${res.files.length} document${res.files.length > 1 ? "s" : ""}`);
         openRunModal(res.path);
-      } catch (e) { toast(e.message, true); }
+      } catch (e) { toast(e.message, true); draw(); }
     };
   };
   draw();

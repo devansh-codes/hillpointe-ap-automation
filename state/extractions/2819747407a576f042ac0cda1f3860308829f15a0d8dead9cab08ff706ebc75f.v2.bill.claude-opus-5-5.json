@@ -1,0 +1,84 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": "HPA-31877",
+    "customer_ref_raw": "PO241088-022",
+    "doc_kind": "credit_memo",
+    "document_date": "2026-10-26",
+    "document_number": "CM-HPA-0412",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": -768.0,
+        "change_order_ref": null,
+        "description": "Credit: 20 tons returned, wrong gradation",
+        "is_freight_or_delivery": false,
+        "quantity": -20.0,
+        "unit": "TON",
+        "unit_price": 38.4
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "Credit applies to original invoice HPA-31877.",
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "PO reference PO241088-022 has a 6-digit project prefix."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "N/A",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO241088-022"
+    ],
+    "remit_to": "Harbor Point Aggregates LLC, 6020 Hwy 17, Richmond Hill, GA 31324",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Kingsland East, Kingsland, GA",
+    "subtotal": -768.0,
+    "tax_lines": [
+      {
+        "amount": -53.76,
+        "label": "Sales tax",
+        "rate_percent": 7.0
+      }
+    ],
+    "term_end": null,
+    "term_start": null,
+    "total": -821.76,
+    "vendor_address": "6020 Hwy 17, Richmond Hill, GA 31324",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Harbor Point Aggregates LLC",
+    "vendor_phone": "(912) 555-0148"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:29:59+00:00",
+    "file_name": "APINBOX_0108.pdf",
+    "input_tokens": 2023,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 914,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 8.3,
+    "sha256": "2819747407a576f042ac0cda1f3860308829f15a0d8dead9cab08ff706ebc75f"
+  }
+}

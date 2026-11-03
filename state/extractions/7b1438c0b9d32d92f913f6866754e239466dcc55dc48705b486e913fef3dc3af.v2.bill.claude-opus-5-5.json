@@ -1,0 +1,79 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": null,
+    "bill_to_name": null,
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": null,
+    "doc_kind": "other",
+    "document_date": "2026-10-30",
+    "document_number": "Q-89002",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 14640.0,
+        "change_order_ref": null,
+        "description": "Water heaters 50 gal, Bldgs 5-6",
+        "is_freight_or_delivery": false,
+        "quantity": 24.0,
+        "unit": "EA",
+        "unit_price": 610.0
+      }
+    ],
+    "markings": [
+      "QUOTE"
+    ],
+    "monthly_fee": null,
+    "notes": [
+      "QUOTE, valid 30 days. Not an invoice. Do not pay from this document.",
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Document is a quote, not an invoice; total is printed as 'Quoted total'.",
+      "No bill-to, project, PO or terms printed."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": null,
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [],
+    "remit_to": null,
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": null,
+    "subtotal": null,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 14640.0,
+    "vendor_address": "PO Box 2207, Jacksonville, FL 32203",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Copperline Plumbing Supply Inc",
+    "vendor_phone": "(904) 555-0158"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:30:17+00:00",
+    "file_name": "APINBOX_0130.pdf",
+    "input_tokens": 1806,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 543,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 4.9,
+    "sha256": "7b1438c0b9d32d92f913f6866754e239466dcc55dc48705b486e913fef3dc3af"
+  }
+}

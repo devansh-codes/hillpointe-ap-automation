@@ -9,3 +9,11 @@ output/_scratch*/
 ~$*
 inbox/
 state/policy_history/
+state/deleted_runs/
+site/
+# only the canonical ledger snapshots are part of the submission
+state/snapshots/*
+!state/snapshots/submitted.db
+!state/snapshots/pre-01_Invoice_Batch_01.db
+!state/snapshots/pre-07_Invoice_Batch_02_Rerun.db
+state/audit_log.jsonl

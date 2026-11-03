@@ -1,0 +1,88 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Customer: Hillpointe Construction, LLC",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": null,
+    "doc_kind": "statement",
+    "document_date": "2026-10-31",
+    "document_number": "STMT-2026-10",
+    "embedded_instructions": [],
+    "extraction_warnings": [
+      "total: the printed total is cut off at the page edge after \"Total o\", so the stated total amount cannot be read."
+    ],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 15102.07,
+        "change_order_ref": null,
+        "description": "Open item PBS-604418 (10/01/2026)",
+        "is_freight_or_delivery": false,
+        "quantity": null,
+        "unit": null,
+        "unit_price": null
+      },
+      {
+        "amount": 1080.0,
+        "change_order_ref": null,
+        "description": "Open item PBS-604590 (10/24/2026)",
+        "is_freight_or_delivery": false,
+        "quantity": null,
+        "unit": null,
+        "unit_price": null
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "Statement of account. Open items: PBS-604418 15,102.07 (10/01/2026); PBS-604590 1,080.00 (10/24/2026). Total o",
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "The document is a statement of account listing two open invoices, not a bill for new charges.",
+      "The page is marked as a fictional synthetic test document."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": null,
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [],
+    "remit_to": null,
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": null,
+    "subtotal": null,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": null,
+    "vendor_address": "PO Box 9183, Columbia, SC 29290",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Pinecrest Building Supply Co",
+    "vendor_phone": "(803) 555-0190"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:30:17+00:00",
+    "file_name": "APINBOX_0127.pdf",
+    "input_tokens": 1817,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 899,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 8.2,
+    "sha256": "d994e6cf25426d22f4dec90d0499139e0edf336d797a1e2a8c09c0952171783c"
+  }
+}

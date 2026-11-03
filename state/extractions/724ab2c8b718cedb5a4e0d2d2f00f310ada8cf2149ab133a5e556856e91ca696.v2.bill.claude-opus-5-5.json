@@ -1,0 +1,83 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO2410315-019",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-19",
+    "document_number": "HPA-32010",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 4300.0,
+        "change_order_ref": null,
+        "description": "Crushed aggregate base, delivered",
+        "is_freight_or_delivery": false,
+        "quantity": 100.0,
+        "unit": "TON",
+        "unit_price": 43.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Delivery is included in the aggregate unit rate; no separate freight line is shown."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO2410315-019"
+    ],
+    "remit_to": "Harbor Point Aggregates LLC, 6020 Hwy 17, Richmond Hill, GA 31324",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": 4300.0,
+    "tax_lines": [
+      {
+        "amount": 344.0,
+        "label": "SC sales tax",
+        "rate_percent": 8.0
+      }
+    ],
+    "term_end": null,
+    "term_start": null,
+    "total": 4644.0,
+    "vendor_address": "6020 Hwy 17, Richmond Hill, GA 31324",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Harbor Point Aggregates LLC",
+    "vendor_phone": "(912) 555-0148"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:06:20+00:00",
+    "file_name": "SYN_A09_unit_price_variance.pdf",
+    "input_tokens": 1985,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 661,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 5.6,
+    "sha256": "724ab2c8b718cedb5a4e0d2d2f00f310ada8cf2149ab133a5e556856e91ca696"
+  }
+}

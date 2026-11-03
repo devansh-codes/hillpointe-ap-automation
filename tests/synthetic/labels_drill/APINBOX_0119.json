@@ -1,0 +1,96 @@
+{
+  "doc_kind": "pay_application",
+  "markings": [
+    "RESUBMITTED"
+  ],
+  "vendor_name": "Summit Framing Group LLC",
+  "vendor_address": "415 Columbia Ave, Lexington, SC 29072",
+  "vendor_phone": "(803) 555-0165",
+  "vendor_email": null,
+  "vendor_id_printed": null,
+  "remit_to": null,
+  "bank_details_printed": null,
+  "payment_instruction_change_requested": false,
+  "payment_change_quote": null,
+  "bill_to_name": "Hillpointe Construction, LLC",
+  "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+  "ship_to_or_project_text": "Pointe Grand Columbia",
+  "document_number": "SFG-2410-05",
+  "document_date": "2026-09-30",
+  "printed_terms": "Net 30",
+  "customer_ref_raw": "Subcontract SC2410315-06",
+  "references": [
+    "SC2410315-06"
+  ],
+  "service_period_start": null,
+  "service_period_end": null,
+  "line_items": [],
+  "subtotal": null,
+  "tax_lines": [],
+  "total": 103140.0,
+  "pay_application": {
+    "application_no": "5",
+    "period_start": null,
+    "period_end": null,
+    "original_contract_sum": 884000.0,
+    "net_change_by_change_orders": 40900.0,
+    "contract_sum_to_date": 924900.0,
+    "total_completed_to_date": 626600.0,
+    "retainage_percent": 10.0,
+    "retainage_to_date": 62660.0,
+    "total_earned_less_retainage": 563940.0,
+    "previous_certificates": 460800.0,
+    "current_payment_due": 103140.0,
+    "change_orders_mentioned": [
+      "CO1",
+      "CO2"
+    ],
+    "lines_this_period": [
+      {
+        "description": "Building 5 wall framing",
+        "work_this_period": 54600.0,
+        "retainage_this_period": 5460.0,
+        "change_order_ref": null
+      },
+      {
+        "description": "Building 5 roof trusses set",
+        "work_this_period": 41600.0,
+        "retainage_this_period": 4160.0,
+        "change_order_ref": null
+      },
+      {
+        "description": "CO2 cabinet and grab bar blocking",
+        "work_this_period": 18400.0,
+        "retainage_this_period": 1840.0,
+        "change_order_ref": null
+      }
+    ]
+  },
+  "lien_waiver": {
+    "present_in_document": true,
+    "waiver_type": "conditional",
+    "payment_kind": "progress",
+    "claimant": "Summit Framing Group LLC",
+    "project": "Pointe Grand Columbia",
+    "amount": 103140.0,
+    "through_date": "2026-09-30",
+    "stated_to_follow_separately": false
+  },
+  "replaces_document_number": null,
+  "credit_applies_to_invoice": null,
+  "ref_project_text": null,
+  "ref_status": null,
+  "ref_lines": [],
+  "ref_total": null,
+  "original_contract_sum": null,
+  "change_orders": [],
+  "monthly_fee": null,
+  "term_start": null,
+  "term_end": null,
+  "notes": [
+    "Resubmitted with conditional waiver attached."
+  ],
+  "embedded_instructions": [],
+  "extraction_warnings": [],
+  "observations": []
+}

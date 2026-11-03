@@ -84,3 +84,36 @@ def test_rule_change_preview_then_save_and_apply(client):
     assert [x["file_name"] for x in res["changes"]] == ["APINBOX_0001.pdf"]
     hist = c.get("/api/policy").json()["history"]
     assert c.post(f"/api/policy/revert/{hist[0]['name']}").json()["ok"] and policy.read_text() == before
+
+
+def test_upload_accepts_a_folder_or_zip_and_flattens_it(tmp_path, monkeypatch):
+    import io
+    import zipfile
+
+    monkeypatch.setattr(server, "ROOT", tmp_path)
+    c = TestClient(server.app)
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr("scans/inv-9.pdf", b"%PDF-z")
+        z.writestr("__MACOSX/scans/._inv-9.pdf", b"junk")
+        z.writestr("../../escape.pdf", b"%PDF-e")
+    files = [("files", ("Nov/inv-1.pdf", b"%PDF-1")), ("files", ("Nov/vendorB/inv-1.pdf", b"%PDF-2")),
+             ("files", ("Nov/.DS_Store", b"x")), ("files", ("Nov/Thumbs.db", b"x")), ("files", ("more.zip", buf.getvalue()))]
+    res = c.post("/api/upload", files=files, data={"name": "Nov"}).json()
+    inbox = tmp_path / res["path"]
+    assert sorted(res["files"]) == ["inv-1.pdf", "inv-1_1.pdf", "inv-9.pdf"]  # "../" entries are dropped
+    assert sorted(p.name for p in inbox.iterdir()) == sorted(res["files"]) and not (tmp_path / "escape.pdf").exists()
+    assert c.post("/api/upload", files=[("files", (".DS_Store", b"x"))]).status_code == 400
+
+
+def test_delete_run_needs_typed_confirmation_and_latest_only(client):
+    c, _ = client
+    b1 = c.get("/api/runs").json()[0]["run_id"]
+    _wait(c, c.post("/api/run", json={"inbox": "07_Invoice_Batch_02_Rerun"}).json())
+    b2 = c.get("/api/runs").json()[0]["run_id"]
+    assert c.get(f"/api/runs/{b1}/delete-impact").json()["later_runs"] == [b2]
+    assert c.request("DELETE", f"/api/runs/{b1}", json={"confirm": "DELETE"}).status_code == 409
+    assert c.request("DELETE", f"/api/runs/{b2}", json={"confirm": "yes"}).status_code == 400
+    assert c.request("DELETE", f"/api/runs/{b2}", json={"confirm": "DELETE"}).json()["ledger_snapshot"] == f"before-delete-{b2}"
+    assert [r["run_id"] for r in c.get("/api/runs").json()] == [b1]
+    assert c.request("DELETE", f"/api/runs/{b1}", json={"confirm": "DELETE"}).status_code == 200

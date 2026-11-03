@@ -16,8 +16,8 @@ Entrata handoff, exception log and approvals. A ledger records every decision so
   the master (BANKCHG → Treasury call-back). Previous certificates are tied to history.
 - *On the output:* template validator (Intacct rejects the whole file on one bad row, so a failing bill is held instead);
   control totals in every run report; database-level uniqueness on vendor + normalised invoice number.
-- *Tested:* 102 automated tests: all 20 package documents, Batch 01 rerun, Batch 02, 24 unseen synthetic scenarios (new
-  layouts, scan, Word, revisions, returns, fraud signals, PO edges) and 11 rule-change drills.
+- *Tested:* 149 automated tests: all 20 package documents, Batch 01 rerun, Batch 02, 24 unseen synthetic scenarios (new
+  layouts, scan, Word, revisions, returns, fraud signals, PO edges), a 33-document mixed drill batch, and rule-change drills.
 
 **Batch results.** Batch 01: 6 bills to Intacct (11 lines, $152,562.56), 1 Entrata row, 8 held (OVERPO, NEWVEND, BANKCHG,
 2× DUP, UNAPPCO+LIEN, NOPO with likely PO named, LIEN+COI). Rerun: 0 new rows. Batch 02: 2 entered (incl. revised HPA-31877,
@@ -25,7 +25,7 @@ whose original was held), 3 DUP (reprint, resend, past-due).
 
 **What still needs a person**
 - Every held document, routed by code (PM, Supply Chain, Compliance, Treasury, Vendor Master, AP Manager), with the reason in plain English.
-- Medium-confidence entries (fuzzy vendor match, scanned image, price differs from PO, credit without its original on file).
+- Entries tagged *Check reading* (fuzzy vendor match, scanned image, price differs from PO, credit without its original on file).
 - Approvals (listed per bill), Treasury's call-back on bank changes, and voiding an original when a revision arrives after it was entered.
 
 **Time comparison (estimate).**
@@ -41,8 +41,14 @@ Roughly 80–85% less AP time, and the remaining time is judgment, not keying.
 1. Inbox connector (email / AP mailbox) and direct Intacct/Entrata API posting instead of CSV, with approval-workflow hand-off.
 2. Live ERP reads for PO balances, vendor master and history instead of extracts; a nightly vendor-master change monitor for BANKCHG.
 3. An extraction quality dashboard (`ap eval-extraction` on a growing labelled set, per-field accuracy, drift alerts on new vendors).
-4. A review UI where AP clears holds and the decision is written back to the ledger with the reviewer's name.
+4. In the web app: let AP clear a hold, with the decision and the reviewer's name written back to the ledger.
 5. Receiving records for a three-way match, and contract-level billing-to-date for subcontracts.
 
-*Measured with the real model:* extraction 32/32 against hand labels; 24/24 on unseen synthetic documents (new layouts, scan,
-Word, injection); ≈ $0.03 and ≈ 1.5 s of wall time per document (8 in parallel), with prompt caching saving ≈ 30%.
+*Measured with the real model:* extraction 32/32 against hand labels; decisions 24/24 on unseen synthetic documents and 33/33
+on the mixed drill batch (statements, W-9s, photos, a damaged file, two invoices in one PDF); ≈ $0.03 and ≈ 1.5 s of wall
+time per document (8 in parallel), with prompt caching saving ≈ 30%.
+
+**How to use it.** The AP team runs it from a local web app (`uv run ap ui`): run or import a batch (a folder or a .zip),
+open any document beside its decision and reasons, work the exceptions by route, and preview a rule change before saving.
+The same engine runs from the terminal (`./run.sh <folder>`). **AI tools used:** Claude Opus 5.5 for reading documents;
+Claude Code (Opus 5.5) to plan, build and test the system. Every session is logged in `governance/ai-usage-log/`.

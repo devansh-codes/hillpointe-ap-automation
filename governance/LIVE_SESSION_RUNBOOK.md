@@ -26,7 +26,7 @@ decision has a trace, and a ledger guarantees nothing is entered twice."
 
 ## 5–15 min — run their batch
 ```bash
-uv run ap run <path-to-their-folder> --open
+uv run ap run <path-to-their-folder-or-zip> --open    # a .zip is unpacked next to itself; sub-folders are included
 ```
 - Narrate the progress bar, then the summary: entered / Entrata / held, with $ control totals.
 - `run_report.html` opens. Walk through the Intacct lines → Entrata rows → exceptions by route → approvals.
@@ -34,8 +34,15 @@ uv run ap run <path-to-their-folder> --open
 
 ## 15–30 min — make their rule change
 1. Repeat the rule back in one sentence and name the policy key ("that's `overpo.tolerance` in policy.yaml").
-2. Edit `config/policy.yaml` → `uv run ap policy validate`. Run ids are printed at the end of each run (or `ls output/`).
-3. Re-decide the same batch:
+2. Optional safe preview first, before touching the real policy file:
+   ```bash
+   cp config/policy.yaml /tmp/policy_new.yaml     # edit the copy
+   uv run ap snapshot restore pre-<their-folder>
+   uv run ap run <path-to-their-folder> --policy /tmp/policy_new.yaml --what-if
+   uv run ap diff <baseline-run> <what-if-run>      # nothing recorded; diff also lists terms, dates, routes, coding lines
+   ```
+3. Edit `config/policy.yaml` → `uv run ap policy validate`. Run ids are printed at the end of each run (or `ls output/`).
+   Re-decide the same batch:
    ```bash
    uv run ap snapshot restore pre-<their-folder>
    uv run ap run <path-to-their-folder> --open
@@ -54,7 +61,7 @@ split, retainage, allocation) → confidence and reason → approvers. Then show
 `uv run ap explain` on any DUP.
 
 ## 40–45 min — what still needs a person and what's next
-Use the one-page summary: what needs a person (all holds, Medium-confidence entries, approvals), time saved, next steps.
+Use the one-page summary: what needs a person (all holds, entries tagged *Check reading*, approvals), time saved, next steps.
 
 ## If something goes wrong
 
@@ -63,4 +70,5 @@ Use the one-page summary: what needs a person (all holds, Medium-confidence entr
 | `doctor` red on API | Check `ANTHROPIC_API_KEY` / `ant auth status`; switch to the hotspot; worst case run `--offline` on a cached batch to show the flow, and explain |
 | Rate limited mid-run | Run completes with affected docs held (OTHER, "could not read"). Run the same command again: entered files are skipped, cached reads reused, only the failed ones are re-read |
 | Wrong-looking decision | Don't edit code live. `ap explain` it, say whether it's an extraction or rule issue, and what you'd change |
-| Accidentally committed a bad run | `ap snapshot restore pre-<folder>` |
+| Accidentally committed a bad run | `ap delete-run <run id>` (latest run; snapshot + archive + audit log), or `ap snapshot restore pre-<folder>` |
+| They hand over a zip or a folder of folders | Pass it as is: `ap run batch.zip` unpacks next to the zip; sub-folders are read too |

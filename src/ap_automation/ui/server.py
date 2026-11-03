@@ -6,6 +6,7 @@ Binds to 127.0.0.1 only.
 """
 from __future__ import annotations
 
+import io
 import json
 import re
 import shutil
@@ -13,6 +14,7 @@ import sqlite3
 import tempfile
 import threading
 import uuid
+import zipfile
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
@@ -23,9 +25,10 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from ..config import ROOT, PolicyError, load_config, validate_policy
-from ..extract import list_inbox
+from ..extract import keep_name, list_inbox, save_flat, unpack_zip
 from ..ledger import Ledger
-from ..runs import RunNotFound, compare_runs, find_run, hold_codes, load_records, run_dirs, run_info
+from ..runs import (RunDeleteRefused, RunNotFound, compare_runs, delete_impact, delete_run, find_run, hold_codes, load_records,
+                    run_dirs, run_info)
 
 STATIC = Path(__file__).parent / "static"
 POLICY = ROOT / "config/policy.yaml"
@@ -92,6 +95,30 @@ def get_run(run_id: str):
     return _run_card(p) | {"records": recs}
 
 
+@app.get("/api/runs/{run_id}/delete-impact")
+def run_delete_impact(run_id: str):
+    try:
+        return delete_impact(_cfg(), run_id)
+    except RunNotFound as e:
+        raise HTTPException(404, str(e))
+
+
+@app.delete("/api/runs/{run_id}")
+def run_delete(run_id: str, body: dict = Body(...)):
+    if body.get("confirm") != "DELETE":
+        raise HTTPException(400, 'Type DELETE to confirm.')
+    if not _lock.acquire(blocking=False):
+        raise HTTPException(409, "A run is in progress. Wait for it to finish.")
+    try:
+        return delete_run(_cfg(), run_id, actor="web UI")
+    except RunNotFound as e:
+        raise HTTPException(404, str(e))
+    except RunDeleteRefused as e:
+        raise HTTPException(409, str(e))
+    finally:
+        _lock.release()
+
+
 @app.get("/api/runs/{run_id}/file/{name}")
 def run_file(run_id: str, name: str):
     p = find_run(_cfg(), run_id)
@@ -105,6 +132,8 @@ def _source_path(run_id: str, file_name: str) -> Path:
     info = run_info(find_run(_cfg(), run_id))
     inbox = Path(info["inbox"]) if info["inbox"] else None
     p = (inbox / file_name).resolve() if inbox else None
+    if p and not p.is_file() and inbox.is_dir():  # documents in sub-folders of the inbox
+        p = next((q.resolve() for q in list_inbox(inbox) if q.name == file_name), p)
     if not p or not p.is_file() or ROOT.resolve() not in p.parents:
         raise HTTPException(404, "source document not found")
     return p
@@ -153,16 +182,22 @@ def inboxes():
 
 @app.post("/api/upload")
 async def upload(files: list[UploadFile] = File(...), name: str = Form("")):
+    """Files, a whole folder (the browser sends each file with its relative path) or .zip archives -> one inbox."""
     slug = re.sub(r"[^A-Za-z0-9_-]+", "_", name).strip("_") or "batch"
     dest = ROOT / "inbox" / f"{datetime.now():%Y%m%d-%H%M}_{slug}"
     dest.mkdir(parents=True, exist_ok=True)
     saved = []
     for f in files:
-        fn = Path(f.filename or "document").name
-        if fn.startswith("."):
+        rel, data = f.filename or "document", await f.read()
+        if not keep_name(rel):
             continue
-        (dest / fn).write_bytes(await f.read())
-        saved.append(fn)
+        if rel.lower().endswith(".zip") and zipfile.is_zipfile(io.BytesIO(data)):
+            saved += unpack_zip(data, dest)
+        else:
+            saved.append(save_flat(dest, rel, data))
+    if not saved:
+        dest.rmdir()
+        raise HTTPException(400, "No documents found in what was uploaded.")
     return {"path": str(dest.relative_to(ROOT)), "name": dest.name, "files": saved}
 
 
@@ -383,7 +418,7 @@ KNOBS = [
     {"path": "overpo.tolerance", "label": "Over-PO tolerance", "unit": "$", "type": "number", "section": "§6 PO matching",
      "help": "Hold (OVERPO) when billed-to-date would exceed the PO by more than this."},
     {"path": "price_variance.action", "label": "Unit price differs from PO", "type": "choice", "options": ["warn", "hold"],
-     "section": "§6 PO matching", "help": "warn = enter with a Medium-confidence note; hold = send to the PM."},
+     "section": "§6 PO matching", "help": "warn = enter it with a Check reading note; hold = hold as OTHER for the AP Manager."},
     {"path": "price_variance.tolerance_pct", "label": "Price variance allowed", "unit": "%", "type": "number", "section": "§6 PO matching",
      "help": "Unit-rate difference ignored below this percentage."},
     {"path": "approvals.construction.additional.when_gross_work_over", "label": "VP Construction approval above", "unit": "$",

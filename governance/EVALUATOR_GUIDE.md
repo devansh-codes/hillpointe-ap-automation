@@ -8,6 +8,8 @@ Expected results come from `governance/SOURCE_ANALYSIS.md`, which was worked out
 
 ## 0. Get the code
 
+The repository is private: ask the candidate for access, or use the copy of the code they sent.
+
 ```bash
 git clone https://github.com/devansh-codes/hillpointe-ap-automation.git
 cd hillpointe-ap-automation
@@ -30,7 +32,7 @@ uv run ap doctor
 ```bash
 uv run pytest -q
 ```
-**Expect:** `102 passed`. Covers Batch 01, the rerun, Batch 02, 24 unseen synthetic scenarios, 11 rule-change drills, and mocked API behaviour.
+**Expect:** `139 passed`. Covers Batch 01, the rerun, Batch 02, 24 unseen synthetic scenarios, 11 rule-change drills, and mocked API behaviour.
 
 ## 3. Batch 01: the main deliverable
 
@@ -125,7 +127,7 @@ cp .env.example .env        # then put your key in .env: ANTHROPIC_API_KEY=sk-an
 uv run ap doctor            # every line ✔
 uv run ap snapshot restore submitted
 uv run ap run tests/synthetic/holdout_A --open
-uv run ap run tests/synthetic/holdout_B
+uv run ap run tests/synthetic/holdout_B   # run AFTER holdout_A: B builds on what A entered
 ```
 These are 24 documents Claude has never read: new layouts, a scanned PNG, a Word file, an `.xlsx` the system can't
 read, a prompt-injection attempt, revisions, credits, PO edge cases and fraud signals. **Expect:**
@@ -154,6 +156,21 @@ Score the AI's reading against the hand labels:
 make eval        # Expect 32/32 (served from cache: no new tokens)
 ```
 
+## 7b. Interview drill: a mixed batch like the live session (optional, about $1)
+
+`tests/synthetic/interview_drill.zip` holds 33 documents with neutral names (`APINBOX_0101…`). They cover every kind of
+document the live session might bring: clean bills, pay apps, credits, revisions of held bills, duplicates, Entrata
+communities, every hold code, fraud and prompt-injection signals, closed and future periods, non-bills (statement, W-9,
+insurance certificate, quote, waiver) and awkward files (scan, phone photo, image-only PDF, Word, email, damaged PDF,
+two invoices in one file).
+```bash
+uv run ap snapshot restore submitted          # the drill builds on Batch 01 + Batch 02
+# web app: Import -> drop the zip -> Run.   Terminal: uv run ap run tests/synthetic/interview_drill
+```
+**Expect:** `Entered 8 · Entrata 3 · Held 17 · Not a bill 5`. Per-file answers and what else to check are in
+`tests/synthetic/INTERVIEW_DRILL_ANSWER_KEY.md` (don't open it before running if you want a blind test).
+Then `uv run ap snapshot restore submitted` (or delete the run) to put the ledger back.
+
 ## 8. Put it back
 
 ```bash
@@ -179,7 +196,11 @@ uv run ap ui                # opens http://127.0.0.1:8765
 5. **Rules**: set Over-PO tolerance to 1500, choose Invoice Batch 01, then **Preview impact**. **Expect:** "1 document would
    change": APINBOX_0001, HELD OVERPO → ENTERED. Nothing is recorded. Press **Discard changes**.
 6. **Run batch → Unseen test set A** (needs the API key) processes the 20 unseen documents live, with a progress bar.
-7. Press ⌘K and type `OVERPO` or a vendor name to jump straight to a document.
+7. **Import** takes a whole folder (drag it in or press *Choose folder*; sub-folders are included), many files, or a `.zip`.
+   It saves one inbox under `inbox/` and offers to run it.
+8. **Delete** (on a run page, or the trash icon on a Home card) removes the latest run. You see what it undoes,
+   type `DELETE` to confirm, and a ledger snapshot is saved first. An older run is refused, because later runs built on it.
+9. Press ⌘K and type `OVERPO` or a vendor name to jump straight to a document.
 
 ## Where to look while evaluating
 

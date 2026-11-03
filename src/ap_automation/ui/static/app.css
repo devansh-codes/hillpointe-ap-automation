@@ -358,3 +358,16 @@ tfoot td { font-weight: 600; background: var(--bg-soft); }
   .run > .avatar { display: none; }
   .rail { display: none; }
 }
+
+/* delete run */
+.btn.destructive { background: var(--bad); color: #fff; }
+.btn.destructive:hover:not(:disabled) { filter: brightness(.92); }
+.chip-btn { border: 0; cursor: pointer; color: var(--muted); }
+.chip-btn:hover { background: var(--bad-soft); color: var(--bad); }
+.impact { margin: 0 0 12px; padding-left: 20px; font-size: 14.5px; line-height: 1.5; }
+.impact li { margin-bottom: 6px; }
+.mini .t { gap: 6px; }
+.mini .t span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.mini .t span:last-child { flex: none; }
+.check-flag { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 8px; background: var(--warn-soft); color: #7a3f06; font-size: 12.5px; font-weight: 600; white-space: nowrap; vertical-align: middle; }
+.demo-bar { display: flex; align-items: center; gap: 8px; padding: 9px 20px; background: var(--accent-soft); color: #1d3a85; font-size: 13.5px; border-bottom: 1px solid var(--line); }

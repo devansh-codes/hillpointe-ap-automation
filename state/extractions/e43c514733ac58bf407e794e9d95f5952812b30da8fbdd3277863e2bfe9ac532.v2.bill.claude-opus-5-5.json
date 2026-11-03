@@ -1,0 +1,78 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Homes Inc\n900 Lake Ave\nOrlando, FL 32803",
+    "bill_to_name": "Hillpointe Homes Inc",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO2410315-011",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-26",
+    "document_number": "CSS-88912",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 175.0,
+        "change_order_ref": null,
+        "description": "Additional portable restroom, 1 week",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "EA",
+        "unit_price": 175.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "No tax shown on invoice.",
+      "One-week rental with no specific service dates stated."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 15",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO2410315-011"
+    ],
+    "remit_to": "Coastal Site Services LLC, 1190 Louisville Rd, Savannah, GA 31415",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": 175.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 175.0,
+    "vendor_address": "1190 Louisville Rd, Savannah, GA 31415",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Coastal Site Services LLC",
+    "vendor_phone": "(912) 555-0122"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:30:08+00:00",
+    "file_name": "APINBOX_0121.pdf",
+    "input_tokens": 1927,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 593,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 5.0,
+    "sha256": "e43c514733ac58bf407e794e9d95f5952812b30da8fbdd3277863e2bfe9ac532"
+  }
+}

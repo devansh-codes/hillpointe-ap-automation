@@ -1,0 +1,88 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Hillpointe Construction, LLC\nAttn: Accounts Payable\n631 W Morse Blvd, Suite 200\nWinter Park, FL 32789",
+    "bill_to_name": "Hillpointe Construction, LLC",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": "PO2410315-008",
+    "doc_kind": "invoice",
+    "document_date": "2026-10-21",
+    "document_number": "PBS-604418-R1",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 12000.0,
+        "change_order_ref": null,
+        "description": "Framing lumber package, phase 4 delivery (quantities reduced to PO balance)",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 12000.0
+      }
+    ],
+    "markings": [
+      "REVISED"
+    ],
+    "monthly_fee": null,
+    "notes": [
+      "Revised invoice. Replaces PBS-604418.",
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Diagonal REVISED watermark across the page.",
+      "Line description says quantities were reduced to the PO balance.",
+      "Single lump-sum line; \"phase 4 delivery\" describes the material package, not a separate freight charge."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [
+      "PO2410315-008"
+    ],
+    "remit_to": "Pinecrest Building Supply Co, PO Box 9183, Columbia, SC 29290",
+    "replaces_document_number": "PBS-604418",
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Columbia",
+    "subtotal": 12000.0,
+    "tax_lines": [
+      {
+        "amount": 960.0,
+        "label": "SC sales tax",
+        "rate_percent": 8.0
+      }
+    ],
+    "term_end": null,
+    "term_start": null,
+    "total": 12960.0,
+    "vendor_address": "PO Box 9183, Columbia, SC 29290",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Pinecrest Building Supply Co",
+    "vendor_phone": "(803) 555-0190"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:29:57+00:00",
+    "file_name": "APINBOX_0109.pdf",
+    "input_tokens": 2010,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 743,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 6.1,
+    "sha256": "7a3ed17d8db0961847af71d1addfa0c37ea53486a6bd821fd02669bc96defbeb"
+  }
+}

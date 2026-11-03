@@ -6,7 +6,7 @@
 |---|---|
 | `state/ap_ledger.db` | SQLite registry. Tables: `runs`, `documents` (every decision), `entered_bills` (**UNIQUE(vendor_id, bill_no_norm)**), `po_consumption`, `waivers_on_file` |
 | `state/processed_register.csv` | Human-readable export of `documents`, refreshed after every committed run |
-| `state/extractions/<sha256>.<prompt>.<model>.json` | Cached AI reading of each file, so reruns are identical and free |
+| `state/extractions/<sha256>.<prompt>.<role>.<model>.json` (role = bill or reference) | Cached AI reading of each file, so reruns are identical and free |
 | `state/snapshots/submitted.db` | Ledger after Batch 01 → rerun → Batch 02 (the state the live session starts from) |
 
 Every run checks against **two sources**: `06_ERP_History` (read fresh each run) and this registry (all prior runs + earlier

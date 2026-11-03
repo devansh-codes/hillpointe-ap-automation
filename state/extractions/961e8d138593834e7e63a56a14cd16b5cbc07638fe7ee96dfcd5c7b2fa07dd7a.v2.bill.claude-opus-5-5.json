@@ -1,0 +1,77 @@
+{
+  "extraction": {
+    "bank_details_printed": null,
+    "bill_to_block": "Pointe Grand Athens\nc/o Hillpointe Property Management, LLC",
+    "bill_to_name": "Pointe Grand Athens",
+    "change_orders": [],
+    "credit_applies_to_invoice": null,
+    "customer_ref_raw": null,
+    "doc_kind": "invoice",
+    "document_date": "2026-10-20",
+    "document_number": "MPS-4490",
+    "embedded_instructions": [],
+    "extraction_warnings": [],
+    "lien_waiver": null,
+    "line_items": [
+      {
+        "amount": 640.0,
+        "change_order_ref": null,
+        "description": "Pool pump repair, replace shaft seal",
+        "is_freight_or_delivery": false,
+        "quantity": 1.0,
+        "unit": "LS",
+        "unit_price": 640.0
+      }
+    ],
+    "markings": [],
+    "monthly_fee": null,
+    "notes": [
+      "FICTIONAL SYNTHETIC TEST DOCUMENT. Not a real vendor, invoice, or bank account."
+    ],
+    "observations": [
+      "Customer Ref field is blank.",
+      "No PO or other reference number printed.",
+      "Document is a scanned image."
+    ],
+    "original_contract_sum": null,
+    "pay_application": null,
+    "payment_change_quote": null,
+    "payment_instruction_change_requested": false,
+    "printed_terms": "Net 30",
+    "ref_lines": [],
+    "ref_project_text": null,
+    "ref_status": null,
+    "ref_total": null,
+    "references": [],
+    "remit_to": "Magnolia Pool Services LLC, 210 Prince Ave, Athens, GA 30601",
+    "replaces_document_number": null,
+    "service_period_end": null,
+    "service_period_start": null,
+    "ship_to_or_project_text": "Pointe Grand Athens, Athens, GA",
+    "subtotal": 640.0,
+    "tax_lines": [],
+    "term_end": null,
+    "term_start": null,
+    "total": 640.0,
+    "vendor_address": "210 Prince Ave, Athens, GA 30601",
+    "vendor_email": null,
+    "vendor_id_printed": null,
+    "vendor_name": "Magnolia Pool Services LLC",
+    "vendor_phone": "(706) 555-0119"
+  },
+  "meta": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5404,
+    "effort": "medium",
+    "extracted_at": "2026-11-03T04:06:24+00:00",
+    "file_name": "SYN_A12_scanned_image_png.png",
+    "input_tokens": 1543,
+    "mode": "validated_json",
+    "model": "claude-opus-5-5",
+    "output_tokens": 584,
+    "prompt_version": "v2",
+    "repaired": false,
+    "seconds": 4.8,
+    "sha256": "961e8d138593834e7e63a56a14cd16b5cbc07638fe7ee96dfcd5c7b2fa07dd7a"
+  }
+}
