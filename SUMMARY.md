@@ -1,5 +1,7 @@
 # AP Automation: One-Page Summary
 
+**Repository:** https://github.com/devansh-codes/hillpointe-ap-automation · **Live demo (read-only):** https://devansh-codes.github.io/hillpointe-ap-demo/
+
 **Approach.** AI reads; policy code decides. Claude Opus 5.5 reads each PDF, scan or Word file (text *and* page image, so
 stamps like REPRINT or PAST DUE are seen) into a fixed schema of facts: vendor, numbers, lines, tax, pay-app figures, lien
 waiver, bank-change requests. It never chooses a GL, entity, approver or hold. A deterministic engine applies Hillpointe's
