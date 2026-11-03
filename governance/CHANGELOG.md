@@ -19,6 +19,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Terminal summary is listed by file name. ADRs in order. Traceability matrix cites real tests (verified against
   `pytest --collect-only`). SUMMARY, runbook, tech stack and rerun evidence docs brought up to date.
 - Only the canonical ledger snapshots (`submitted`, `pre-01…`, `pre-07…`) are committed.
+- Source repository made public (history checked for keys first: none).
 
 ## [0.3.1] - 2026-11-02
 ### Added

@@ -8,8 +8,6 @@ Expected results come from `governance/SOURCE_ANALYSIS.md`, which was worked out
 
 ## 0. Get the code
 
-The repository is private: ask the candidate for access, or use the copy of the code they sent.
-
 ```bash
 git clone https://github.com/devansh-codes/hillpointe-ap-automation.git
 cd hillpointe-ap-automation

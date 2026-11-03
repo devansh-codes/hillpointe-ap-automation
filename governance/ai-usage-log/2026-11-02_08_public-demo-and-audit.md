@@ -18,7 +18,6 @@
 - My mistake, caught and fixed: one redeploy pushed an incomplete site because a failed build was piped through `tail`
   (exit status lost). Rebuilt and redeployed within minutes; the build now reads the runs from the `submitted` snapshot.
 
-## Open for the human
-- Whether to keep the public demo public: it shows the exercise documents and their decisions (brief: data is fictional,
-  may be used in public AI tools; it doesn't address publishing).
-- Commit and push the source repo (needed so a fresh clone matches the docs).
+## Human decisions
+- Keep the demo public, and make the source repository public too (2026-11-03). Before that: staged changes and the full
+  history scanned for keys (none; `.env` ignored), and a fresh clone passed all 149 tests offline.
