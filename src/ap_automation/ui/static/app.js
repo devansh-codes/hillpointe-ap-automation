@@ -102,7 +102,10 @@ const conf = (c, why = "") => (!c || c === "High" ? "" : `<span class="check-fla
 function prettyBatch(name) {
   return String(name || "")
     .replace(/^\d{8}-\d{4}_/, "").replace(/^\d{2}_/, "").replace(/_/g, " ")
-    .replace(/\bholdout\b/i, "Unseen test set");
+    .replace(/\bholdout\b/i, "Unseen test set")
+    // Hillpointe's folder "07_Invoice_Batch_02_Rerun" is Batch 02 (a second inbox pull), not a rerun of anything.
+    // A real rerun is marked by the "Rerun" tag (documents already processed), not by the name.
+    .replace(/^(Invoice Batch \d+) Rerun$/i, "$1");
 }
 function initials(name) {
   const p = prettyBatch(name);
